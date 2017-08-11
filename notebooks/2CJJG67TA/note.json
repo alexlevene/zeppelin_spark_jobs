@@ -1,0 +1,203 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# ElasticSearch Test Query Notebook\n",
+      "user": "anonymous",
+      "dateUpdated": "May 10, 2017 11:50:07 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eElasticSearch Test Query Notebook\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494416234121_768028933",
+      "id": "20170510-113714_39080247",
+      "dateCreated": "May 10, 2017 11:37:14 AM",
+      "dateStarted": "May 10, 2017 11:50:07 AM",
+      "dateFinished": "May 10, 2017 11:50:07 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%elasticsearch\nget /exp/person/DEMO-0170dda9-4537-4696-a7f8-9ec04b5664d0\n",
+      "user": "anonymous",
+      "dateUpdated": "May 14, 2017 4:10:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/undefined"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Error : None of the configured nodes are available: [{#transport#-1}{100.70.102.71}{100.70.102.71:9300}]"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274524966_1810220686",
+      "id": "20170508-201524_1787929833",
+      "dateCreated": "May 8, 2017 8:15:24 PM",
+      "dateStarted": "May 14, 2017 4:10:57 PM",
+      "dateFinished": "May 14, 2017 4:10:59 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%elasticsearch\nsearch /exp/person {\n  \"size\": 0, \n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n          \"term\": {\"client_code\": \"DEMO\"}\n      }\n    }\n  },\n  \"aggs\" : {\n      \"gender\" : {\n        \"terms\": {\n          \"field\": \"recency_frequency.description\",\n          \"size\": 1000\n        }\n      }\n    }\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "May 14, 2017 4:09:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300.0,
+              "optionOpen": false
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/undefined",
+        "tableHide": false,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "doc_count\tkey\n644154\tProspect\n87761\tSporadic\n51582\tDormant\n28254\tPeriodic\n27378\tRecurring\n25574\tRecent"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274538771_1238868569",
+      "id": "20170508-201538_1122027356",
+      "dateCreated": "May 8, 2017 8:15:38 PM",
+      "dateStarted": "May 14, 2017 4:09:15 PM",
+      "dateFinished": "May 14, 2017 4:09:15 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%elasticsearch\nsearch exp/person {\n  \"query\": {\n    \"match_all\": {}\n  }\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "May 10, 2017 11:56:04 AM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/undefined",
+        "tableHide": false,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "_recordId\taddress.address_line_1\taddress.address_line_2\taddress.city\taddress.county\taddress.location\taddress.market_area[0]\taddress.postal_code\taddress.state\tbirth_date\tchildren_present\tclient_code\tclient_name\tcommunication.control_group\tcommunication.do_not_solicit\temail[0].address\temail[0].rank\tethnicity\tfirst_name\tgender\thousehold.household_income_range.maximum\thousehold.household_income_range.minimum\thousehold.household_number\tlanguage\tlast_name\tmarital_status\tmiddle_initial\tmiddle_name\tmobile_phone\tpayor_category\tpayor_category_confidence\tperceptual_profile.code\tperceptual_profile.description\tprefix\trace\trecency_frequency.code\trecency_frequency.description\treligion\tsuffix\nDEMO-e2c571b2-02af-4e3b-a060-9c7716ca03a8\t14045 WHITESELL ST\tANCHORAGE, AK 99507\tANCHORAGE\tANCHORAGE\t61.15,-149.81\tSSA\t99507\tAK\t-870566400000\tfalse\tDEMO\tHG EMP Demo Client\tfalse\ttrue\trosie.desy@NonReachableAddress.com\t1\tWestern European\tROSIE\tFemale\t39999\t30000\t994189589\tEnglish\tDESY\tMarried\t\t\t7587823373\tMedicaid\tHigh\t1\tLoyal\t\tUnknown\t6\tProspect\tProtestant\t\nDEMO-b1cf425f-5d42-4a77-8b1a-4feb708c28e5\t2923 MAXSON RD APT A\tFORT RICHARDSON, AK 99505\tFORT RICHARDSON\tANCHORAGE\t61.25,-149.69\tTSA_NORTH\t99505\tAK\t652147200000\ttrue\tDEMO\tHG EMP Demo Client\tfalse\ttrue\tmeily.fosuhene@NonReachableAddress.com\t1\tAsian American 1 - (ethnic detail 49,51,52,53,56,57,58,59,60,61,62,8G)\tMEILY\tMale\t174999\t150000\t994297458\tVietnamese\tFOSUHENE\tUnknown\tC\tC\t4627463974\tSelf\tLow\t1\tLoyal\t\tUnknown\t6\tProspect\tBuddhist\t\nDEMO-10082855-1fa7-4b57-bab3-404ff858a0ee\t558 E LEADORA AVE\tEAGLE RIVER, AK 99577\tEAGLE RIVER\tANCHORAGE\t61.31,-149.52\tTSA_EAST\t99577\tAK\t-131500800000\ttrue\tDEMO\tHG EMP Demo Client\tfalse\ttrue\tdesiree.mott@NonReachableAddress.com\t1\tPolynesian\tDESIREE\tFemale\t199999\t175000\t994263044\tEnglish\tMOTT\tUnknown\tY\tYASMIN\t7282644111\tCommercial\tHigh\t3\tSelf Reliant\t\tUnknown\t6\tProspect\tCatholic\t\nDEMO-b3c2f2d8-61ba-4908-912e-7ec97561a996\t2940 LAS MARIAS AVE\tSTERLING, AK 99672\tSTERLING\tKENAI PENINSULA\t60.54,-150.77\tTSA_SOUTH\t99672\tAK\t128908800000\ttrue\tDEMO\tHG EMP Demo Client\ttrue\ttrue\tivan.martinez@NonReachableAddress.com\t1\tWestern European\tIVAN\tMale\t249999\t200000\t994459164\tEnglish\tMARTINEZ\tUnknown\t\t\t7163393117\tCommercial\tLow\t2\tDeferrer\t\tUnknown\t6\tProspect\tProtestant\t\nDEMO-f3528d9d-fd00-429d-bd6d-e7f0011ad19b\t450 BASETDALE AVE\tANCHORAGE, AK 99507\tANCHORAGE\tANCHORAGE\t61.15,-149.81\tSSA\t99507\tAK\t1254355200000\ttrue\tDEMO\tHG EMP Demo Client\tfalse\ttrue\thelen.booker@NonReachableAddress.com\t1\tHispanic\tHELEN\tFemale\t99999\t75000\t994406618\tUnknown\tBOOKER\tSingle\t\t\t1439781761\tUnknown\tLow\t9\tMinor - Age \u003c 18\t\tOther\t6\tProspect\tUncoded\t\nDEMO-1a40aa33-713d-4ea9-bf6f-0e44b3afad65\t11447 1/4 LEE LN\tELMENDORF AFB, AK 99506\tELMENDORF AFB\tANCHORAGE\t61.24,-149.82\tTSA_NORTH\t99506\tAK\t-441849600000\tfalse\tDEMO\tHG EMP Demo Client\tfalse\ttrue\tlarry.wu@NonReachableAddress.com\t1\tHispanic\tLARRY\tMale\t149999\t125000\t994561059\tSpanish\tWU\tUnknown\tM\tM\t1796447161\tSelf\tMedium\t1\tLoyal\t\tUnknown\t6\tProspect\tCatholic\t\nDEMO-53ac95a5-0f88-481d-a726-b5af69a08a53\t743 E FLORENCE AVE\tANCHORAGE, AK 99517\tANCHORAGE\tANCHORAGE\t61.19,-149.94\tPSA\t99517\tAK\t-336787200000\tfalse\tDEMO\tHG EMP Demo Client\tfalse\ttrue\tfernando.talavera@NonReachableAddress.com\t1\tHispanic\tFERNANDO\tMale\t49999\t40000\t994179924\tUnknown\tTALAVERA\tSingle\tC\tC\t4821682199\tMedicaid\tMedium\t2\tDeferrer\t\tUnknown\t6\tProspect\tCatholic\t\nDEMO-0ef53f33-0eb4-49b1-8a8c-14fd0d6ecbcc\t20107 PORTSIDE DR\tHOPE, AK 99605\tHOPE\tKENAI PENINSULA\t60.92,-149.62\tTSA_SOUTH\t99605\tAK\t\ttrue\tDEMO\tHG EMP Demo Client\tfalse\ttrue\tpriscilla.gonzalez@NonReachableAddress.com\t1\tAsian American 1 - (ethnic detail 49,51,52,53,56,57,58,59,60,61,62,8G)\tPRISCILLA\tFemale\t199999\t175000\t994387176\tChinese (Mandarin, Cantonese and other dialects)\tGONZALEZ\tUnknown\tM\tM\t9226494527\tUnknown\tLow\t0\tNo Profile\t\tUnknown\t6\tProspect\tBuddhist\t\nDEMO-45139ca5-1346-40d9-8e81-dc47aee0600b\t1531 E EAGLE RDG\tINDIAN, AK 99540\tINDIAN\tANCHORAGE\t60.99,-149.52\tTSA_EAST\t99540\tAK\t-118454400000\ttrue\tDEMO\tHG EMP Demo Client\tfalse\ttrue\tmia.malone@NonReachableAddress.com\t1\tWestern European\tMIA\tFemale\t74999\t50000\t994155032\tEnglish\tMALONE\tUnknown\tO\tO\t4389957561\tCommercial\tLow\t1\tLoyal\t\tUnknown\t6\tProspect\tCatholic\t\nDEMO-b6740a2d-adaf-4776-bfd3-434881646b27\t600 W GLADSTONE ST SPC 98\tANCHORAGE, AK 99502\tANCHORAGE\tANCHORAGE\t61.15,-149.95\tSSA\t99502\tAK\t-113184000000\tfalse\tDEMO\tHG EMP Demo Client\tfalse\ttrue\tsamantha.porrata@NonReachableAddress.com\t1\tPolynesian\tSAMANTHA\tFemale\t74999\t50000\t994464074\tEnglish\tPORRATA\tUnknown\tY\tY\t3815336285\tCommercial\tLow\t1\tLoyal\t\tUnknown\t6\tProspect\tCatholic\t\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494417299093_-1521497924",
+      "id": "20170510-115459_472375042",
+      "dateCreated": "May 10, 2017 11:54:59 AM",
+      "dateStarted": "May 10, 2017 11:56:00 AM",
+      "dateFinished": "May 10, 2017 11:56:00 AM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%elasticsearch\nsearch /exp/person {\n  \"size\": 0, \n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n          \"term\": {\"client_code\": \"DEMO\"}\n      }\n    }\n  },\n  \"aggs\" : {\n      \"gender\" : {\n        \"terms\": {\n          \"field\": \"gender\",\n          \"size\": 1000\n        }\n      }\n    }\n}",
+      "user": "anonymous",
+      "dateUpdated": "May 10, 2017 1:09:10 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/undefined"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1494417184694_1961848407",
+      "id": "20170510-115304_1058067712",
+      "dateCreated": "May 10, 2017 11:53:04 AM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "elasticsearch test query",
+  "id": "2CJJG67TA",
+  "angularObjects": {
+    "2CF8YHAFY:shared_process": [],
+    "2CHQTD2FW:shared_process": [],
+    "2CGUJ3E43:shared_process": [],
+    "2CESFRD7Y:shared_process": [],
+    "2CH7RA31H:shared_process": [],
+    "2CGU9TJBB:shared_process": [],
+    "2CF9XRY5F:shared_process": [],
+    "2CGUMPA9A:shared_process": [],
+    "2CENZST62:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

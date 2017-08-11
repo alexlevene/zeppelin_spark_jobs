@@ -1,0 +1,1026 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 22, 2017 2:57:36 PM",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1498143456515_812748050",
+      "id": "20170622-145736_410528224",
+      "dateCreated": "Jun 22, 2017 2:57:36 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Load our Java dependencies\n\nThe Elasticsearch Spark driver is pulled down from Maven. We want to use the Spark 2.0 driver compatibile with Scala 2.11 and Elasticsearch 5.3.2",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eLoad our Java dependencies\u003c/h1\u003e\n\u003cp\u003eThe Elasticsearch Spark driver is pulled down from Maven. We want to use the Spark 2.0 driver compatibile with Scala 2.11 and Elasticsearch 5.3.2\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556105_1648823718",
+      "id": "20170505-195345_1511070753",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%spark.dep\n// Load our Elasticsearch spark dependencies from Maven\nz.reset()\nz.load(\"org.elasticsearch:elasticsearch-spark-20_2.11:5.3.2\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:41:25 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "res0: org.apache.zeppelin.dep.Dependency \u003d org.apache.zeppelin.dep.Dependency@1ba24272\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556106_1649977964",
+      "id": "20170505-192650_202156975",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:41:26 PM",
+      "dateFinished": "Jun 8, 2017 1:41:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Import Spark and Elasticsearch Spark classes\n\nWe will be working with Spark using both RDD\u0027s (Resilient Distributed Datasets) and higher-level DataFrames, which are data sets organized into named columns, so we import dependencies for both abstractions.",
+      "dateUpdated": "May 14, 2017 4:14:14 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eImport Spark and Elasticsearch Spark classes\u003c/h1\u003e\n\u003cp\u003eWe will be working with Spark using both RDD\u0026rsquo;s (Resilient Distributed Datasets) and higher-level DataFrames, which are data sets organized into named columns, so we import dependencies for both abstractions.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556106_1649977964",
+      "id": "20170505-195531_1742510802",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Import our dependencies\nimport org.apache.spark.sql.SQLContext    \nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\nimport org.elasticsearch.spark._\nimport org.elasticsearch.spark.rdd._\nimport org.elasticsearch.spark.rdd.Metadata._ ",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:41:41 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd._\n\nimport org.elasticsearch.spark.rdd.Metadata._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556106_1649977964",
+      "id": "20170505-192724_41043014",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:41:41 PM",
+      "dateFinished": "Jun 8, 2017 1:41:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Load accounts from Elasticsearch\n\nIn the example below, we\u0027re pulling all documents from the `bank` index with the `account` type into an RDD for further processing.",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eLoad accounts from Elasticsearch\u003c/h1\u003e\n\u003cp\u003eIn the example below, we\u0026rsquo;re pulling all documents from the \u003ccode\u003ebank\u003c/code\u003e index with the \u003ccode\u003eaccount\u003c/code\u003e type into an RDD for further processing.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556107_1649593216",
+      "id": "20170505-195757_1751321229",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val accountsRDD \u003d sc.esRDD(\"bank/account\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:41:49 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\naccountsRDD: org.apache.spark.rdd.RDD[(String, scala.collection.Map[String,AnyRef])] \u003d ScalaEsRDD[0] at RDD at AbstractEsRDD.scala:37\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556107_1649593216",
+      "id": "20170505-192735_1867702154",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:41:49 PM",
+      "dateFinished": "Jun 8, 2017 1:41:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Count the number of accounts\n\nOnce the data is loaded into an RDD, we can count the rows in the dataset the same as if we loaded it from a CSV. It\u0027s important to note that, in standalone mode, this may take longer than expected because the job is split into several tasks (even with a small dataset).",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eCount the number of accounts\u003c/h1\u003e\n\u003cp\u003eOnce the data is loaded into an RDD, we can count the rows in the dataset the same as if we loaded it from a CSV. It\u0026rsquo;s important to note that, in standalone mode, this may take longer than expected because the job is split into several tasks (even with a small dataset).\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556107_1649593216",
+      "id": "20170505-195928_1298574969",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "accountsRDD.count()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:41:59 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nres1: Long \u003d 1000\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556108_1647669471",
+      "id": "20170505-193054_1768829430",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:41:59 PM",
+      "dateFinished": "Jun 8, 2017 1:42:03 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Filter documents using Elasticsearch via URI Query\n\nBefore loading data into an RDD, we can also filter it out using Elasticsearch inline URI query syntax.",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eFilter documents using Elasticsearch via URI Query\u003c/h1\u003e\n\u003cp\u003eBefore loading data into an RDD, we can also filter it out using Elasticsearch inline URI query syntax.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556108_1647669471",
+      "id": "20170505-200146_961500470",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val laraAccountsRDD \u003d sc.esRDD(\"bank/account\", \"?q\u003dfirstname:Lara\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:42:12 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nlaraAccountsRDD: org.apache.spark.rdd.RDD[(String, scala.collection.Map[String,AnyRef])] \u003d ScalaEsRDD[1] at RDD at AbstractEsRDD.scala:37\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556108_1647669471",
+      "id": "20170505-193302_44810180",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:42:12 PM",
+      "dateFinished": "Jun 8, 2017 1:42:12 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "laraAccountsRDD.collect().foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:42:19 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(499,Map(account_number -\u003e 499, balance -\u003e 26060, firstname -\u003e Lara, lastname -\u003e Perkins, age -\u003e 26, gender -\u003e M, address -\u003e 703 Monroe Street, employer -\u003e Paprikut, email -\u003e laraperkins@paprikut.com, city -\u003e Barstow, state -\u003e NY))\n(895,Map(account_number -\u003e 895, balance -\u003e 7327, firstname -\u003e Lara, lastname -\u003e Mcdaniel, age -\u003e 36, gender -\u003e M, address -\u003e 854 Willow Place, employer -\u003e Acusage, email -\u003e laramcdaniel@acusage.com, city -\u003e Imperial, state -\u003e NC))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556109_1647284722",
+      "id": "20170505-193536_1314985600",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:42:19 PM",
+      "dateFinished": "Jun 8, 2017 1:42:21 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Filter documents using Elasticsearch via Query DSL\n\nWe can also provide a full Query DSL JSON payload for more complex queries.",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eFilter documents using Elasticsearch via Query DSL\u003c/h1\u003e\n\u003cp\u003eWe can also provide a full Query DSL JSON payload for more complex queries.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556109_1647284722",
+      "id": "20170505-200541_2028744658",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val queryJson \u003d \"\"\"\n{\n    \"query\": {\n        \"query_string\": {\n          \"query\": \"firstname:Lara\"\n        }\n    }\n}\n\"\"\"\nval laraAccountsRDDFromQueryJson \u003d sc.esRDD(\"bank/account\", queryJson)",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:42:25 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 227.0,
+              "optionOpen": false
+            }
+          }
+        },
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\nqueryJson: String \u003d\n\"\n{\n    \"query\": {\n        \"query_string\": {\n          \"query\": \"firstname:Lara\"\n        }\n    }\n}\n\"\n\nlaraAccountsRDDFromQueryJson: org.apache.spark.rdd.RDD[(String, scala.collection.Map[String,AnyRef])] \u003d ScalaEsRDD[2] at RDD at AbstractEsRDD.scala:37\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556110_1648438969",
+      "id": "20170505-200248_2042995141",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:42:25 PM",
+      "dateFinished": "Jun 8, 2017 1:42:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "laraAccountsRDDFromQueryJson.collect().foreach(println)",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:42:30 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(499,Map(account_number -\u003e 499, balance -\u003e 26060, firstname -\u003e Lara, lastname -\u003e Perkins, age -\u003e 26, gender -\u003e M, address -\u003e 703 Monroe Street, employer -\u003e Paprikut, email -\u003e laraperkins@paprikut.com, city -\u003e Barstow, state -\u003e NY))\n(895,Map(account_number -\u003e 895, balance -\u003e 7327, firstname -\u003e Lara, lastname -\u003e Mcdaniel, age -\u003e 36, gender -\u003e M, address -\u003e 854 Willow Place, employer -\u003e Acusage, email -\u003e laramcdaniel@acusage.com, city -\u003e Imperial, state -\u003e NC))\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556110_1648438969",
+      "id": "20170505-201009_2099724248",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:42:31 PM",
+      "dateFinished": "Jun 8, 2017 1:42:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val accountsDF \u003d sqlContext.esDF(\"bank/account\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:42:44 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\naccountsDF: org.apache.spark.sql.DataFrame \u003d [account_number: bigint, address: string ... 9 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556110_1648438969",
+      "id": "20170505-193549_855103394",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:42:44 PM",
+      "dateFinished": "Jun 8, 2017 1:42:46 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556111_1648054220",
+      "id": "20170505-201438_2131379779",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "println(accountsDF.schema.treeString)",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:43:04 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- account_number: long (nullable \u003d true)\n |-- address: string (nullable \u003d true)\n |-- age: long (nullable \u003d true)\n |-- balance: long (nullable \u003d true)\n |-- city: string (nullable \u003d true)\n |-- email: string (nullable \u003d true)\n |-- employer: string (nullable \u003d true)\n |-- firstname: string (nullable \u003d true)\n |-- gender: string (nullable \u003d true)\n |-- lastname: string (nullable \u003d true)\n |-- state: string (nullable \u003d true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556111_1648054220",
+      "id": "20170505-194424_1439773771",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:43:04 PM",
+      "dateFinished": "Jun 8, 2017 1:43:04 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 6, 2017 6:19:11 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556111_1648054220",
+      "id": "20170505-201429_109828530",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val laraAccountsDF \u003d accountsDF.filter(accountsDF(\"firstname\").equalTo(\"Lara\"))",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:47:47 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nlaraAccountsDF: org.apache.spark.sql.Dataset[org.apache.spark.sql.Row] \u003d [account_number: bigint, address: string ... 9 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556111_1648054220",
+      "id": "20170505-193957_412246349",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:47:47 PM",
+      "dateFinished": "Jun 8, 2017 1:47:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Preview Dataframe contents",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003ePreview Dataframe contents\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556112_1658442440",
+      "id": "20170505-201528_661462292",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "laraAccountsDF.show()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:47:50 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+-----------------+---+-------+--------+--------------------+--------+---------+------+--------+-----+\n|account_number|          address|age|balance|    city|               email|employer|firstname|gender|lastname|state|\n+--------------+-----------------+---+-------+--------+--------------------+--------+---------+------+--------+-----+\n|           499|703 Monroe Street| 26|  26060| Barstow|laraperkins@papri...|Paprikut|     Lara|     M| Perkins|   NY|\n|           895| 854 Willow Place| 36|   7327|Imperial|laramcdaniel@acus...| Acusage|     Lara|     M|Mcdaniel|   NC|\n+--------------+-----------------+---+-------+--------+--------------------+--------+---------+------+--------+-----+\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556112_1658442440",
+      "id": "20170505-194214_1020823316",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:47:51 PM",
+      "dateFinished": "Jun 8, 2017 1:47:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Register Dataframe as a table",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eRegister Dataframe as a table\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556112_1658442440",
+      "id": "20170505-201547_275196828",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "accountsDF.createOrReplaceTempView(\"accounts\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:47:57 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556113_1658057691",
+      "id": "20170505-194336_1284536913",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:47:57 PM",
+      "dateFinished": "Jun 8, 2017 1:47:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Execute SQL against the Table",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eExecute SQL against the Table\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556113_1658057691",
+      "id": "20170505-201710_756158990",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val highBalanceAccounts \u003d sqlContext.sql(\"\"\"\n  SELECT\n    account_number,\n    balance,\n    firstname,\n    lastname\n  FROM accounts\n  WHERE balance \u003e 10000\n  ORDER BY balance DESC\n\"\"\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:48:01 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nhighBalanceAccounts: org.apache.spark.sql.DataFrame \u003d [account_number: bigint, balance: bigint ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556113_1658057691",
+      "id": "20170505-194639_410546667",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:48:01 PM",
+      "dateFinished": "Jun 8, 2017 1:48:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Preview our SQL results",
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003ePreview our SQL results\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556114_1659211938",
+      "id": "20170505-201742_1641897854",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "highBalanceAccounts.show()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:48:06 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------+-------+---------+---------+\n|account_number|balance|firstname| lastname|\n+--------------+-------+---------+---------+\n|           248|  49989|     West|  England|\n|           854|  49795|  Jimenez|    Barry|\n|           240|  49741|  Oconnor|     Clay|\n|            97|  49671|    Karen| Trujillo|\n|           842|  49587|   Meagan|  Buckner|\n|           168|  49568|  Carissa|    Simon|\n|           803|  49567|  Marissa|   Spears|\n|           926|  49433|    Welch|  Mcgowan|\n|           954|  49404|    Jenna|   Martin|\n|           572|  49355|  Therese| Espinoza|\n|           255|  49339|      Iva|   Rivers|\n|           524|  49334|    Salas|   Farley|\n|           751|  49252|  Patrick|  Osborne|\n|           119|  49222|  Laverne|  Johnson|\n|           504|  49205|   Shanna| Chambers|\n|           878|  49159|   Battle|Blackburn|\n|           921|  49119|  Barbara|     Wade|\n|           825|  49000|    Terra|     Witt|\n|           591|  48997|   Rivers|Macdonald|\n|           160|  48974|     Hull|   Cherry|\n+--------------+-------+---------+---------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556114_1659211938",
+      "id": "20170505-194739_727888782",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "dateStarted": "Jun 8, 2017 1:48:06 PM",
+      "dateFinished": "Jun 8, 2017 1:48:09 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 8, 2017 8:15:56 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1494274556114_1659211938",
+      "id": "20170505-194809_812593336",
+      "dateCreated": "May 8, 2017 8:15:56 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "ES Spark Example",
+  "id": "2CH9E6N9X",
+  "angularObjects": {
+    "2CK39QPEV:shared_process": [],
+    "2CHGDFEAS:shared_process": [],
+    "2CJPWUK64:shared_process": [],
+    "2CJPRUUCQ:shared_process": [],
+    "2CMA6NN69:shared_process": [],
+    "2CJM2HZ3E:shared_process": [],
+    "2CHUKUNGV:shared_process": [],
+    "2CMSNT58Q:shared_process": [],
+    "2CMY621JM:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

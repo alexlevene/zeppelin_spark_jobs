@@ -1,0 +1,712 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# Load our Spark dependencies\n\nThe Elasticsearch Spark driver is pulled down from Maven. We want to use the Spark 2.0 driver compatibile with Scala 2.11 and Elasticsearch 5.3.2",
+      "dateUpdated": "May 8, 2017 8:36:28 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eLoad our Spark dependencies\u003c/h1\u003e\n\u003cp\u003eThe Elasticsearch Spark driver is pulled down from Maven. We want to use the Spark 2.0 driver compatibile with Scala 2.11 and Elasticsearch 5.3.2\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788664_-1196226953",
+      "id": "20170505-201833_1284336618",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%spark.dep\n// Load our Elasticsearch spark dependencies from Maven\nz.reset()\nz.load(\"org.elasticsearch:elasticsearch-spark-20_2.11:5.3.2\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:50:06 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "res0: org.apache.zeppelin.dep.Dependency \u003d org.apache.zeppelin.dep.Dependency@6fbfd45c\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788664_-1196226953",
+      "id": "20170504-182153_1981139206",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:50:06 PM",
+      "dateFinished": "Jun 8, 2017 1:50:12 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Import Spark and Elasticsearch Spark classes\n\nWe will be working with Spark using both RDD\u0027s (Resilient Distributed Datasets) and higher-level DataFrames, which are data sets organized into named columns, so we import dependencies for both abstractions.",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 2:05:26 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eImport Spark and Elasticsearch Spark classes\u003c/h1\u003e\n\u003cp\u003eWe will be working with Spark using both RDD\u0026rsquo;s (Resilient Distributed Datasets) and higher-level DataFrames, which are data sets organized into named columns, so we import dependencies for both abstractions.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788664_-1196226953",
+      "id": "20170505-201927_1404964408",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 2:05:26 PM",
+      "dateFinished": "Jun 8, 2017 2:05:26 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Import our dependencies\nimport org.apache.spark.sql.SQLContext    \nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\nimport org.elasticsearch.spark._\nimport org.elasticsearch.spark.rdd.Metadata._ ",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:50:27 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd.Metadata._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788665_-1196611702",
+      "id": "20170505-005539_540198305",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:50:27 PM",
+      "dateFinished": "Jun 8, 2017 1:50:32 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val esIndexName \u003d \"exp_cedric_spark_test\"",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:50:38 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nesIndexName: String \u003d exp_cedric_spark_test\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788666_-1195457456",
+      "id": "20170505-015311_2021186754",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:50:38 PM",
+      "dateFinished": "Jun 8, 2017 1:50:39 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Define Activity Query\n\nFind all activity for \"Recurring Wellness Campaigns\" where the associated patient is male and has had a cardiac encounter after the campaign started (2014-10-06).",
+      "dateUpdated": "May 8, 2017 8:36:28 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eDefine Activity Query\u003c/h1\u003e\n\u003cp\u003eFind all activity for \u0026ldquo;Recurring Wellness Campaigns\u0026rdquo; where the associated patient is male and has had a cardiac encounter after the campaign started (2014-10-06).\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788666_-1195457456",
+      "id": "20170505-201945_396005690",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Define our activity queries:\n//\n// Find all activity for \"Recurring Wellness Campaigns\" where the associated patient\n// is male and has had a cardiac encounter after the campaign started (2014-10-06).\n\nval activityQuery \u003d \"\"\"\n{\n  \"query\": {\n    \"bool\": {\n      \"filter\": [\n        {\n          \"terms\": {\n            \"campaign\": [\n              \"Recurring Wellness Campaigns\"\n            ]\n          }\n        },\n        {\n          \"has_parent\": {\n            \"type\": \"person\",\n            \"query\": {\n              \"bool\": {\n                \"filter\": [\n                  {\n                    \"term\": {\n                      \"gender\": \"Male\"\n                    }\n                  },\n                  {\n                    \"has_child\": {\n                      \"type\": \"encounter\",\n                      \"query\": {\n                        \"bool\": {\n                          \"filter\": [\n                            {\n                              \"terms\": {\n                                \"service_sub_category\": [\n                                  \"Medical Cardiology\",\n                                  \"Cardiac Surgical Procedures\"\n                                ]\n                              }\n                            },\n                            {\n                              \"range\": {\n                                \"admit_date\": {\n                                  \"gte\": \"2014-10-06\"\n                                }\n                              }\n                            }\n                          ]\n                        }\n                      }\n                    }\n                  }\n                ]\n              }\n            }\n          }\n        }\n      ]\n    }\n  }\n}\n\"\"\"",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:50:47 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nactivityQuery: String \u003d\n\"\n{\n  \"query\": {\n    \"bool\": {\n      \"filter\": [\n        {\n          \"terms\": {\n            \"campaign\": [\n              \"Recurring Wellness Campaigns\"\n            ]\n          }\n        },\n        {\n          \"has_parent\": {\n            \"type\": \"person\",\n            \"query\": {\n              \"bool\": {\n                \"filter\": [\n                  {\n                    \"term\": {\n                      \"gender\": \"Male\"\n                    }\n                  },\n                  {\n                    \"has_child\": {\n                      \"type\": \"encounter\",\n                      \"query\": {\n                        \"bool\": {\n                          \"filter\": [\n                            {\n                              \"terms\": {\n                                \"servi..."
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788667_-1195842204",
+      "id": "20170504-221722_1073724624",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:50:47 PM",
+      "dateFinished": "Jun 8, 2017 1:50:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// run our query\nval activities \u003d sqlContext.esDF(s\"${esIndexName}/activity\", activityQuery)\n\n// preview our dataframe\nactivities.show()\n\n// output to a temp sql table\nactivities.createOrReplaceTempView(\"activity\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:50:51 PM",
+      "config": {
+        "lineNumbers": true,
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nactivities: org.apache.spark.sql.DataFrame \u003d [_recordId: string, campaign: string ... 6 more fields]\n+-------------+--------------------+-----------+-----------+------------------+--------------------+----+--------------------+\n|    _recordId|            campaign|    channel|client_code|       client_name|        contact_date|cost|              parent|\n+-------------+--------------------+-----------+-----------+------------------+--------------------+----+--------------------+\n|DEMO-85847278|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-7ec9479e-912...|\n|DEMO-85814937|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2016-09-08 13:09:...| 1.0|DEMO-bb1a03ae-5e1...|\n|DEMO-84667748|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-725868f8-812...|\n|DEMO-84683734|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2016-09-08 13:09:...| 1.0|DEMO-648bef5a-ce9...|\n|DEMO-86204330|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2015-09-03 10:09:...| 1.0|DEMO-427e695b-6c5...|\n|DEMO-86224271|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-432b19ed-92f...|\n|DEMO-84571658|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-280ae93d-5af...|\n|DEMO-84859179|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2016-09-08 13:09:...| 1.0|DEMO-3cbcecbc-106...|\n|DEMO-86525105|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-3aa1c1cf-dbd...|\n|DEMO-86546061|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2016-09-08 13:09:...| 1.0|DEMO-8208c4cb-705...|\n|DEMO-86558443|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2015-09-03 10:09:...| 1.0|DEMO-605b71fa-169...|\n|DEMO-86494003|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2015-09-03 10:09:...| 1.0|DEMO-d0864c23-8e9...|\n|DEMO-86336204|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-aa1eaf75-0a4...|\n|DEMO-85906649|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-cf133da3-91a...|\n|DEMO-86030013|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2015-09-09 11:09:...| 1.0|DEMO-767a9602-1af...|\n|DEMO-85740557|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-06 15:10:...| 1.0|DEMO-0221dec3-629...|\n|DEMO-85737902|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-62dccb39-cd2...|\n|DEMO-85115848|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-378ad30c-8a9...|\n|DEMO-85177133|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2014-10-16 13:10:...| 1.0|DEMO-92ea6076-a93...|\n|DEMO-85323845|Recurring Wellnes...|Direct Mail|       DEMO|HG EMP Demo Client|2015-09-09 11:09:...| 1.0|DEMO-803c35a1-1e1...|\n+-------------+--------------------+-----------+-----------+------------------+--------------------+----+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788667_-1195842204",
+      "id": "20170504-184022_1989788626",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:50:51 PM",
+      "dateFinished": "Jun 8, 2017 1:50:59 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val campaignActivitySummary \u003d sqlContext.sql(\"\"\"\n  SELECT\n      parent AS person_id,\n      campaign,\n      MIN(contact_date) AS first_contact,\n      MAX(contact_date) AS last_contact,\n      COUNT(*) AS contact_count\n    FROM activity\n    GROUP BY parent, campaign\n\"\"\")\n\ncampaignActivitySummary.createOrReplaceTempView(\"campaign_activity_summary\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:51:19 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ncampaignActivitySummary: org.apache.spark.sql.DataFrame \u003d [person_id: string, campaign: string ... 3 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788668_-1197765949",
+      "id": "20170505-005855_1608577395",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:51:19 PM",
+      "dateFinished": "Jun 8, 2017 1:51:20 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// campaignActivitySummary.show()\ncampaignActivitySummary.show()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 2:01:46 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+--------------------+--------------------+--------------------+--------------------+-------------+\n|           person_id|            campaign|       first_contact|        last_contact|contact_count|\n+--------------------+--------------------+--------------------+--------------------+-------------+\n|DEMO-22bdc414-266...|Recurring Wellnes...|2015-09-03 10:09:...|2015-09-03 10:09:...|            1|\n|DEMO-f85ee5be-c75...|Recurring Wellnes...|2014-10-16 13:10:...|2015-09-03 10:09:...|            2|\n|DEMO-ac4d509c-939...|Recurring Wellnes...|2014-10-16 13:10:...|2014-10-16 13:10:...|            1|\n|DEMO-184e108f-efb...|Recurring Wellnes...|2015-09-03 10:09:...|2015-09-03 10:09:...|            1|\n|DEMO-18961eb1-b86...|Recurring Wellnes...|2014-10-16 13:10:...|2014-10-16 13:10:...|            1|\n|DEMO-b4790a8e-dd8...|Recurring Wellnes...|2015-09-03 10:09:...|2016-09-08 13:09:...|            2|\n|DEMO-4f81ed3b-cbd...|Recurring Wellnes...|2015-09-03 10:09:...|2015-09-03 10:09:...|            1|\n|DEMO-6ee7b037-4fd...|Recurring Wellnes...|2014-10-16 13:10:...|2014-10-16 13:10:...|            1|\n|DEMO-107577c1-bb1...|Recurring Wellnes...|2014-10-16 13:10:...|2016-11-28 14:11:...|            3|\n|DEMO-74d2e5dc-494...|Recurring Wellnes...|2014-10-16 13:10:...|2015-09-03 10:09:...|            2|\n|DEMO-52755d2a-43c...|Recurring Wellnes...|2014-10-16 13:10:...|2014-10-16 13:10:...|            1|\n|DEMO-afb314ba-f7e...|Recurring Wellnes...|2015-09-09 11:09:...|2016-09-08 13:09:...|            2|\n|DEMO-5ff23981-875...|Recurring Wellnes...|2014-10-16 13:10:...|2015-09-03 10:09:...|            2|\n|DEMO-e7e051c2-cf6...|Recurring Wellnes...|2014-10-16 13:10:...|2015-09-03 10:09:...|            2|\n|DEMO-db127f0b-8e9...|Recurring Wellnes...|2016-09-08 13:09:...|2016-09-08 13:09:...|            1|\n|DEMO-4fb1c214-642...|Recurring Wellnes...|2014-10-06 15:10:...|2014-10-16 13:10:...|            2|\n|DEMO-fc1aba50-ee4...|Recurring Wellnes...|2014-10-16 13:10:...|2014-10-16 13:10:...|            1|\n|DEMO-6112d673-755...|Recurring Wellnes...|2015-09-03 10:09:...|2015-09-03 10:09:...|            1|\n|DEMO-8b6c664f-664...|Recurring Wellnes...|2014-10-16 13:10:...|2014-10-16 13:10:...|            1|\n|DEMO-12f63ee7-f7f...|Recurring Wellnes...|2016-09-08 13:09:...|2016-09-08 13:09:...|            1|\n+--------------------+--------------------+--------------------+--------------------+-------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788668_-1197765949",
+      "id": "20170508-040025_321593083",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 2:01:46 PM",
+      "dateFinished": "Jun 8, 2017 2:01:51 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val encounterQuery \u003d \"\"\"\n{\n  \"query\": {\n    \"bool\": {\n      \"filter\": [\n        {\n          \"terms\": {\n            \"service_sub_category\": [\n              \"Medical Cardiology\",\n              \"Cardiac Surgical Procedures\"\n            ]\n          }\n        },\n        {\n          \"range\": {\n            \"admit_date\": {\n              \"gte\": \"2014-10-06\"\n            }\n          }\n        },\n        {\n          \"has_parent\": {\n            \"type\": \"person\",\n            \"query\": {\n              \"bool\": {\n                \"filter\": [\n                  {\n                    \"term\": {\n                      \"gender\": \"Male\"\n                    }\n                  },\n                  {\n                    \"has_child\": {\n                      \"type\": \"activity\",\n                      \"query\": {\n                        \"bool\": {\n                          \"filter\": [\n                            {\n                              \"terms\": {\n                                \"campaign\": [\n                                  \"Heart Health Today Ongoing\",\n                                  \"Recurring Wellness Campaigns\"\n                                ]\n                              }\n                            }\n                          ]\n                        }\n                      }\n                    }\n                  }\n                ]\n              }\n            }\n          }\n        }\n      ]\n    }\n  }\n}\n\"\"\"\n// limit the fields that are included\nval encounterQueryOptions \u003d Map(\n  \"es.read.field.include\" -\u003e \"recordId,admit_date,parent\"\n)\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:51:42 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nencounterQuery: String \u003d\n\"\n{\n  \"query\": {\n    \"bool\": {\n      \"filter\": [\n        {\n          \"terms\": {\n            \"service_sub_category\": [\n              \"Medical Cardiology\",\n              \"Cardiac Surgical Procedures\"\n            ]\n          }\n        },\n        {\n          \"range\": {\n            \"admit_date\": {\n              \"gte\": \"2014-10-06\"\n            }\n          }\n        },\n        {\n          \"has_parent\": {\n            \"type\": \"person\",\n            \"query\": {\n              \"bool\": {\n                \"filter\": [\n                  {\n                    \"term\": {\n                      \"gender\": \"Male\"\n                    }\n                  },\n                  {\n                    \"has_child\": {\n                      \"type\": \"activity\",\n                      \"query\": {\n    ...\nencounterQueryOptions: scala.collection.immutable.Map[String,String] \u003d Map(es.read.field.include -\u003e recordId,admit_date,parent)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788668_-1197765949",
+      "id": "20170504-190923_107496675",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:51:42 PM",
+      "dateFinished": "Jun 8, 2017 1:51:43 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val encounters \u003d sqlContext.esDF(s\"${esIndexName}/encounter\", encounterQuery, encounterQueryOptions)\nencounters.createOrReplaceTempView(\"encounter\")\nencounters.show()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:51:59 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencounters: org.apache.spark.sql.DataFrame \u003d [admit_date: timestamp, parent: string ... 1 more field]\n+--------------------+--------------------+--------------------+\n|          admit_date|              parent|            recordId|\n+--------------------+--------------------+--------------------+\n|2016-01-14 00:00:...|DEMO-241110a8-b71...|DEMO-3c2b77d9-8e8...|\n|2016-08-21 00:00:...|DEMO-3fba213c-7c7...|DEMO-5e10251f-6b8...|\n|2014-12-06 00:00:...|DEMO-8b3aad9a-910...|DEMO-445da9e7-b35...|\n|2016-06-02 00:00:...|DEMO-52ae1ee8-91a...|DEMO-60ec4c30-b60...|\n|2016-08-07 00:00:...|DEMO-4bc0bf63-985...|DEMO-acdc142a-0f5...|\n|2016-01-12 00:00:...|DEMO-484f33bb-126...|DEMO-d48e834a-cc4...|\n|2015-09-11 00:00:...|DEMO-70d9b7ff-b32...|DEMO-61f1a5b5-9cb...|\n|2016-10-28 00:00:...|DEMO-d43f0a9c-9c5...|DEMO-307b76ff-585...|\n|2015-10-17 00:00:...|DEMO-927bc485-ab6...|DEMO-5a480177-f48...|\n|2016-04-26 00:00:...|DEMO-6897c45e-dae...|DEMO-d2f47cd2-295...|\n|2014-11-12 00:00:...|DEMO-1a0a8a50-6f6...|DEMO-cb1ce4fb-c26...|\n|2015-02-22 00:00:...|DEMO-e95ceb7d-995...|DEMO-afdfa8db-d6a...|\n|2016-11-18 00:00:...|DEMO-2aa62df2-cb2...|DEMO-e37c60e5-d71...|\n|2016-11-14 00:00:...|DEMO-847dd368-cd2...|DEMO-828c0fdd-c2d...|\n|2016-04-23 00:00:...|DEMO-4f835191-421...|DEMO-c1af1d7b-57f...|\n|2016-09-22 00:00:...|DEMO-9c19fa48-ec1...|DEMO-e0ab5a9a-f67...|\n|2014-12-09 00:00:...|DEMO-0fdf1dfe-fb0...|DEMO-7d3bac05-85f...|\n|2016-05-30 00:00:...|DEMO-83ef0a4f-93c...|DEMO-0bf7360b-871...|\n|2015-11-05 00:00:...|DEMO-42b247b9-a5e...|DEMO-e5fa6ac2-3ac...|\n|2016-06-17 00:00:...|DEMO-b4c12362-9eb...|DEMO-68bf0688-e5c...|\n+--------------------+--------------------+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788668_-1197765949",
+      "id": "20170505-003347_277620372",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:51:59 PM",
+      "dateFinished": "Jun 8, 2017 1:52:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "encounters.count()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 2:41:12 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job 18 cancelled part of cancelled job group zeppelin-20170508-040341_1559222295\n  at org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1435)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobCancellation(DAGScheduler.scala:1375)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply$mcVI$sp(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:788)\n  at scala.collection.mutable.HashSet.foreach(HashSet.scala:78)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobGroupCancelled(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1625)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1605)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1594)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:628)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1918)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1931)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1944)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1958)\n  at org.apache.spark.rdd.RDD$$anonfun$collect$1.apply(RDD.scala:935)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:151)\n  at org.apache.spark.rdd.RDDOperationScope$.withScope(RDDOperationScope.scala:112)\n  at org.apache.spark.rdd.RDD.withScope(RDD.scala:362)\n  at org.apache.spark.rdd.RDD.collect(RDD.scala:934)\n  at org.apache.spark.sql.execution.SparkPlan.executeCollect(SparkPlan.scala:275)\n  at org.apache.spark.sql.Dataset$$anonfun$org$apache$spark$sql$Dataset$$execute$1$1.apply(Dataset.scala:2371)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:57)\n  at org.apache.spark.sql.Dataset.withNewExecutionId(Dataset.scala:2765)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$execute$1(Dataset.scala:2370)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$collect(Dataset.scala:2377)\n  at org.apache.spark.sql.Dataset$$anonfun$count$1.apply(Dataset.scala:2405)\n  at org.apache.spark.sql.Dataset$$anonfun$count$1.apply(Dataset.scala:2404)\n  at org.apache.spark.sql.Dataset.withCallback(Dataset.scala:2778)\n  at org.apache.spark.sql.Dataset.count(Dataset.scala:2404)\n  ... 62 elided\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788669_-1198150698",
+      "id": "20170508-040341_1559222295",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 2:41:12 PM",
+      "dateFinished": "Jun 8, 2017 2:41:49 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val attributableEncounters \u003d sqlContext.sql(\"\"\"\n  SELECT\n    encounter.recordId AS encounter_id,\n    admit_date,\n    person_id,\n    campaign,\n    first_contact,\n    last_contact,\n    contact_count,\n    datediff(admit_date, last_contact) as days_after_last_contact,\n    -- TODO: Add a UDF for more precise values\n    datediff(admit_date, last_contact)/30.44 AS months_after_last_contact,\n    datediff(admit_date, first_contact) as days_after_first_contact,\n    datediff(admit_date, first_contact)/30.44 AS months_after_first_contact\n  FROM encounter INNER JOIN campaign_activity_summary ON encounter.parent \u003d campaign_activity_summary.person_id\n  WHERE\n    admit_date \u003e\u003d first_contact\n    AND admit_date \u003c\u003d add_months(last_contact, 12)\n\"\"\")\n\nattributableEncounters.show()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:52:24 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 198.0,
+              "optionOpen": false
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nattributableEncounters: org.apache.spark.sql.DataFrame \u003d [encounter_id: string, admit_date: timestamp ... 9 more fields]\n+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-------------+-----------------------+-------------------------+------------------------+--------------------------+\n|        encounter_id|          admit_date|           person_id|            campaign|       first_contact|        last_contact|contact_count|days_after_last_contact|months_after_last_contact|days_after_first_contact|months_after_first_contact|\n+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-------------+-----------------------+-------------------------+------------------------+--------------------------+\n|DEMO-4ef7e5aa-994...|2015-04-26 00:00:...|DEMO-002df3b2-28b...|Recurring Wellnes...|2014-10-16 13:10:...|2015-09-03 10:09:...|            2|                   -130|                -4.270696|                     192|                  6.307490|\n|DEMO-393b7e8b-7c1...|2014-10-17 00:00:...|DEMO-1533cdbd-af9...|Recurring Wellnes...|2014-10-16 13:10:...|2016-09-08 13:09:...|            2|                   -692|               -22.733246|                       1|                  0.032852|\n|DEMO-dfe98373-ed5...|2015-03-16 00:00:...|DEMO-181d6660-328...|Recurring Wellnes...|2014-10-16 13:10:...|2014-10-16 13:10:...|            1|                    151|                 4.960578|                     151|                  4.960578|\n|DEMO-3c3d8645-f4f...|2015-08-05 00:00:...|DEMO-24f62a5c-e4e...|Recurring Wellnes...|2014-10-16 13:10:...|2014-10-16 13:10:...|            1|                    293|                 9.625493|                     293|                  9.625493|\n|DEMO-339b5f0d-340...|2015-01-07 00:00:...|DEMO-32d7ca69-52e...|Recurring Wellnes...|2014-10-16 13:10:...|2015-09-03 10:09:...|            2|                   -239|                -7.851511|                      83|                  2.726675|\n|DEMO-c9d889ab-052...|2014-12-14 00:00:...|DEMO-32d7ca69-52e...|Recurring Wellnes...|2014-10-16 13:10:...|2015-09-03 10:09:...|            2|                   -263|                -8.639947|                      59|                  1.938239|\n|DEMO-b2a398c9-e42...|2016-05-24 00:00:...|DEMO-41450af5-e1b...|Recurring Wellnes...|2015-09-03 10:09:...|2015-09-03 10:09:...|            1|                    264|                 8.672799|                     264|                  8.672799|\n|DEMO-eca55ec6-1ae...|2016-05-12 00:00:...|DEMO-56640fcf-dcd...|Recurring Wellnes...|2015-09-03 10:09:...|2015-09-03 10:09:...|            1|                    252|                 8.278581|                     252|                  8.278581|\n|DEMO-f3a61e14-093...|2015-02-03 00:00:...|DEMO-74c07753-452...|Recurring Wellnes...|2014-10-06 15:10:...|2016-09-08 13:09:...|            3|                   -583|               -19.152431|                     120|                  3.942181|\n|DEMO-692e01ab-d6d...|2016-07-02 00:00:...|DEMO-758012a5-275...|Recurring Wellnes...|2014-10-16 13:10:...|2016-09-08 13:09:...|            2|                    -68|                -2.233903|                     625|                 20.532194|\n|DEMO-e3e9e8f3-33f...|2016-04-11 00:00:...|DEMO-83412fdc-1b3...|Recurring Wellnes...|2014-10-06 15:10:...|2016-09-08 13:09:...|            3|                   -150|                -4.927727|                     553|                 18.166886|\n|DEMO-6b3ff3fc-feb...|2016-10-14 00:00:...|DEMO-83412fdc-1b3...|Recurring Wellnes...|2014-10-06 15:10:...|2016-09-08 13:09:...|            3|                     36|                 1.182654|                     739|                 24.277267|\n|DEMO-c1f0caa4-5d8...|2016-12-08 00:00:...|DEMO-95bab600-76d...|Recurring Wellnes...|2014-10-06 15:10:...|2016-11-28 14:11:...|            5|                     10|                 0.328515|                     794|                 26.084100|\n|DEMO-fd062f32-cd5...|2015-08-08 00:00:...|DEMO-96481655-ce5...|Recurring Wellnes...|2014-10-16 13:10:...|2016-09-08 13:09:...|            2|                   -397|               -13.042050|                     296|                  9.724047|\n|DEMO-d03894e2-752...|2015-02-17 00:00:...|DEMO-96481655-ce5...|Recurring Wellnes...|2014-10-16 13:10:...|2016-09-08 13:09:...|            2|                   -569|               -18.692510|                     124|                  4.073587|\n|DEMO-61dfa3fc-1f8...|2016-10-03 00:00:...|DEMO-96481655-ce5...|Recurring Wellnes...|2014-10-16 13:10:...|2016-09-08 13:09:...|            2|                     25|                 0.821288|                     718|                 23.587385|\n|DEMO-16b22e7d-2b0...|2016-06-28 00:00:...|DEMO-96481655-ce5...|Recurring Wellnes...|2014-10-16 13:10:...|2016-09-08 13:09:...|            2|                    -72|                -2.365309|                     621|                 20.400788|\n|DEMO-29259fc3-860...|2016-05-30 00:00:...|DEMO-b6138e6a-ed7...|Recurring Wellnes...|2015-09-03 10:09:...|2015-09-03 10:09:...|            1|                    270|                 8.869908|                     270|                  8.869908|\n|DEMO-953787a1-dad...|2015-10-17 00:00:...|DEMO-b6138e6a-ed7...|Recurring Wellnes...|2015-09-03 10:09:...|2015-09-03 10:09:...|            1|                     44|                 1.445466|                      44|                  1.445466|\n|DEMO-43d308e6-79e...|2015-10-04 00:00:...|DEMO-e6d83cf8-619...|Recurring Wellnes...|2014-10-06 15:10:...|2016-09-08 13:09:...|            4|                   -340|               -11.169514|                     363|                 11.925099|\n+--------------------+--------------------+--------------------+--------------------+--------------------+--------------------+-------------+-----------------------+-------------------------+------------------------+--------------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788669_-1198150698",
+      "id": "20170504-190942_81314019",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:52:24 PM",
+      "dateFinished": "Jun 8, 2017 1:52:35 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "println(s\"${attributableEncounters.count} encounters attributed out of ${encounters.count} total encounters\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:52:53 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "2900 encounters attributed out of 7785 total encounters\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788669_-1198150698",
+      "id": "20170504-212347_706601540",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:52:53 PM",
+      "dateFinished": "Jun 8, 2017 1:53:14 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "case class EncounterActivityUpdate(\n    campaign_name: String,\n    days_after_first_contact: Integer,\n    months_after_first_contact: BigDecimal,\n    days_after_last_contact: Integer,\n    months_after_last_contact: BigDecimal,\n    contact_count: Long\n)\n\nval updates \u003d attributableEncounters\n  .rdd\n  .map(e \u003d\u003e (\n      Map(\n          ID -\u003e s\"\"\"${e.getAs[String](\"encounter_id\")}_${e.getAs[String](\"campaign\").replaceAll(\"\\\\s\", \"_\")}\"\"\".toString(),\n          PARENT -\u003e e.getAs[String](\"encounter_id\"),\n          ROUTING -\u003e e.getAs[String](\"person_id\")\n      ),\n      EncounterActivityUpdate(\n          e.getAs[String](\"campaign\"),\n          e.getAs[Integer](\"days_after_first_contact\"),\n          e.getAs[java.math.BigDecimal](\"months_after_first_contact\"),\n          e.getAs[Integer](\"days_after_last_contact\"),\n          e.getAs[java.math.BigDecimal](\"months_after_last_contact\"),\n          e.getAs[Long](\"contact_count\")\n      )\n    )\n  )\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:53:49 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ndefined class EncounterActivityUpdate\n\nupdates: org.apache.spark.rdd.RDD[(scala.collection.immutable.Map[org.elasticsearch.spark.rdd.Metadata,String], EncounterActivityUpdate)] \u003d MapPartitionsRDD[90] at map at \u003cconsole\u003e:46\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788669_-1198150698",
+      "id": "20170505-010405_1327554321",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:53:49 PM",
+      "dateFinished": "Jun 8, 2017 1:53:53 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "updates.take(10).map { println }",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:54:00 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(Map(ID -\u003e DEMO-4ef7e5aa-994d-465e-aaf1-edf08867097a_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-4ef7e5aa-994d-465e-aaf1-edf08867097a, ROUTING -\u003e DEMO-002df3b2-28b5-46af-be47-0cfed2467564),EncounterActivityUpdate(Recurring Wellness Campaigns,192,6.307490,-130,-4.270696,2))\n(Map(ID -\u003e DEMO-393b7e8b-7c14-4fa9-a942-cb8b233b1098_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-393b7e8b-7c14-4fa9-a942-cb8b233b1098, ROUTING -\u003e DEMO-1533cdbd-af9f-4f2a-938d-32b5bb9551b2),EncounterActivityUpdate(Recurring Wellness Campaigns,1,0.032852,-692,-22.733246,2))\n(Map(ID -\u003e DEMO-dfe98373-ed53-47c8-94b9-aceb3b42a719_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-dfe98373-ed53-47c8-94b9-aceb3b42a719, ROUTING -\u003e DEMO-181d6660-3287-4592-ba64-0c3bb7812432),EncounterActivityUpdate(Recurring Wellness Campaigns,151,4.960578,151,4.960578,1))\n(Map(ID -\u003e DEMO-3c3d8645-f4f3-4664-b92a-db9ab083d005_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-3c3d8645-f4f3-4664-b92a-db9ab083d005, ROUTING -\u003e DEMO-24f62a5c-e4e7-4bfc-9490-838e3ae95508),EncounterActivityUpdate(Recurring Wellness Campaigns,293,9.625493,293,9.625493,1))\n(Map(ID -\u003e DEMO-339b5f0d-340e-4aec-9b44-e5fda6f53cd8_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-339b5f0d-340e-4aec-9b44-e5fda6f53cd8, ROUTING -\u003e DEMO-32d7ca69-52e7-40c5-9af1-7dbd4502d958),EncounterActivityUpdate(Recurring Wellness Campaigns,83,2.726675,-239,-7.851511,2))\n(Map(ID -\u003e DEMO-c9d889ab-0526-4b81-8893-3884656941af_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-c9d889ab-0526-4b81-8893-3884656941af, ROUTING -\u003e DEMO-32d7ca69-52e7-40c5-9af1-7dbd4502d958),EncounterActivityUpdate(Recurring Wellness Campaigns,59,1.938239,-263,-8.639947,2))\n(Map(ID -\u003e DEMO-b2a398c9-e420-4241-868e-e8ccf939f790_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-b2a398c9-e420-4241-868e-e8ccf939f790, ROUTING -\u003e DEMO-41450af5-e1bf-4dea-8164-dfabccf9dcc6),EncounterActivityUpdate(Recurring Wellness Campaigns,264,8.672799,264,8.672799,1))\n(Map(ID -\u003e DEMO-eca55ec6-1ae6-4176-9386-00d34a49409b_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-eca55ec6-1ae6-4176-9386-00d34a49409b, ROUTING -\u003e DEMO-56640fcf-dcd1-4b2b-9a8c-cb23dd297dea),EncounterActivityUpdate(Recurring Wellness Campaigns,252,8.278581,252,8.278581,1))\n(Map(ID -\u003e DEMO-f3a61e14-093f-44b3-8dfd-0e7d6c69eb8f_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-f3a61e14-093f-44b3-8dfd-0e7d6c69eb8f, ROUTING -\u003e DEMO-74c07753-4520-4c5a-af7a-6baa88df458b),EncounterActivityUpdate(Recurring Wellness Campaigns,120,3.942181,-583,-19.152431,3))\n(Map(ID -\u003e DEMO-692e01ab-d6dc-4226-afd9-648f458acfaa_Recurring_Wellness_Campaigns, PARENT -\u003e DEMO-692e01ab-d6dc-4226-afd9-648f458acfaa, ROUTING -\u003e DEMO-758012a5-275a-4e0d-bead-1305d0d85a43),EncounterActivityUpdate(Recurring Wellness Campaigns,625,20.532194,-68,-2.233903,2))\n\nres13: Array[Unit] \u003d Array((), (), (), (), (), (), (), (), (), ())\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788670_-1196996451",
+      "id": "20170505-015642_1634623434",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:54:00 PM",
+      "dateFinished": "Jun 8, 2017 1:54:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "updates.saveToEsWithMeta(s\"${esIndexName}/encounter_campaign\", Map(\"es.batch.size.bytes\" -\u003e \"50mb\"))",
+      "user": "anonymous",
+      "dateUpdated": "Jun 8, 2017 1:54:25 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788670_-1196996451",
+      "id": "20170505-012734_1055380498",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "dateStarted": "Jun 8, 2017 1:54:25 PM",
+      "dateFinished": "Jun 8, 2017 1:57:15 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "May 8, 2017 8:36:28 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1494275788670_-1196996451",
+      "id": "20170505-014136_899645667",
+      "dateCreated": "May 8, 2017 8:36:28 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "Load campaign encounter associations",
+  "id": "2CGTDCFV1",
+  "angularObjects": {
+    "2CF8YHAFY:shared_process": [],
+    "2CHQTD2FW:shared_process": [],
+    "2CGUJ3E43:shared_process": [],
+    "2CESFRD7Y:shared_process": [],
+    "2CH7RA31H:shared_process": [],
+    "2CGU9TJBB:shared_process": [],
+    "2CF9XRY5F:shared_process": [],
+    "2CGUMPA9A:shared_process": [],
+    "2CENZST62:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

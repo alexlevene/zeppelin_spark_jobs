@@ -1,0 +1,728 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\nrequired spark ES configurations:\n* es.nodes: elastisearch.exp-dev.io\n* es.write.operation: index",
+      "dateUpdated": "Jun 9, 2017 4:42:04 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003cp\u003erequired spark ES configurations:\u003cbr/\u003e* es.nodes: elastisearch.exp-dev.io\u003cbr/\u003e* es.write.operation: index\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057681_-1893013148",
+      "id": "20170608-175156_2077565683",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Load our Spark dependencies\n\nThe Elasticsearch Spark driver is pulled down from Maven. We want to use the Spark 2.0 driver compatibile with Scala 2.11 and Elasticsearch 5.3.2",
+      "dateUpdated": "Jun 9, 2017 4:42:04 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eLoad our Spark dependencies\u003c/h1\u003e\n\u003cp\u003eThe Elasticsearch Spark driver is pulled down from Maven. We want to use the Spark 2.0 driver compatibile with Scala 2.11 and Elasticsearch 5.3.2\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057682_-1891858901",
+      "id": "20170505-201833_1284336618",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%spark.dep\n// Load our Elasticsearch spark dependencies from Maven\nz.reset()\nz.load(\"org.elasticsearch:elasticsearch-spark-20_2.11:5.3.2\")\nz.load(\"org.elasticsearch.client:transport:5.4.1\")\nz.load(\"org.elasticsearch.client:rest:5.3.2\")\nz.load(\"org.elasticsearch:elasticsearch:5.3.2\")\nz.load(\"javainetlocator:inetaddresslocator:2.18\")\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 9, 2017 6:24:18 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "res0: org.apache.zeppelin.dep.Dependency \u003d org.apache.zeppelin.dep.Dependency@1ba24272\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057682_-1891858901",
+      "id": "20170504-182153_1981139206",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "dateStarted": "Jun 9, 2017 6:24:18 PM",
+      "dateFinished": "Jun 9, 2017 6:24:46 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Import Spark and Elasticsearch Spark classes\n\nWe will be working with Spark using both RDD\u0027s (Resilient Distributed Datasets) and higher-level DataFrames, which are data sets organized into named columns, so we import dependencies for both abstractions.",
+      "dateUpdated": "Jun 9, 2017 4:42:04 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eImport Spark and Elasticsearch Spark classes\u003c/h1\u003e\n\u003cp\u003eWe will be working with Spark using both RDD\u0026rsquo;s (Resilient Distributed Datasets) and higher-level DataFrames, which are data sets organized into named columns, so we import dependencies for both abstractions.\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057683_-1892243650",
+      "id": "20170505-201927_1404964408",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Import our dependencies\nimport org.apache.spark.sql.SQLContext    \nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\nimport org.elasticsearch.spark._\nimport org.elasticsearch.spark.rdd.Metadata._\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 9, 2017 6:24:49 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd.Metadata._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057683_-1892243650",
+      "id": "20170505-005539_540198305",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "dateStarted": "Jun 9, 2017 6:24:49 PM",
+      "dateFinished": "Jun 9, 2017 6:24:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\nimport java.net.InetAddress\n\nimport org.elasticsearch.client.Client\nimport org.elasticsearch.client.transport.TransportClient\nimport org.elasticsearch.transport.client.PreBuiltTransportClient\nimport org.elasticsearch.common.settings.Settings\nimport org.elasticsearch.common.transport.InetSocketTransportAddress\nimport org.elasticsearch.action.update.UpdateResponse\nimport org.elasticsearch.common.xcontent.XContentBuilder\nimport org.elasticsearch.common.xcontent.XContentFactory\nimport org.elasticsearch.common.xcontent.XContentParser\nimport org.elasticsearch.common.xcontent.XContentType\nimport org.elasticsearch.common.xcontent.NamedXContentRegistry\nimport org.elasticsearch.search.builder.SearchSourceBuilder\nimport org.elasticsearch.search.SearchModule\nimport org.elasticsearch.action.search.SearchRequestBuilder\nimport org.elasticsearch.action.search.SearchAction\nimport org.elasticsearch.index.query.QueryParseContext\nimport java.util.Collections\n\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 9, 2017 7:18:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport java.net.InetAddress\n\nimport org.elasticsearch.client.Client\n\nimport org.elasticsearch.client.transport.TransportClient\n\nimport org.elasticsearch.transport.client.PreBuiltTransportClient\n\nimport org.elasticsearch.common.settings.Settings\n\nimport org.elasticsearch.common.transport.InetSocketTransportAddress\n\nimport org.elasticsearch.action.update.UpdateResponse\n\nimport org.elasticsearch.common.xcontent.XContentBuilder\n\nimport org.elasticsearch.common.xcontent.XContentFactory\n\nimport org.elasticsearch.common.xcontent.XContentParser\n\nimport org.elasticsearch.common.xcontent.XContentType\n\nimport org.elasticsearch.common.xcontent.NamedXContentRegistry\n\nimport org.elasticsearch.search.builder.SearchSourceBuilder\n\nimport org.elasticsearch.search.SearchModule\n\nimport org.elasticsearch.action.search.SearchRequestBuilder\n\nimport org.elasticsearch.action.search.SearchAction\n\nimport org.elasticsearch.index.query.QueryParseContext\n\nimport java.util.Collections\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497025707799_883062819",
+      "id": "20170609-162827_2014333401",
+      "dateCreated": "Jun 9, 2017 4:28:27 PM",
+      "dateStarted": "Jun 9, 2017 7:18:37 PM",
+      "dateFinished": "Jun 9, 2017 7:18:38 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val port \u003d 9300\nval host \u003d \"elasticsearch.exp-dev.io\"\n\n//val nodes \u003d List(\"elasticsearch.exp-dev.io\")\n\n//val addresses \u003d nodes.map { host \u003d\u003e new InetSocketTransportAddress(InetAddress.getByName(host), port) }\n \nval settings \u003d Settings.builder().put(\"cluster.name\", \"elasticsearch\").build()\n \n\nval client:TransportClient \u003d new PreBuiltTransportClient(Settings.EMPTY).addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port))\n\n//val client:Client \u003d TransportClient.builder().settings(settings).build().addTransportAddresses(addresses: _*)\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 9, 2017 6:26:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nport: Int \u003d 9300\n\nhost: String \u003d elasticsearch.exp-dev.io\n\nsettings: org.elasticsearch.common.settings.Settings \u003d org.elasticsearch.common.settings.Settings@49372942\n\nclient: org.elasticsearch.client.transport.TransportClient \u003d org.elasticsearch.transport.client.PreBuiltTransportClient@3f2520ae\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497025742999_-273082434",
+      "id": "20170609-162902_889566595",
+      "dateCreated": "Jun 9, 2017 4:29:02 PM",
+      "dateStarted": "Jun 9, 2017 6:26:06 PM",
+      "dateFinished": "Jun 9, 2017 6:26:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val esIndexName \u003d \"exp_rjj_1_2\"",
+      "user": "anonymous",
+      "dateUpdated": "Jun 9, 2017 6:31:10 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nesIndexName: String \u003d exp_rjj_1_2\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057683_-1892243650",
+      "id": "20170505-015311_2021186754",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "dateStarted": "Jun 9, 2017 6:31:11 PM",
+      "dateFinished": "Jun 9, 2017 6:31:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Define our encounter query:\n//\n// Find the minimum admit date (in the last 6 years) for a given client (DEMO)\n\nval encounterMinAdmitSourceQuery \u003d \"\"\"\n{  \n  \"size\": 0,\n  \"stored_fields\": [\"admit_date\"],\n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"bool\": {\n          \"must\": [\n            { \"range\": {\"admit_date\": {\"gte\": \"now-6y\", \"lte\": \"now\"}}}\n          ]\n        }\n      }\n    }\n  },\n  \"aggs\": {\n        \"min_admit\" : { \"min\": {\"field\" : \"admit_date\"}}\n  }\n}\n\"\"\"\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 9, 2017 6:31:50 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nencounterMinAdmitSourceQuery: String \u003d\n\"\n{\n  \"size\": 0,\n  \"stored_fields\": [\"admit_date\"],\n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"bool\": {\n          \"must\": [\n            { \"range\": {\"admit_date\": {\"gte\": \"now-6y\", \"lte\": \"now\"}}}\n          ]\n        }\n      }\n    }\n  },\n  \"aggs\": {\n        \"min_admit\" : { \"min\": {\"field\" : \"admit_date\"}}\n  }\n}\n\"\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057684_-1894167394",
+      "id": "20170504-221722_1073724624",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "dateStarted": "Jun 9, 2017 6:31:50 PM",
+      "dateFinished": "Jun 9, 2017 6:31:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "//try (XContentParser parser \u003d XContentFactory.xContent(XContentType.JSON)\n//                .createParser(NamedXContentRegistry.EMPTY, content)) {\n//    searchSourceBuilder.parseXContent(new QueryParseContext(parser))\n//}\n\n//SearchSourceBuilder searchSourceBuilder \u003d new SearchSourceBuilder();\n//SearchModule searchModule \u003d new SearchModule(Settings.EMPTY, false, Collections.emptyList());\n//try (XContentParser parser \u003d XContentFactory.xContent(XContentType.JSON)\n//                        .createParser(new NamedXContentRegistry(searchModule.getNamedXContents()), content)) {\n//            searchSourceBuilder.parseXContent(new QueryParseContext(parser));\n//}\n//SearchRequestBuilder searchRequestBuilder \u003d new SearchRequestBuilder(client, SearchAction.INSTANCE);\n//SearchResponse searchResponse \u003d searchRequestBuilder.setSource(searchSourceBuilder)\n//            .execute().actionGet();\n\nval searchSourceBuilder \u003d new SearchSourceBuilder()\nval searchModule \u003d new SearchModule(Settings.EMPTY, false, Collections.emptyList())\nval parser \u003d  XContentFactory.xContent(XContentType.JSON).createParser(new NamedXContentRegistry(searchModule.getNamedXContents()), encounterMinAdmitSourceQuery)\nval finalQuery \u003d searchSourceBuilder.parseXContent(new QueryParseContext(parser))\nval searchRequestBuilder \u003d new  SearchRequestBuilder(client, SearchAction.INSTANCE)\nval searchResponse \u003d searchRequestBuilder.setSource(searchSourceBuilder).execute().actionGet()\n\n//val parser \u003d  XContentFactory.xContent(XContentType.JSON).createParser(NamedXContentRegistry.EMPTY, encounterMinAdmitSourceQuery)\n//val context \u003d new QueryParseContext(parser)\n//val finalQuery \u003d new SearchSourceBuilder().parseXContent(context,searchModule.getAggregatorParsers(),searchModule.getSuggesters(), searchModule.getSearchExtRegistry())\n// val response \u003d client.prepareSearch(esIndexName).setTypes(\"encounter\").setQuery(encounterMinAdmitSourceQuery).execute().actionGet()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 9, 2017 7:24:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nsearchSourceBuilder: org.elasticsearch.search.builder.SearchSourceBuilder \u003d { }\n\nsearchModule: org.elasticsearch.search.SearchModule \u003d org.elasticsearch.search.SearchModule@2013c5df\n\nparser: org.elasticsearch.common.xcontent.XContentParser \u003d org.elasticsearch.common.xcontent.json.JsonXContentParser@55537165\n\nfinalQuery: Unit \u003d ()\n\nsearchRequestBuilder: org.elasticsearch.action.search.SearchRequestBuilder \u003d { }\n\n\n\n\n\n\n\n\n\norg.elasticsearch.client.transport.NoNodeAvailableException: None of the configured nodes are available: [{#transport#-1}{gxJW9zgFRZGcGT9WgV2lCg}{elasticsearch.exp-dev.io}{100.70.102.71:9300}]\n  at org.elasticsearch.client.transport.TransportClientNodesService.ensureNodesAreAvailable(TransportClientNodesService.java:348)\n  at org.elasticsearch.client.transport.TransportClientNodesService.execute(TransportClientNodesService.java:246)\n  at org.elasticsearch.client.transport.TransportProxyClient.execute(TransportProxyClient.java:59)\n  at org.elasticsearch.client.transport.TransportClient.doExecute(TransportClient.java:366)\n  at org.elasticsearch.client.support.AbstractClient.execute(AbstractClient.java:408)\n  at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:80)\n  at org.elasticsearch.action.ActionRequestBuilder.execute(ActionRequestBuilder.java:54)\n  ... 54 elided\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497032954041_-169007963",
+      "id": "20170609-182914_2068184220",
+      "dateCreated": "Jun 9, 2017 6:29:14 PM",
+      "dateStarted": "Jun 9, 2017 7:24:16 PM",
+      "dateFinished": "Jun 9, 2017 7:24:17 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// run our query\nval encounterAggES \u003d sc.esRDD(s\"${esIndexName}/encounter\", encounterMinAdmitSourceQuery)\n\n// preview our dataframe\nval rddVal \u003d encounterAggES.map(x \u003d\u003e x._2) \nrddVal.count()\n\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "lineNumbers": false,
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencounterAggES: org.apache.spark.rdd.RDD[(String, scala.collection.Map[String,AnyRef])] \u003d ScalaEsRDD[95] at RDD at AbstractEsRDD.scala:37\n\nrddVal: org.apache.spark.rdd.RDD[scala.collection.Map[String,AnyRef]] \u003d MapPartitionsRDD[96] at map at \u003cconsole\u003e:59\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job 10 cancelled part of cancelled job group zeppelin-20170504-184022_1989788626\n  at org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1435)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobCancellation(DAGScheduler.scala:1375)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply$mcVI$sp(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:788)\n  at scala.collection.mutable.HashSet.foreach(HashSet.scala:78)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobGroupCancelled(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1625)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1605)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1594)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:628)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1918)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1931)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1944)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1958)\n  at org.apache.spark.rdd.RDD.count(RDD.scala:1157)\n  ... 62 elided\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057684_-1894167394",
+      "id": "20170504-184022_1989788626",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "dateStarted": "Jun 9, 2017 3:54:54 PM",
+      "dateFinished": "Jun 9, 2017 3:55:11 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// this paragraph is disabled from run\n\nval encounterSelectAll \u003d sqlContext.sql(\"\"\"\n  SELECT\n    recordId as encounterId,\n    parent as personId,\n    admit_date as admitDate,\n    facility.code as facility,\n    service_category as serviceCategory,\n    row_number() over (partition by parent order by admit_date asc, recordId asc) as enc_seq ,\n    row_number() over (partition by parent order by admit_date asc, recordId asc) -1 as enc_prev,\n    row_number() over (partition by parent,service_category order by admit_date asc, recordId asc) as enc_seq_sc,\n    row_number() over (partition by parent,service_category order by admit_date asc, recordId asc) -1 as enc_prev_sc,\n    row_number() over (partition by parent,facility.code order by admit_date asc, recordId asc) as enc_seq_f,\n    row_number() over (partition by parent,facility.code order by admit_date asc, recordId asc) -1 as enc_prev_f,\n    cast(null as integer) as yearsBetween,\n    cast(null as integer) as yearsBetween_sc,\n    cast(null as integer) as yearsBetween_not_sc,\n    cast(null as integer) as yearsBetween_f,\n    cast(null as integer) as yearsBetween_not_f,\n    cast(null as integer) as yearsBetween_f_or_sc,\n    0 as new,\n    0 as re_engaged,\n    0 as existing,\n    0 as cross,\n    0 as cross_f,\n    0 as cross_sc,\n    cast(null as varchar(20)) as lifecycle,\n    cast(null as varchar(20)) as lifecycle_p,\n    cast(null as varchar(20)) as lifecycle_r,\n    cast(null as varchar(20)) as lifecycle_p_r,\n    cast(null as varchar(20)) as lifecycle_f,\n    cast(null as varchar(20)) as lifecycle_p_f,\n    cast(null as varchar(20)) as lifecycle_sc,\n    cast(null as varchar(20)) as lifecycle_p_sc\n    FROM encounter\n    order by parent, admit_date\n\"\"\")\nencounterSelectAll.show()\n",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencounterSelect: org.apache.spark.sql.DataFrame \u003d [encounterId: string, personId: string ... 29 more fields]\n+--------------------+--------------------+--------------------+--------+----------------+-------+--------+----------+-----------+---------+----------+------------+---------------+-------------------+--------------+------------------+--------------------+---+----------+--------+-----+-------+--------+---------+-----------+-----------+-------------+-----------+-------------+------------+--------------+\n|         encounterId|            personId|           admitDate|facility| serviceCategory|enc_seq|enc_prev|enc_seq_sc|enc_prev_sc|enc_seq_f|enc_prev_f|yearsBetween|yearsBetween_sc|yearsBetween_not_sc|yearsBetween_f|yearsBetween_not_f|yearsBetween_f_or_sc|new|re_engaged|existing|cross|cross_f|cross_sc|lifecycle|lifecycle_p|lifecycle_r|lifecycle_p_r|lifecycle_f|lifecycle_p_f|lifecycle_sc|lifecycle_p_sc|\n+--------------------+--------------------+--------------------+--------+----------------+-------+--------+----------+-----------+---------+----------+------------+---------------+-------------------+--------------+------------------+--------------------+---+----------+--------+-----+-------+--------+---------+-----------+-----------+-------------+-----------+-------------+------------+--------------+\n|DEMO-d6914b31-bcc...|DEMO-0002d4e8-f3f...|2011-04-27 00:00:...|      05|General Medicine|      1|       0|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-55c63b1f-81c...|DEMO-0009fd68-0f1...|2011-01-02 00:00:...|      05|      Obstetrics|      1|       0|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-7b45fc3c-138...|DEMO-0009fd68-0f1...|2011-01-19 00:00:...|      05|      Obstetrics|      2|       1|         2|          1|        2|         1|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-9d654f14-e13...|DEMO-0009fd68-0f1...|2011-01-29 00:00:...|      05|      Obstetrics|      3|       2|         3|          2|        3|         2|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-3fc81341-c57...|DEMO-0009fd68-0f1...|2014-10-16 00:00:...|      02|      Obstetrics|      4|       3|         4|          3|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-b8dcf4b0-610...|DEMO-000e27fc-e1f...|2014-05-11 00:00:...|      02|Digestive Health|      1|       0|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-a7c291b9-dfd...|DEMO-000e27fc-e1f...|2015-01-19 00:00:...|      05|      Cardiology|      2|       1|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-6e69b38e-dbf...|DEMO-000e27fc-e1f...|2015-03-30 00:00:...|      05|             ENT|      3|       2|         1|          0|        2|         1|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-a2ac5cd7-140...|DEMO-000ff24f-5f3...|2016-05-09 00:00:...|      05|      Obstetrics|      1|       0|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-a8123708-7ff...|DEMO-00112c18-5c8...|2010-08-30 00:00:...|      05|      Obstetrics|      1|       0|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-1e0565bd-359...|DEMO-00112c18-5c8...|2012-08-06 00:00:...|      05|      Obstetrics|      2|       1|         2|          1|        2|         1|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-dd9ed8d8-aa3...|DEMO-00112c18-5c8...|2012-11-03 00:00:...|      05|      Obstetrics|      3|       2|         3|          2|        3|         2|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-0ef5156a-236...|DEMO-00112c18-5c8...|2015-01-22 00:00:...|      05|      Obstetrics|      4|       3|         4|          3|        4|         3|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-540d6a25-657...|DEMO-00112c18-5c8...|2015-02-18 00:00:...|      05|      Obstetrics|      5|       4|         5|          4|        5|         4|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-efbaf76b-c6e...|DEMO-00112c18-5c8...|2015-03-10 00:00:...|      05|      Obstetrics|      6|       5|         6|          5|        6|         5|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-5b373831-8b2...|DEMO-00112c18-5c8...|2015-03-21 00:00:...|      05|      Obstetrics|      7|       6|         7|          6|        7|         6|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-f5a61f1a-d7c...|DEMO-001710b0-b6e...|2016-04-13 00:00:...|      02| General Surgery|      1|       0|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-493f28aa-c6d...|DEMO-001710b0-b6e...|2016-06-21 00:00:...|      05|Digestive Health|      2|       1|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-c1ed46a3-585...|DEMO-0018bf35-385...|2010-09-19 00:00:...|      04|         Urology|      1|       0|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n|DEMO-81a6adbd-f7f...|DEMO-0019b4e0-1aa...|2016-10-30 00:00:...|      02|   Endocrinology|      1|       0|         1|          0|        1|         0|        null|           null|               null|          null|              null|                null|  0|         0|       0|    0|      0|       0|     null|       null|       null|         null|       null|         null|        null|          null|\n+--------------------+--------------------+--------------------+--------+----------------+-------+--------+----------+-----------+---------+----------+------------+---------------+-------------------+--------------+------------------+--------------------+---+----------+--------+-----+-------+--------+---------+-----------+-----------+-------------+-----------+-------------+------------+--------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057685_-1894552143",
+      "id": "20170608-142200_434943587",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val encounterSelect \u003d spark.sql(\"\"\"\n  SELECT\n    recordId as encounterId,\n    parent as personId,\n    admit_date as admitDate,\n    facility.code as facility,\n    service_category as serviceCategory,\n    row_number() over (partition by parent order by admit_date asc, recordId asc) as enc_seq ,\n    row_number() over (partition by parent order by admit_date asc, recordId asc) -1 as enc_prev,\n    row_number() over (partition by parent,service_category order by admit_date asc, recordId asc) as enc_seq_sc,\n    row_number() over (partition by parent,service_category order by admit_date asc, recordId asc) -1 as enc_prev_sc,\n    row_number() over (partition by parent,facility.code order by admit_date asc, recordId asc) as enc_seq_f,\n    row_number() over (partition by parent,facility.code order by admit_date asc, recordId asc) -1 as enc_prev_f\n    FROM encountersES\n    order by parent, admit_date\n\"\"\")\nencounterSelect.createOrReplaceTempView(\"encounter\")\nencounterSelect.cache()\nencounterSelect.count\nencounterSelect.show()",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencounterSelect: org.apache.spark.sql.DataFrame \u003d [encounterId: string, personId: string ... 9 more fields]\n\nres27: encounterSelect.type \u003d [encounterId: string, personId: string ... 9 more fields]\n\nres28: Long \u003d 118\n+--------------------+--------------------+--------------------+--------+--------------------+-------+--------+----------+-----------+---------+----------+\n|         encounterId|            personId|           admitDate|facility|     serviceCategory|enc_seq|enc_prev|enc_seq_sc|enc_prev_sc|enc_seq_f|enc_prev_f|\n+--------------------+--------------------+--------------------+--------+--------------------+-------+--------+----------+-----------+---------+----------+\n|DEMO-6cc998e0-b51...|DEMO-91cac212-69c...|2011-05-13 00:00:...|      04|             Urology|      1|       0|         1|          0|        1|         0|\n|DEMO-592f6e58-73a...|DEMO-91cac212-69c...|2011-12-27 00:00:...|      04|             Urology|      2|       1|         2|          1|        2|         1|\n|DEMO-a116bc3d-623...|DEMO-91cac212-69c...|2012-04-20 00:00:...|      05|Oncology \u0026 Hemato...|      3|       2|         1|          0|        1|         0|\n|DEMO-f6051233-0a2...|DEMO-91cac212-69c...|2012-05-03 00:00:...|      05|             Urology|      4|       3|         3|          2|        2|         1|\n|DEMO-a1af180c-bbf...|DEMO-91cac212-69c...|2012-05-11 00:00:...|      05|             Urology|      5|       4|         4|          3|        3|         2|\n|DEMO-06f6c5c6-619...|DEMO-91cac212-69c...|2012-05-20 00:00:...|      04|            Vascular|      6|       5|         1|          0|        3|         2|\n|DEMO-77896e68-714...|DEMO-91cac212-69c...|2012-05-25 00:00:...|      04|             Urology|      7|       6|         5|          4|        4|         3|\n|DEMO-8805dd9a-b05...|DEMO-91cac212-69c...|2012-07-22 00:00:...|      05|          Cardiology|      8|       7|         1|          0|        4|         3|\n|DEMO-5f94ed3d-ef5...|DEMO-91cac212-69c...|2012-07-25 00:00:...|      05|       Neurosciences|      9|       8|         1|          0|        5|         4|\n|DEMO-d9b449df-558...|DEMO-91cac212-69c...|2012-09-14 00:00:...|      05|               Spine|     10|       9|         1|          0|        6|         5|\n|DEMO-bc1525b0-e9d...|DEMO-91cac212-69c...|2012-09-22 00:00:...|      05|      Rehabilitation|     11|      10|         1|          0|        7|         6|\n|DEMO-d05cb4c3-268...|DEMO-91cac212-69c...|2012-10-07 00:00:...|      04|              Trauma|     12|      11|         1|          0|        5|         4|\n|DEMO-e6ba1b5b-b30...|DEMO-91cac212-69c...|2012-12-16 00:00:...|      04|              Trauma|     13|      12|         2|          1|        6|         5|\n|DEMO-bae1d41c-c49...|DEMO-91cac212-69c...|2013-01-20 00:00:...|      05|              Trauma|     14|      13|         3|          2|        8|         7|\n|DEMO-a1279f37-ea1...|DEMO-91cac212-69c...|2013-01-22 00:00:...|      04|              Trauma|     15|      14|         4|          3|        7|         6|\n|DEMO-3473e30b-30e...|DEMO-91cac212-69c...|2013-02-03 00:00:...|      05|       Neurosciences|     16|      15|         2|          1|        9|         8|\n|DEMO-1aa2a422-f85...|DEMO-91cac212-69c...|2013-03-09 00:00:...|      04|             Urology|     17|      16|         6|          5|        8|         7|\n|DEMO-60e58a79-6ee...|DEMO-91cac212-69c...|2013-04-06 00:00:...|      04|              Trauma|     18|      17|         5|          4|        9|         8|\n|DEMO-c85d3c49-438...|DEMO-91cac212-69c...|2013-05-06 00:00:...|      05|          Cardiology|     19|      18|         2|          1|       10|         9|\n|DEMO-be33fda8-36b...|DEMO-91cac212-69c...|2013-05-12 00:00:...|      05|            Vascular|     20|      19|         2|          1|       11|        10|\n+--------------------+--------------------+--------------------+--------+--------------------+-------+--------+----------+-----------+---------+----------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057685_-1894552143",
+      "id": "20170608-151734_252200991",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// println(encounterSelect.schema.treeString)\nval encounterYearsBetween \u003d spark.sql(\"\"\"\nselect cur.encounterId,\ncur.personId,\ncur.enc_seq,\ncur.enc_prev,\ncase when prv.personid is null then 99 else datediff(cur.admitDate,prv.admitDate)/365.25 end as yearsBetween,\ncase when prv_f.personid is null then 99 else datediff(cur.admitDate,prv_f.admitDate)/365.25 end as yearsBetween_f,\ncase when prv_sc.personid is null then 99 else datediff(cur.admitDate,prv_sc.admitDate)/365.25 end as yearsBetween_sc,\nprv_not_sc.yearsbetween as yearsBetween_not_sc,\nprv_not_f.yearsbetween as yearsBetween_not_f,\n(case when \n(case when prv_sc.personid is null then 98 else datediff(cur.admitDate,prv_sc.admitDate)/365.25 end) \u003c\n(case when prv_f.personid is null then 99 else datediff(cur.admitDate,prv_f.admitDate)/365.25 end)\nthen (case when prv_sc.personid is null then 99 else datediff(cur.admitDate,prv_sc.admitDate)/365.25 end)\nelse (case when prv_f.personid is null then 99 else datediff(cur.admitDate,prv_f.admitDate)/365.25 end) end) as yearsBetween_f_or_sc\nfrom encounter cur \nleft join encounter prv on cur.personid \u003d prv.personid and cur.enc_prev \u003d prv.enc_seq\nleft join encounter prv_f on cur.personid \u003d prv_f.personid and cur.enc_prev_f \u003d prv_f.enc_seq_f and cur.facility \u003d prv_f.facility\nleft join encounter prv_sc on cur.personid \u003d prv_sc.personid and cur.enc_prev_sc \u003d prv_sc.enc_seq_sc and cur.serviceCategory \u003d prv_sc.serviceCategory\nleft join (\nselect encounterid,case when personid is null then 98 else yearsbetween end as yearsbetween from (\nselect cur.encounterid,prv.personid,\ndatediff(cur.admitdate,prv.admitdate)/365.25 as yearsbetween,\nrow_number() over (partition by cur.personid,cur.serviceCategory,cur.enc_seq order by prv.enc_seq desc) as not_sc_seq\nfrom encounter cur left join encounter prv \non prv.personid \u003d cur.personid\nand cur.serviceCategory \u003c\u003e prv.serviceCategory\nand cur.enc_seq \u003e prv.enc_seq\n) where not_sc_seq \u003d 1\n) prv_not_sc on cur.encounterid \u003d prv_not_sc.encounterid\nleft join (\nselect encounterid,case when personid is null then 99 else yearsbetween end as yearsbetween from (\nselect cur.encounterid,prv.personid,\ndatediff(cur.admitdate,prv.admitdate)/365.25 as yearsbetween,\nrow_number() over (partition by cur.personid,cur.facility,cur.enc_seq order by prv.enc_seq desc) as not_f_seq\nfrom encounter cur left join encounter prv \non prv.personid \u003d cur.personid\nand cur.facility \u003c\u003e prv.facility\nand cur.enc_seq \u003e prv.enc_seq\n) where not_f_seq \u003d 1\n) prv_not_f on cur.encounterid \u003d prv_not_f.encounterid\n\"\"\")\nencounterYearsBetween.cache\nencounterYearsBetween.createOrReplaceTempView(\"encounterYearsBetween\")\nencounterYearsBetween.show()\n",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencounterYearsBetween: org.apache.spark.sql.DataFrame \u003d [encounterId: string, personId: string ... 8 more fields]\n\nres31: encounterYearsBetween.type \u003d [encounterId: string, personId: string ... 8 more fields]\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+\n|         encounterId|            personId|enc_seq|enc_prev|yearsBetween|yearsBetween_f|yearsBetween_sc|yearsBetween_not_sc|yearsBetween_not_f|yearsBetween_f_or_sc|\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+\n|DEMO-ae318d06-cf8...|DEMO-91cac212-69c...|     34|      33|    0.002738|      0.002738|       0.002738|           0.002738|          0.290212|            0.002738|\n|DEMO-cb28bea9-633...|DEMO-91cac212-69c...|     37|      36|    0.035592|      0.035592|       0.035592|           0.052019|          0.052019|            0.035592|\n|DEMO-a778a85c-24d...|DEMO-91cac212-69c...|     93|      92|    0.046543|      0.046543|       0.046543|           0.060233|          0.213552|            0.046543|\n|DEMO-e6ba1b5b-b30...|DEMO-91cac212-69c...|     13|      12|    0.191650|      0.191650|       0.191650|           0.232717|          0.232717|            0.191650|\n|DEMO-338445e5-265...|DEMO-91cac212-69c...|     87|      86|    0.046543|      0.062971|       0.062971|           0.046543|          0.046543|            0.062971|\n|DEMO-4ba8e44d-1d2...|DEMO-91cac212-69c...|     85|      84|    0.016427|      0.016427|       0.016427|           0.347707|          0.347707|            0.016427|\n|DEMO-232394e8-f37...|DEMO-91cac212-69c...|    113|     112|    0.172485|      0.172485|       0.221766|           0.172485|          1.464750|            0.172485|\n|DEMO-592f6e58-73a...|DEMO-91cac212-69c...|      2|       1|    0.624230|      0.624230|       0.624230|          98.000000|         99.000000|            0.624230|\n|DEMO-59dfd291-2fa...|DEMO-91cac212-69c...|    107|     106|    0.010951|      0.010951|       0.249144|           0.010951|          0.681725|            0.010951|\n|DEMO-8805dd9a-b05...|DEMO-91cac212-69c...|      8|       7|    0.158795|      0.197125|      99.000000|           0.158795|          0.158795|            0.197125|\n|DEMO-7b2a8226-004...|DEMO-91cac212-69c...|     57|      56|    0.010951|      0.010951|       0.030116|           0.010951|          0.084873|            0.010951|\n|DEMO-a526a406-392...|DEMO-91cac212-69c...|     43|      42|    0.016427|      0.016427|       0.016427|           0.076660|          0.082136|            0.016427|\n|DEMO-edd39d8e-f68...|DEMO-91cac212-69c...|     78|      77|    0.112252|      0.112252|       0.112252|           0.123203|          0.123203|            0.112252|\n|DEMO-4060ce62-162...|DEMO-91cac212-69c...|     89|      88|    0.008214|      0.008214|       0.008214|           0.062971|          0.062971|            0.008214|\n|DEMO-1b242df2-8fb...|DEMO-91cac212-69c...|     82|      81|    0.035592|      0.035592|       0.035592|           0.295688|          0.295688|            0.035592|\n|DEMO-218fe8b9-7fe...|DEMO-91cac212-69c...|     32|      31|    0.002738|      0.002738|       0.112252|           0.002738|          0.287474|            0.002738|\n|DEMO-a1279f37-ea1...|DEMO-91cac212-69c...|     15|      14|    0.005476|      0.101300|       0.005476|           0.334018|          0.005476|            0.005476|\n|DEMO-28a936c0-706...|DEMO-91cac212-69c...|     72|      71|    0.005476|      0.005476|       0.019165|           0.005476|          0.076660|            0.005476|\n|DEMO-791f11f9-7f7...|DEMO-91cac212-69c...|     50|      49|    0.005476|      0.005476|       0.038330|           0.005476|          0.112252|            0.005476|\n|DEMO-745faa67-da0...|DEMO-91cac212-69c...|     98|      97|    0.087611|      0.334018|       0.334018|           0.087611|          0.087611|            0.334018|\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057685_-1894552143",
+      "id": "20170608-142909_539497739",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// encounter lifecycle flags\nval encounterLifecycleFlags \u003d spark.sql(\"\"\"\nselect encounterid,\npersonId,\nenc_seq,\nenc_prev,\nyearsBetween,\nyearsBetween_f,\nyearsBetween_sc,\nyearsBetween_not_sc,\nyearsBetween_not_f,\nyearsBetween_f_or_sc,\n-- new patient if they did not have any medical encounter in the previous 3 years\ncase when yearsbetween \u003e 3 then 1 else 0 end as new,\n-- re-engaged patient if they did have an encounter in the previous 3 years and did not have an encounter in the last year\ncase when yearsbetween \u003e 1 and yearsbetween \u003c\u003d 3 then 1 else 0 end as re_engaged,\n-- service cross-sell if they did NOT have an encounter in that service category in the past 3 years and DID have an encounter in a DIFFERENT service category in the past 3 years\ncase when \n-- did NOT have an encounter in that service category in the past 3 years\nyearsbetween_sc \u003e 3\n-- DID have an encounter in a DIFFERENT service category in the past 3 years\nand yearsbetween_not_sc \u003c\u003d 3\nthen 1 else 0 end as xs_sc,\n-- facility cross-sell if they did NOT have an encounter at that facility in the past 3 years and DID have an encounter in a DIFFERENT facility in the past 3 years\ncase when \n-- did NOT have an encounter at that facility in the past 3 years\nyearsbetween_f \u003e 3\n-- DID have an encounter at a DIFFERENT facility in the past 3 years\nand yearsbetween_not_f \u003c\u003d 3\nthen 1 else 0 end as xs_f,\ncase when \n-- service cross-sell\n(yearsbetween_sc \u003e 3 and yearsbetween_not_sc \u003c\u003d 3)\nor \n-- facility cross-sell\n(yearsbetween_f \u003e 3 and yearsbetween_not_f \u003c\u003d 3) \nthen 1 else 0 end as xs,\n-- existing patient if they did have an encounter in the previous 3 years within the same facility or service category\ncase when yearsbetween_f_or_sc \u003c\u003d 3 then 1 else 0 end as existing\nfrom encounterYearsBetween\n\"\"\")\nencounterLifecycleFlags.cache\nencounterLifecycleFlags.createOrReplaceTempView(\"encounterLifecycleFlags\")\nencounterLifecycleFlags.show()",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencounterLifecycleFlags: org.apache.spark.sql.DataFrame \u003d [encounterid: string, personId: string ... 14 more fields]\n\nres35: encounterLifecycleFlags.type \u003d [encounterid: string, personId: string ... 14 more fields]\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+---+----------+-----+----+---+--------+\n|         encounterid|            personId|enc_seq|enc_prev|yearsBetween|yearsBetween_f|yearsBetween_sc|yearsBetween_not_sc|yearsBetween_not_f|yearsBetween_f_or_sc|new|re_engaged|xs_sc|xs_f| xs|existing|\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+---+----------+-----+----+---+--------+\n|DEMO-ae318d06-cf8...|DEMO-91cac212-69c...|     34|      33|    0.002738|      0.002738|       0.002738|           0.002738|          0.290212|            0.002738|  0|         0|    0|   0|  0|       1|\n|DEMO-cb28bea9-633...|DEMO-91cac212-69c...|     37|      36|    0.035592|      0.035592|       0.035592|           0.052019|          0.052019|            0.035592|  0|         0|    0|   0|  0|       1|\n|DEMO-a778a85c-24d...|DEMO-91cac212-69c...|     93|      92|    0.046543|      0.046543|       0.046543|           0.060233|          0.213552|            0.046543|  0|         0|    0|   0|  0|       1|\n|DEMO-e6ba1b5b-b30...|DEMO-91cac212-69c...|     13|      12|    0.191650|      0.191650|       0.191650|           0.232717|          0.232717|            0.191650|  0|         0|    0|   0|  0|       1|\n|DEMO-338445e5-265...|DEMO-91cac212-69c...|     87|      86|    0.046543|      0.062971|       0.062971|           0.046543|          0.046543|            0.062971|  0|         0|    0|   0|  0|       1|\n|DEMO-4ba8e44d-1d2...|DEMO-91cac212-69c...|     85|      84|    0.016427|      0.016427|       0.016427|           0.347707|          0.347707|            0.016427|  0|         0|    0|   0|  0|       1|\n|DEMO-232394e8-f37...|DEMO-91cac212-69c...|    113|     112|    0.172485|      0.172485|       0.221766|           0.172485|          1.464750|            0.172485|  0|         0|    0|   0|  0|       1|\n|DEMO-592f6e58-73a...|DEMO-91cac212-69c...|      2|       1|    0.624230|      0.624230|       0.624230|          98.000000|         99.000000|            0.624230|  0|         0|    0|   0|  0|       1|\n|DEMO-59dfd291-2fa...|DEMO-91cac212-69c...|    107|     106|    0.010951|      0.010951|       0.249144|           0.010951|          0.681725|            0.010951|  0|         0|    0|   0|  0|       1|\n|DEMO-8805dd9a-b05...|DEMO-91cac212-69c...|      8|       7|    0.158795|      0.197125|      99.000000|           0.158795|          0.158795|            0.197125|  0|         0|    1|   0|  1|       1|\n|DEMO-7b2a8226-004...|DEMO-91cac212-69c...|     57|      56|    0.010951|      0.010951|       0.030116|           0.010951|          0.084873|            0.010951|  0|         0|    0|   0|  0|       1|\n|DEMO-a526a406-392...|DEMO-91cac212-69c...|     43|      42|    0.016427|      0.016427|       0.016427|           0.076660|          0.082136|            0.016427|  0|         0|    0|   0|  0|       1|\n|DEMO-edd39d8e-f68...|DEMO-91cac212-69c...|     78|      77|    0.112252|      0.112252|       0.112252|           0.123203|          0.123203|            0.112252|  0|         0|    0|   0|  0|       1|\n|DEMO-4060ce62-162...|DEMO-91cac212-69c...|     89|      88|    0.008214|      0.008214|       0.008214|           0.062971|          0.062971|            0.008214|  0|         0|    0|   0|  0|       1|\n|DEMO-1b242df2-8fb...|DEMO-91cac212-69c...|     82|      81|    0.035592|      0.035592|       0.035592|           0.295688|          0.295688|            0.035592|  0|         0|    0|   0|  0|       1|\n|DEMO-218fe8b9-7fe...|DEMO-91cac212-69c...|     32|      31|    0.002738|      0.002738|       0.112252|           0.002738|          0.287474|            0.002738|  0|         0|    0|   0|  0|       1|\n|DEMO-a1279f37-ea1...|DEMO-91cac212-69c...|     15|      14|    0.005476|      0.101300|       0.005476|           0.334018|          0.005476|            0.005476|  0|         0|    0|   0|  0|       1|\n|DEMO-28a936c0-706...|DEMO-91cac212-69c...|     72|      71|    0.005476|      0.005476|       0.019165|           0.005476|          0.076660|            0.005476|  0|         0|    0|   0|  0|       1|\n|DEMO-791f11f9-7f7...|DEMO-91cac212-69c...|     50|      49|    0.005476|      0.005476|       0.038330|           0.005476|          0.112252|            0.005476|  0|         0|    0|   0|  0|       1|\n|DEMO-745faa67-da0...|DEMO-91cac212-69c...|     98|      97|    0.087611|      0.334018|       0.334018|           0.087611|          0.087611|            0.334018|  0|         0|    0|   0|  0|       1|\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+---+----------+-----+----+---+--------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057686_-1893397896",
+      "id": "20170608-200003_90685421",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// get patient lifecycle value based on hierarchy:\n// new - cross-service - cross-facility - re-engaged - existing\nval encouterLifecycleState \u003d spark.sql(\"\"\"\nselect \nencounterid,\ncur.personId,\ncur.enc_seq,\nenc_prev,\nyearsBetween,\nyearsBetween_f,\nyearsBetween_sc,\nyearsBetween_not_sc,\nyearsBetween_not_f,\nyearsBetween_f_or_sc,\ncast(new as Boolean) as new,\ncast(re_engaged as Boolean) as re_engaged,\ncast(xs_sc as Boolean) as xs_sc,\ncast(xs_f as Boolean) as xs_f,\ncast(xs as Boolean) as xs,\ncast(existing as Boolean) as existing,\n\u0027Patient\u0027 as lifecycleTypeHighLevel,\ncase when new \u003d 1 then \u0027New Patient\u0027\nwhen xs_sc \u003d 1 then \u0027Service Cross-Sell\u0027\nwhen xs_f \u003d 1 then \u0027Facility Cross-Sell\u0027\nwhen re_engaged \u003d 1 then \u0027Re-Engaged Patient\u0027\nwhen existing \u003d 1 then \u0027Existing Patient\u0027\nelse \u0027ZZUNKNOWN\u0027 end as lifecycleType,\ncase when prv.previousLifecycleType is not null then \u0027Patient\u0027 else \u0027Prospect\u0027 end as previousLifecycleTypeHighLevel,\ncoalesce(prv.previousLifecycleType,\u0027Prospect\u0027) as previousLifecycleType\nfrom encounterLifecycleFlags cur \nleft join (\nselect personid,enc_seq as prv_enc_seq,\ncase when new \u003d 1 then \u0027New Patient\u0027\nwhen xs_sc \u003d 1 then \u0027Service Cross-Sell\u0027\nwhen xs_f \u003d 1 then \u0027Facility Cross-Sell\u0027\nwhen re_engaged \u003d 1 then \u0027Re-Engaged Patient\u0027\nwhen existing \u003d 1 then \u0027Existing Patient\u0027\nelse \u0027ZZUNKNOWN\u0027 end as previousLifecycleType\nfrom encounterLifecycleFlags\n) prv on prv.personId \u003d cur.personId and prv.prv_enc_seq \u003d cur.enc_prev\n\"\"\")\nencouterLifecycleState.cache\nencouterLifecycleState.createOrReplaceTempView(\"encouterLifecycleState\")\nencouterLifecycleState.show()\n",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencouterLifecycleState: org.apache.spark.sql.DataFrame \u003d [encounterid: string, personId: string ... 18 more fields]\n\nres39: encouterLifecycleState.type \u003d [encounterid: string, personId: string ... 18 more fields]\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+-----+----------+-----+-----+-----+--------+----------------------+------------------+------------------------------+---------------------+\n|         encounterid|            personId|enc_seq|enc_prev|yearsBetween|yearsBetween_f|yearsBetween_sc|yearsBetween_not_sc|yearsBetween_not_f|yearsBetween_f_or_sc|  new|re_engaged|xs_sc| xs_f|   xs|existing|lifecycleTypeHighLevel|     lifecycleType|previousLifecycleTypeHighLevel|previousLifecycleType|\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+-----+----------+-----+-----+-----+--------+----------------------+------------------+------------------------------+---------------------+\n|DEMO-ae318d06-cf8...|DEMO-91cac212-69c...|     34|      33|    0.002738|      0.002738|       0.002738|           0.002738|          0.290212|            0.002738|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-cb28bea9-633...|DEMO-91cac212-69c...|     37|      36|    0.035592|      0.035592|       0.035592|           0.052019|          0.052019|            0.035592|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-a778a85c-24d...|DEMO-91cac212-69c...|     93|      92|    0.046543|      0.046543|       0.046543|           0.060233|          0.213552|            0.046543|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-e6ba1b5b-b30...|DEMO-91cac212-69c...|     13|      12|    0.191650|      0.191650|       0.191650|           0.232717|          0.232717|            0.191650|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|   Service Cross-Sell|\n|DEMO-338445e5-265...|DEMO-91cac212-69c...|     87|      86|    0.046543|      0.062971|       0.062971|           0.046543|          0.046543|            0.062971|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-4ba8e44d-1d2...|DEMO-91cac212-69c...|     85|      84|    0.016427|      0.016427|       0.016427|           0.347707|          0.347707|            0.016427|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-232394e8-f37...|DEMO-91cac212-69c...|    113|     112|    0.172485|      0.172485|       0.221766|           0.172485|          1.464750|            0.172485|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-592f6e58-73a...|DEMO-91cac212-69c...|      2|       1|    0.624230|      0.624230|       0.624230|          98.000000|         99.000000|            0.624230|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|          New Patient|\n|DEMO-59dfd291-2fa...|DEMO-91cac212-69c...|    107|     106|    0.010951|      0.010951|       0.249144|           0.010951|          0.681725|            0.010951|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|   Service Cross-Sell|\n|DEMO-8805dd9a-b05...|DEMO-91cac212-69c...|      8|       7|    0.158795|      0.197125|      99.000000|           0.158795|          0.158795|            0.197125|false|     false| true|false| true|    true|               Patient|Service Cross-Sell|                       Patient|     Existing Patient|\n|DEMO-7b2a8226-004...|DEMO-91cac212-69c...|     57|      56|    0.010951|      0.010951|       0.030116|           0.010951|          0.084873|            0.010951|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-a526a406-392...|DEMO-91cac212-69c...|     43|      42|    0.016427|      0.016427|       0.016427|           0.076660|          0.082136|            0.016427|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-edd39d8e-f68...|DEMO-91cac212-69c...|     78|      77|    0.112252|      0.112252|       0.112252|           0.123203|          0.123203|            0.112252|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-4060ce62-162...|DEMO-91cac212-69c...|     89|      88|    0.008214|      0.008214|       0.008214|           0.062971|          0.062971|            0.008214|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-1b242df2-8fb...|DEMO-91cac212-69c...|     82|      81|    0.035592|      0.035592|       0.035592|           0.295688|          0.295688|            0.035592|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-218fe8b9-7fe...|DEMO-91cac212-69c...|     32|      31|    0.002738|      0.002738|       0.112252|           0.002738|          0.287474|            0.002738|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-a1279f37-ea1...|DEMO-91cac212-69c...|     15|      14|    0.005476|      0.101300|       0.005476|           0.334018|          0.005476|            0.005476|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-28a936c0-706...|DEMO-91cac212-69c...|     72|      71|    0.005476|      0.005476|       0.019165|           0.005476|          0.076660|            0.005476|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-791f11f9-7f7...|DEMO-91cac212-69c...|     50|      49|    0.005476|      0.005476|       0.038330|           0.005476|          0.112252|            0.005476|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n|DEMO-745faa67-da0...|DEMO-91cac212-69c...|     98|      97|    0.087611|      0.334018|       0.334018|           0.087611|          0.087611|            0.334018|false|     false|false|false|false|    true|               Patient|  Existing Patient|                       Patient|     Existing Patient|\n+--------------------+--------------------+-------+--------+------------+--------------+---------------+-------------------+------------------+--------------------+-----+----------+-----+-----+-----+--------+----------------------+------------------+------------------------------+---------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057686_-1893397896",
+      "id": "20170505-005855_1608577395",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "case class state_flags (\n    cross_sell: Boolean,\n    cross_sell_facility: Boolean,\n    cross_sellservice_category: Boolean,\n    existing: Boolean,\n    `new`: Boolean,\n    re_engaged: Boolean\n    )\ncase class previous_state (\n    high_level: String,\n    specific: String\n    )\ncase class current_state (\n    high_level: String,\n    specific: String\n    )\ncase class patient_lifecycle (\n    current_state: current_state,\n    previous_state: previous_state,\n    state_flags: state_flags\n    )\n// val testcase \u003d patient_lifecycle(current_state(\"Patient\", \"New Patient\"),previous_state(\"Prospect\",\"Prospect\"),state_flags(false,false,false,false,true,false))\nval updates \u003d encouterLifecycleState\n  .rdd\n  .map(e \u003d\u003e (\n      Map(\n          ID -\u003e e.getAs[String](\"encounterid\"),\n          PARENT -\u003e e.getAs[String](\"personId\"),\n          ROUTING -\u003e e.getAs[String](\"personId\")\n      ),\n      Map(patient_lifecycle -\u003e patient_lifecycle(\n        current_state(e.getAs[String](\"lifecycleTypeHighLevel\"),e.getAs[String](\"lifecycleType\")),\n        previous_state(e.getAs[String](\"previousLifecycleTypeHighLevel\"),e.getAs[String](\"previousLifecycleType\")),\n        state_flags(e.getAs[Boolean](\"xs\"),e.getAs[Boolean](\"xs_f\"),e.getAs[Boolean](\"xs_sc\"),e.getAs[Boolean](\"existing\"),e.getAs[Boolean](\"new\"),e.getAs[Boolean](\"re_engaged\"))\n      )\n      )\n    )\n  )\n",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ndefined class state_flags\n\ndefined class previous_state\n\ndefined class current_state\n\ndefined class patient_lifecycle\n\nupdates: org.apache.spark.rdd.RDD[(scala.collection.immutable.Map[org.elasticsearch.spark.rdd.Metadata,String], scala.collection.immutable.Map[patient_lifecycle.type,patient_lifecycle])] \u003d MapPartitionsRDD[193] at map at \u003cconsole\u003e:63\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057686_-1893397896",
+      "id": "20170608-191817_1472378738",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "updates.take(10).map { println }\n",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "(Map(ID -\u003e DEMO-ae318d06-cf89-4973-b834-9b7405d0c741, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,Existing Patient),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-cb28bea9-6332-488e-a37e-eedef10074c3, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,Existing Patient),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-a778a85c-24df-4088-9429-b98bcaae1a4e, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,Existing Patient),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-e6ba1b5b-b309-46f5-9e1b-151e8ec9ea7a, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,Service Cross-Sell),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-338445e5-265e-4c15-ba59-fa3cbc2fd6ff, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,Existing Patient),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-4ba8e44d-1d2b-4f15-b950-abc6df2160bf, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,Existing Patient),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-232394e8-f378-4370-8bb0-d1c8a6c60a1e, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,Existing Patient),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-592f6e58-73a2-4fe3-8d75-9cd38d3c1829, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,New Patient),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-59dfd291-2fa8-4edf-9132-afc194aea838, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Existing Patient),previous_state(Patient,Service Cross-Sell),state_flags(false,false,false,true,false,false))))\n(Map(ID -\u003e DEMO-8805dd9a-b050-4206-aa28-3721b864e9fb, PARENT -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273, ROUTING -\u003e DEMO-91cac212-69c8-4370-abfa-201d99ebd273),Map(patient_lifecycle -\u003e patient_lifecycle(current_state(Patient,Service Cross-Sell),previous_state(Patient,Existing Patient),state_flags(true,false,true,true,false,false))))\n\nres42: Array[Unit] \u003d Array((), (), (), (), (), (), (), (), (), ())\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057687_-1893782645",
+      "id": "20170505-014136_899645667",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "updates.saveToEsWithMeta(s\"${esIndexName}/encounter\", Map(\"es.batch.size.bytes\" -\u003e \"10mb\"))",
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057687_-1893782645",
+      "id": "20170609-125421_1542387716",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Jun 9, 2017 4:42:05 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1497018057687_-1893782645",
+      "id": "20170609-134859_1144877786",
+      "dateCreated": "Jun 9, 2017 2:20:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "/patient_lifecycle/DRAFT/1.0 - Patient-Side Patient Lifecycle Processing - Prospects",
+  "id": "2CMNQUJGR",
+  "angularObjects": {
+    "2CK39QPEV:shared_process": [],
+    "2CHGDFEAS:shared_process": [],
+    "2CJPWUK64:shared_process": [],
+    "2CJPRUUCQ:shared_process": [],
+    "2CMA6NN69:shared_process": [],
+    "2CJM2HZ3E:shared_process": [],
+    "2CHUKUNGV:shared_process": [],
+    "2CMSNT58Q:shared_process": [],
+    "2CMY621JM:shared_process": []
+  },
+  "config": {
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {}
+}

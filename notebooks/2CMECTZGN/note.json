@@ -1,0 +1,533 @@
+{
+  "paragraphs": [
+    {
+      "text": "// dependencies required for elasticsearch direct access via REST client interface\nimport org.apache.http.client.methods.HttpPost\nimport org.apache.http.entity.StringEntity\nimport org.apache.http.impl.client.DefaultHttpClient\nimport org.apache.http.impl.client.BasicResponseHandler\nimport java.util.Date\nimport java.util.Calendar\nimport org.apache.commons.lang3.time.DateUtils\nimport java.text.SimpleDateFormat\nimport scala.collection.mutable.WrappedArray\n\n\n// dependencies\nimport org.apache.spark.sql.SQLContext\nimport org.apache.spark.sql.SQLContext._\nimport org.apache.spark.sql.functions._\n\nimport org.elasticsearch.spark.sql._\nimport org.elasticsearch.spark._\nimport org.elasticsearch.spark.rdd.Metadata._ \n\nimport org.apache.spark.SparkContext\nimport org.apache.spark.SparkContext._\n\nimport spark.implicits._\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 3:22:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.http.client.methods.HttpPost\n\nimport org.apache.http.entity.StringEntity\n\nimport org.apache.http.impl.client.DefaultHttpClient\n\nimport org.apache.http.impl.client.BasicResponseHandler\n\nimport java.util.Date\n\nimport java.util.Calendar\n\nimport org.apache.commons.lang3.time.DateUtils\n\nimport java.text.SimpleDateFormat\n\nimport scala.collection.mutable.WrappedArray\n\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.apache.spark.sql.functions._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd.Metadata._\n\nimport org.apache.spark.SparkContext\n\nimport org.apache.spark.SparkContext._\n\nimport spark.implicits._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131305_1467593206",
+      "id": "20170620-145835_1359905521",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:03 PM",
+      "dateFinished": "Jun 21, 2017 3:22:16 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val clientCode \u003d \"DEMO\"\nval esIndexName \u003d \"exp_rjj_1_3\"\nval esPort \u003d 9200\nval esHost \u003d \"elasticsearch.exp-dev.io\"\nval resultLimit \u003d 10000",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 3:22:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nclientCode: String \u003d DEMO\n\nesIndexName: String \u003d exp_rjj_1_3\n\nesPort: Int \u003d 9200\n\nesHost: String \u003d elasticsearch.exp-dev.io\n\nresultLimit: Int \u003d 10000\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131318_1476442431",
+      "id": "20170620-145933_538760620",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:06 PM",
+      "dateFinished": "Jun 21, 2017 3:22:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def getHouseholdsWithoutRetention(clientCode:String,esIndexName:String,esHost:String,esPort:Int,resultLimit:Int \u003d 10000) :(String,Int) \u003d {\n    val householdsWithoutRetention \u003d s\"\"\"\n    {\n      \"size\": 0,\n      \"_source\": [\"household.household_number\"],\n      \"query\": {\n        \"constant_score\": {\n          \"filter\": {\n            \"bool\": {\n              \"must\": [\n                {\"term\":{\"client_code\" : \"${clientCode}\" }},\n                {\n                  \"has_child\": {\n                    \"child_type\": \"encounter\",\n                    \"query\": {\n                      \"bool\": {\n                        \"must\": [\n                          { \"term\": {\"client_code\": \"${clientCode}\" }},\n                          { \"range\": {\"admit_date\": {\"gte\": \"now-4y\", \"lte\": \"now\"}}}\n                        ]\n                      }\n                    }\n                  }\n                },\n                {\"exists\": { \"field\": \"household.household_number\"} }\n              ],\n              \"must_not\": [\n                {\n                  \"nested\": {\n                    \"path\": \"household.household_retention_history\",\n                    \"query\": {\n                      \"exists\": { \"field\": \"household.household_retention_history.retained\"}\n                    }\n                  }\n                }\n              ]\n            }\n          }\n        }\n      },\n      \"aggs\": {\n        \"all_households\": {\n          \"terms\": {\n            \"field\": \"household.household_number\",\n            \"size\": ${resultLimit},\n            \"order\": {\"_term\":\"asc\"}\n          }\n        }\n      }\n    }\n    \"\"\"\n\n    // generate the elasticsearch request string\n    \n    val endPoint \u003d \"/\"+ esIndexName + \"/person/_search\"\n    val request_url \u003d \"http://\" + esHost + \":\" + esPort + endPoint\n    \n    // build the apache HTTP post request\n    val post \u003d new HttpPost(request_url)\n    // set header for json request string\n    val setHeaderReturn \u003d post.setHeader(\"Content-type\",\"application/json\")\n    // ad the json request string to the http post\n    val setEntityReturn \u003d post.setEntity(new StringEntity(householdsWithoutRetention))\n    // send the request to elasticsearch\n    val response \u003d (new DefaultHttpClient).execute(post)\n    // get the status -- this code doesn\u0027t check for HTTP/1.1 200 OK response but the final code should!\n    val status \u003d response.getStatusLine\n    // get the json response body\n    val responseBody \u003d (new BasicResponseHandler).handleResponse(response).trim.toString\n    \n    // use a spark RDD to parse json response body\n    // val vals \u003d sc.parallelize(responseBody ::  Nil)\n    // query RDD to extract relevant json key (aggregations.min_admit.value)\n\n    // check the results to ensure there were any households returned\n    val dfCount \u003d sqlContext.read.json(sc.parallelize(responseBody::Nil)).select($\"hits.total\")\n    \n    val householdTotalHits \u003d dfCount.first().getLong(0).asInstanceOf[Int]\n    \n    if (householdTotalHits \u003d\u003d 0) {\n        return (null,householdTotalHits)\n    }\n    \n    val df \u003d sqlContext.read.json(sc.parallelize(responseBody::Nil)).select($\"aggregations.all_households.buckets.key\")\n    \n    val idList \u003d df.first().getAs[WrappedArray[String]](0)\n    \n    val idlist_length \u003d idList.length\n    println(s\"idlist length ${idlist_length}\")\n    \n    if (idlist_length \u003d\u003d 0) {\n        return (null,idlist_length)\n    }\n    \n    val idString \u003d idList.mkString(\"\\\"\",\"\\\",\\n\\\"\",\"\\\"\")\n    \n    println (s\"returned ${resultLimit} results\")\n\n    return (idString, idlist_length)\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 4:21:10 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\ngetHouseholdsWithoutRetention: (clientCode: String, esIndexName: String, esHost: String, esPort: Int, resultLimit: Int)(String, Int)\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131320_1474133937",
+      "id": "20170620-150631_1218324604",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 4:21:10 PM",
+      "dateFinished": "Jun 21, 2017 4:21:10 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def getEncounterSourceData(clientCode:String,esIndexName:String,esHost:String,esPort:Int,householdList:String) :org.apache.spark.sql.DataFrame \u003d {\n\n    val encounterSourceQuery \u003d s\"\"\"\n{\n  \"_source\": [\"encounter_key\",\"parent\",\"admit_date\"],\n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"bool\": {\n          \"must\": [\n            {\"term\":{\"client_code\" : \"${clientCode}\" }},\n            { \"range\": {\"admit_date\": {\"gte\": \"now-5y\", \"lte\": \"now\"}}},\n            {\n              \"has_parent\": {\n                \"parent_type\": \"person\",\n                \"query\": {\n                  \"bool\": {\n                    \"must\": [\n                      { \"term\": {\"client_code\": \"${clientCode}\" }},\n                      {\"terms\": {\"household.household_number\": [\n${householdList}\n                        ]\n                      }}\n                    ]\n                  }\n                }\n              } \n            }\n          ]\n        }\n      }\n    }\n  }\n}\n    \"\"\"\n\n    \n    // limit the fields that are included\n    val encounterSourceQueryOptions \u003d Map(\n    //  \"es.read.field.include\" -\u003e \"encounter_key,parent,admit_date\"\n      \"es.read.field.exclude\" -\u003e \"personKey,person_key,recordId,admit_age,service_category,facility,patient_lifecycle,admit_source,admit_type,client_code,client_name,discharge_date,encounter_type,financial_class,msdrg,service_sub_category,diagnosis,cpt,procedure,campaigns,total_charges,total_amount_received,expected_reimbursement,direct_costs,actual_contribution_margin,expected_contribution_margin,recency_frequency\"\n      )\n    \n    val encountersES \u003d sqlContext.esDF(s\"${esIndexName}/encounter\", encounterSourceQuery, encounterSourceQueryOptions)\n    encountersES.cache\n    encountersES.createOrReplaceTempView(\"encountersES\")\n    return encountersES\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 3:22:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ngetEncounterSourceData: (clientCode: String, esIndexName: String, esHost: String, esPort: Int, householdList: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131321_1473749188",
+      "id": "20170620-152512_204215003",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:18 PM",
+      "dateFinished": "Jun 21, 2017 3:22:19 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def getPersonSourceData(clientCode:String,esIndexName:String,esHost:String,esPort:Int,householdList:String) :org.apache.spark.sql.DataFrame \u003d {\n\n    val personSourceQuery \u003d s\"\"\"\n{\n  \"_source\": [\"_recordId\",\"household.household_number\"],\n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"bool\": {\n          \"must\": [\n            {\"term\":{\"client_code\" : \"${clientCode}\" }},\n            {\"terms\": {\"household.household_number\": [\n${householdList}\n              ]\n            }}\n          ]\n        }\n      }\n    }\n  }\n}\n    \"\"\"\n    // limit the fields that are included\n    val personSourceQueryOptions \u003d Map(\n    //  \"es.read.field.include\" -\u003e \"_recordId,household.household_number\"\n      \"es.read.field.exclude\" -\u003e \"person_key,address,birth_date,children_present,client_code,client_name,communication,email,ethnicity,first_name,gender,language,last_name,marital_status,middle_initial,middle_name,mobile_phone,payor_category,payor_category_confidence,prefix,race,religion,suffix,campaigns,recency_frequency,perceptual_profile,chui,pdi,patient_lifecycle_history,deceased_date\"\n      )\n    \n    val personsES \u003d sqlContext.esDF(s\"${esIndexName}/person\", personSourceQuery, personSourceQueryOptions)\n    personsES.cache\n    personsES.createOrReplaceTempView(\"personsES\")\n    return personsES\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 5:51:35 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ngetPersonSourceData: (clientCode: String, esIndexName: String, esHost: String, esPort: Int, householdList: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131323_1474518686",
+      "id": "20170620-152814_1878905727",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:19 PM",
+      "dateFinished": "Jun 21, 2017 3:22:20 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def getRetentionMonthRange() :org.apache.spark.sql.DataFrame \u003d {\n\n    def monthIterator(start: org.joda.time.LocalDate, end: org.joda.time.LocalDate) \u003d Iterator.iterate(start)(_ plusMonths 1) takeWhile (_ isBefore end)\n\n    val max_admit_month \u003d (new org.joda.time.LocalDate).withDayOfMonth(1)\n    val min_admit_month \u003d max_admit_month.plusYears(-4)\n\n    val stringMonthIterator \u003d monthIterator(min_admit_month,max_admit_month.plusMonths(1)).map(x \u003d\u003e x.toString())\n\n    val stringMonthList \u003d stringMonthIterator.toList\n\n    val monthRangeFrame \u003d spark.createDataFrame(stringMonthList.map(Tuple1(_))).toDF(\"startOfMonth\")\n\n    monthRangeFrame.createOrReplaceTempView(\"retentionMonthRange\")\n    return monthRangeFrame\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 3:22:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nwarning: Class org.joda.convert.FromString not found - continuing with a stub.\n\nwarning: Class org.joda.convert.ToString not found - continuing with a stub.\n\nwarning: Class org.joda.convert.FromString not found - continuing with a stub.\n\nwarning: Class org.joda.convert.ToString not found - continuing with a stub.\n\ngetRetentionMonthRange: ()org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131323_1474518686",
+      "id": "20170620-154345_1069029982",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:19 PM",
+      "dateFinished": "Jun 21, 2017 3:22:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def buildHouseholdRetentionBase(personView:String \u003d \"personsES\", encounterView:String \u003d \"encountersES\",retentionMonthView:String \u003d \"retentionMonthRange\") :org.apache.spark.sql.DataFrame \u003d {\n\n    // ADD THE PROSPECT RECORDS AT THE BEGINNING OF THE LIFECYCLE CHAIN FOR STANDARD TYPE\n    // add the stub records at the end of the lifecycle chain to track end-dates\n    val householdRetentionBase \u003d spark.sql(s\"\"\"\n        with\n        cur as (\n            select\n            household.household_number as household,\n            e.admit_date,\n            date_add(e.admit_date,-365.25) as admit_date_minus1\n            from ${personView} p join ${encounterView} e on e.parent \u003d p._recordId\n            group by household.household_number,e.admit_date,date_add(e.admit_date,-365.25)\n        ),\n        all as (\n            select \n            p.household.household_number as household,\n            d.startOfMonth,\n            0 as isRetained\n            from ${personView} p cross join ${retentionMonthView} d \n            group by p.household.household_number,d.startOfMonth\n        ),\n        retained as (\n            select cur.household,\n            trunc(cur.admit_date,\u0027MM\u0027) as admit_month,\n            1 as isRetained\n            from cur join cur as prv\n            on cur.household \u003d prv.household\n            and cur.admit_date \u003e prv.admit_date\n            and prv.admit_date \u003e\u003d cur.admit_date_minus1\n            group by cur.household,trunc(cur.admit_date,\u0027MM\u0027)\n        )\n        select\n        c.household,\n        row_number() over (partition by c.household order by c.startOfMonth) as month_rank,\n        c.startOfMonth,\n        coalesce(r.isRetained,c.isRetained) as isRetained\n        from all c \n        left join retained r on c.household \u003d r.household and c.startOfMonth \u003d r.admit_month\n    \"\"\")\n    householdRetentionBase.cache\n    householdRetentionBase.createOrReplaceTempView(\"householdRetentionBase\")\n    // encounterYearsBetween.show()\n\n    return householdRetentionBase\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 3:22:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildHouseholdRetentionBase: (personView: String, encounterView: String, retentionMonthView: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131324_1472594942",
+      "id": "20170620-184231_143535807",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:20 PM",
+      "dateFinished": "Jun 21, 2017 3:22:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def buildHouseholdRetentionCollapsed(householdRetentionBaseView:String \u003d \"householdRetentionBase\") :org.apache.spark.sql.DataFrame \u003d {\n\n    val max_admit_month \u003d (new org.joda.time.LocalDate).withDayOfMonth(1)\n    val householdRetentionCollapsed \u003d spark.sql(s\"\"\"\n        with retentionRanked as (\n            select \n            household,\n            month_rank,\n            startOfMonth,\n            cast(isRetained as boolean) as isRetained,\n            case when lag(isRetained,1,0) over (partition by household order by month_rank) \u003d isRetained and month_rank \u003c\u003e 1 then 1 else 0 end as same_state\n            from ${householdRetentionBaseView}\n        )\n        select\n        r.household,\n        r.month_rank,\n        date_format(r.startOfMonth,\u0027yyyy-MM-dd\u0027) as start_date,\n        date_format(from_unixtime(unix_timestamp(add_months(coalesce(z.end_of_range,r.startOfMonth),1)) - 1),\u0027yyyy-MM-dd HH:mm:ss\u0027) as end_date,\n        unix_timestamp(trunc(r.startOfMonth,\u0027MM\u0027)) * 1000 as start_date_epoch,\n        (unix_timestamp(add_months(coalesce(z.end_of_range,r.startOfMonth),1)) - 1) * 1000 as end_date_epoch,\n        r.isRetained\n        from retentionRanked r \n        -- all rows at beginning of chain \n        left join (select household, month_rank,startOfMonth from (select household,startOfMonth,month_rank,same_state, lead(same_state) over (partition by household order by month_rank) as next_state from retentionRanked) where same_state \u003d 0 and next_state \u003d 1) c on c.household \u003d r.household and c.month_rank \u003d r.month_rank\n        left join (\n            select c.household,c.month_rank,c.startOfMonth, min(n.month_rank) as next_month_rank,\n            min(case when n.startOfMonth \u003d\u0027${max_admit_month}\u0027 then n.startOfMonth else  n.previous_startOfMonth end) as end_of_range\n            from\n            (select household, month_rank,startOfMonth from (select household,startOfMonth,month_rank,same_state, lead(same_state) over (partition by household order by month_rank) as next_state from retentionRanked) where same_state \u003d 0 and next_state \u003d 1) c\n            -- all rows not in same_state\n            join (select household,month_rank,same_state\n            ,lag(startOfMonth) over (partition by household order by month_rank) as previous_startOfMonth,startOfMonth from retentionRanked) n on n.household \u003d c.household and c.month_rank \u003c n.month_rank \n            and (n.same_state \u003d 0 or n.startOfMonth \u003d \u0027${max_admit_month}\u0027)\n            group by c.household,c.month_rank,c.startOfMonth\n        ) z on r.household \u003d z.household and r.month_rank \u003d z.month_rank\n        where r.same_state \u003d 0\n    \"\"\")\n    householdRetentionCollapsed.cache\n    householdRetentionCollapsed.createOrReplaceTempView(\"householdRetentionCollapsed\")\n    // encounterYearsBetween.show()\n\n    return householdRetentionCollapsed\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 3:22:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildHouseholdRetentionCollapsed: (householdRetentionBaseView: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131324_1472594942",
+      "id": "20170620-210453_937126773",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:23 PM",
+      "dateFinished": "Jun 21, 2017 3:22:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def buildHouseholdRetentionFinal(personView:String \u003d \"personsES\", householdRetentionCollapsedView:String \u003d \"householdRetentionCollapsed\") :org.apache.spark.sql.DataFrame \u003d {\n\n    val householdRetentionFinal \u003d spark.sql(s\"\"\"\n        with personToHousehold as (\n            select\n            _recordId as person_key,\n            cast(household.household_income_range.minimum as Long) as income_min,\n            cast(household.household_income_range.maximum as Long) as income_max,\n            household.household_number as household\n            from ${personView}\n        )\n        select\n        p.person_key,\n        p.income_min,\n        p.income_max,\n        p.household,\n        r.start_date,\n        r.end_date,\n        r.start_date_epoch,\n        r.end_date_epoch,\n        cast(r.isRetained as Boolean) as isRetained\n        from ${householdRetentionCollapsedView} r join personToHousehold p on p.household \u003d r.household\n    \"\"\")\n    householdRetentionFinal.cache\n    householdRetentionFinal.createOrReplaceTempView(\"householdRetentionFinal\")\n    // encounterYearsBetween.show()\n\n    return householdRetentionFinal\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 3:22:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildHouseholdRetentionFinal: (personView: String, householdRetentionCollapsedView: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131325_1472210193",
+      "id": "20170620-213205_11688440",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:23 PM",
+      "dateFinished": "Jun 21, 2017 3:22:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "case class date_range (\n    gte: Long,\n    lte: Long\n    )\ncase class date_range_alt (\n    gte: String,\n    lte: String\n    )\ncase class household_income_range (\n    minimum: Long,\n    maximum: Long\n    )\ncase class household_retention_history (\n    date_range: date_range,\n    date_range_alt: date_range_alt,\n    retained: Boolean\n    )\ncase class household (\n    household_number: String,\n    household_income_range: household_income_range,\n    household_retention_history: Array[household_retention_history]\n    )\n\ncase class household_no_income_range (\n    household_number: String,\n    household_retention_history: Array[household_retention_history]\n    )\n\n// build combined patient lifecycle data set\ndef writeHouseholdRetentionDataToPerson(householdRetentionFinal:org.apache.spark.sql.DataFrame,esIndexName:String) \u003d {\n       \n\n\n    val updates_full \u003d householdRetentionFinal.filter(\"income_min is not null and income_max is not null\")\n      .rdd\n      .groupBy( z \u003d\u003e z.getAs[String](\"person_key\") + \"|\" + z.getAs[String](\"household\") + \"|\" + z.getAs[String](\"income_min\") +  \"|\" + z.getAs[String](\"income_max\"))\n      .map(e \u003d\u003e (\n            Map(ID -\u003e e._1.split(\"\\\\|\")(0)),\n            Map(household -\u003e  household(e._1.split(\"\\\\|\")(1),household_income_range(e._1.split(\"\\\\|\")(2).toLong,e._1.split(\"\\\\|\")(3).toLong),\n                    e._2.map(a \u003d\u003e household_retention_history(\n            date_range(a.getAs[Long](\"start_date_epoch\"), a.getAs[Long](\"end_date_epoch\")),\n            date_range_alt(a.getAs[String](\"start_date\"), a.getAs[String](\"end_date\")),\n            a.getAs[Boolean](\"isRetained\"))\n          ).toArray \n          )\n          )\n        ))\n\n\n    // write elasticsearch data back to the index\n    updates_full.saveToEsWithMeta(s\"${esIndexName}/person\", Map(\"es.batch.size.bytes\" -\u003e \"20mb\"))\n\n\n    val updates_no_income_range \u003d householdRetentionFinal.filter(\"income_min is null or income_max is null\")\n      .rdd\n      .groupBy( z \u003d\u003e z.getAs[String](\"person_key\") + \"|\" + z.getAs[String](\"household\") + \"|\" + z.getAs[String](\"income_min\") +  \"|\" + z.getAs[String](\"income_max\"))\n      .map(e \u003d\u003e (\n            Map(ID -\u003e e._1.split(\"\\\\|\")(0)),\n            Map(household -\u003e  household_no_income_range(e._1.split(\"\\\\|\")(1),\n                    e._2.map(a \u003d\u003e household_retention_history(\n            date_range(a.getAs[Long](\"start_date_epoch\"), a.getAs[Long](\"end_date_epoch\")),\n            date_range_alt(a.getAs[String](\"start_date\"), a.getAs[String](\"end_date\")),\n            a.getAs[Boolean](\"isRetained\"))\n          ).toArray \n          )\n          )\n        ))\n\n\n    // write elasticsearch data back to the index\n    updates_no_income_range.saveToEsWithMeta(s\"${esIndexName}/person\", Map(\"es.batch.size.bytes\" -\u003e \"20mb\"))\n\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 3:22:04 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ndefined class date_range\n\ndefined class date_range_alt\n\ndefined class household_income_range\n\ndefined class household_retention_history\n\ndefined class household\n\ndefined class household_no_income_range\n\nwriteHouseholdRetentionDataToPerson: (householdRetentionFinal: org.apache.spark.sql.DataFrame, esIndexName: String)Unit\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131326_1473364439",
+      "id": "20170620-213925_459246789",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 3:22:24 PM",
+      "dateFinished": "Jun 21, 2017 3:22:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// suppress the output of this command with curlies\n\nvar iterationCount:Int \u003d 1;\nvar lastCount:Int \u003d 0\nvar households:String \u003d \"\";\n\n// get the next set of households to process\n{val (householdList,householdCount) \u003d getHouseholdsWithoutRetention(clientCode,esIndexName,esHost,esPort,resultLimit)\nlastCount \u003d householdCount;\nhouseholds \u003d householdList;}\n\nwhile ( lastCount \u003e 0 ) {\n    println(\"iteration \" + iterationCount.toString + \" household count \" + lastCount.toString);\n    \n    iterationCount \u003d iterationCount + 1;\n    \n    val encountersES \u003d getEncounterSourceData(clientCode,esIndexName,esHost,esPort,households)\n    \n    val personsES \u003d getPersonSourceData(clientCode,esIndexName,esHost,esPort,households)\n    \n    val monthRangeFrame \u003d getRetentionMonthRange()\n    \n    val householdRetentionBase \u003d buildHouseholdRetentionBase()\n    \n    val householdRetentionCollapsed \u003d buildHouseholdRetentionCollapsed()\n    \n    val householdRetentionFinal \u003d buildHouseholdRetentionFinal()\n    \n    writeHouseholdRetentionDataToPerson(householdRetentionFinal,esIndexName)\n\n    personsES.unpersist()\n    encountersES.unpersist()\n    monthRangeFrame.unpersist()\n    householdRetentionBase.unpersist()\n    householdRetentionCollapsed.unpersist()\n    householdRetentionFinal.unpersist()\n\n    // get the next set of households to process\n    {val (householdList,householdCount) \u003d getHouseholdsWithoutRetention(clientCode,esIndexName,esHost,esPort,resultLimit)\n    lastCount \u003d householdCount;\n    households \u003d householdList;}\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 4:21:35 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\niterationCount: Int \u003d 1\n\nlastCount: Int \u003d 0\n\nhouseholds: String \u003d \"\"\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131326_1473364439",
+      "id": "20170620-202946_1380390546",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 4:21:35 PM",
+      "dateFinished": "Jun 21, 2017 4:21:36 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.SparkConf\nimport org.apache.spark.SparkContext\nimport org.apache.spark.sql.SparkSession\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 4:41:06 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.SparkConf\n\nimport org.apache.spark.SparkContext\n\nimport org.apache.spark.sql.SparkSession\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498062842155_1567096131",
+      "id": "20170621-163402_121921426",
+      "dateCreated": "Jun 21, 2017 4:34:02 PM",
+      "dateStarted": "Jun 21, 2017 4:41:06 PM",
+      "dateFinished": "Jun 21, 2017 4:41:06 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "object Foo{\n      var sc:SparkContext \u003d _\n      var conf:SparkConf \u003d _\n      var sqlContext:SQLContext \u003d _\n      var spark:SparkSession \u003d \n      \n    def Setup():Unit \u003d {\n\n    spark \u003d SparkSession\n     .builder()\n     .getOrCreate()      \n\n    conf \u003d new SparkConf()\n    conf.setAppName(\"Simple Application\")\n    //conf.set(\"es.nodes\",\"elasticsearch.exp-dev.io\")\n    conf.set(\"es.nodes\",\"100.70.102.71\")\n\n    conf.set(\"es.nodes.wan.only\",\"true\")\n    conf.set(\"es.write.operation\",\"upsert\")\n    conf.set(\"spark.driver.allowMultipleContexts\", \"true\");\n    conf.set(\"es.index.auto.create\",\"false\")\n\n    sc \u003d new SparkContext(conf)\n    sqlContext \u003d new SQLContext(sc)\n\n\n    // println(\"Hello World!\")\n     //processEncounters() \n    // processProspects()      \n    // processNonProspects()\n\n    spark.close        \n    }\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 5:51:36 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\ndefined object Foo\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1498049131332_1457204986",
+      "id": "20170620-215018_276717934",
+      "dateCreated": "Jun 21, 2017 12:45:31 PM",
+      "dateStarted": "Jun 21, 2017 4:41:35 PM",
+      "dateFinished": "Jun 21, 2017 4:41:35 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "Foo.Setup()",
+      "user": "anonymous",
+      "dateUpdated": "Jun 21, 2017 4:42:00 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala",
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "paragraph_1498062821050_-1707932479",
+      "id": "20170621-163341_2143916231",
+      "dateCreated": "Jun 21, 2017 4:33:41 PM",
+      "dateStarted": "Jun 21, 2017 4:41:50 PM",
+      "dateFinished": "Jun 21, 2017 4:41:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "user": "anonymous",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1498063310445_1583129702",
+      "id": "20170621-164150_744288749",
+      "dateCreated": "Jun 21, 2017 4:41:50 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "/household_retention/DRAFT/1.1 - Household Retention Processing - With Encounters - write debug",
+  "id": "2CMECTZGN",
+  "angularObjects": {
+    "2CK39QPEV:shared_process": [],
+    "2CHGDFEAS:shared_process": [],
+    "2CJPWUK64:shared_process": [],
+    "2CJPRUUCQ:shared_process": [],
+    "2CMA6NN69:shared_process": [],
+    "2CJM2HZ3E:shared_process": [],
+    "2CHUKUNGV:shared_process": [],
+    "2CMSNT58Q:shared_process": [],
+    "2CMY621JM:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

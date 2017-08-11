@@ -1,0 +1,346 @@
+{
+  "paragraphs": [
+    {
+      "text": "%spark.dep\n// Load our Elasticsearch spark dependencies from Maven\nz.reset()\nz.load(\"org.elasticsearch:elasticsearch-spark-20_2.11:5.3.2\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 2:28:20 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Must be used before SparkInterpreter (%spark) initialized\nHint: put this paragraph before any Spark code and restart Zeppelin/Interpreter"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497273827422_-1272118158",
+      "id": "20170612-132347_1914969624",
+      "dateCreated": "Jun 12, 2017 1:23:47 PM",
+      "dateStarted": "Jun 12, 2017 2:28:20 PM",
+      "dateFinished": "Jun 12, 2017 2:28:20 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\nimport org.apache.http.client.methods.HttpPost\nimport org.apache.http.entity.StringEntity\nimport org.apache.http.impl.client.DefaultHttpClient\nimport org.apache.http.impl.client.BasicResponseHandler\nimport java.util.Date\nimport java.util.Calendar\nimport org.apache.commons.lang3.time.DateUtils\nimport java.text.SimpleDateFormat\n \nimport org.apache.spark.sql.SQLContext \nimport org.apache.spark.sql.SQLContext._\nimport org.apache.spark.sql._\nimport org.apache.spark.sql.types._\n\nimport org.elasticsearch.spark.sql._\nimport org.elasticsearch.spark._\nimport org.elasticsearch.spark.rdd.Metadata._ \n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 2:28:20 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.http.client.methods.HttpPost\n\nimport org.apache.http.entity.StringEntity\n\nimport org.apache.http.impl.client.DefaultHttpClient\n\nimport org.apache.http.impl.client.BasicResponseHandler\n\nimport java.util.Date\n\nimport java.util.Calendar\n\nimport org.apache.commons.lang3.time.DateUtils\n\nimport java.text.SimpleDateFormat\n\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.apache.spark.sql._\n\nimport org.apache.spark.sql.types._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd.Metadata._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497040875359_63487568",
+      "id": "20170609-162827_2014333401",
+      "dateCreated": "Jun 9, 2017 8:41:15 PM",
+      "dateStarted": "Jun 12, 2017 2:28:20 PM",
+      "dateFinished": "Jun 12, 2017 2:28:22 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val esIndexName \u003d \"exp_rjj_1_2\"\nval port \u003d 9200\nval host \u003d \"elasticsearch.exp-dev.io\"\n\n\nval encounterMinAdmitSourceQuery \u003d \"\"\"\n{  \n  \"size\": 0,\n  \"stored_fields\": [\"admit_date\"],\n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"bool\": {\n          \"must\": [\n            { \"range\": {\"admit_date\": {\"gte\": \"now-12y\", \"lte\": \"now\"}}}\n          ]\n        }\n      }\n    }\n  },\n  \"aggs\": {\n        \"min_admit\" : { \"min\": {\"field\" : \"admit_date\"}}\n  }\n}\n\"\"\"",
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 8:53:59 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nesIndexName: String \u003d exp_rjj_1_2\n\nport: Int \u003d 9200\n\nhost: String \u003d elasticsearch.exp-dev.io\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nencounterMinAdmitSourceQuery: String \u003d\n\"\n{\n  \"size\": 0,\n  \"stored_fields\": [\"admit_date\"],\n  \"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"bool\": {\n          \"must\": [\n            { \"range\": {\"admit_date\": {\"gte\": \"now-6y\", \"lte\": \"now\"}}}\n          ]\n        }\n      }\n    }\n  },\n  \"aggs\": {\n        \"min_admit\" : { \"min\": {\"field\" : \"admit_date\"}}\n  }\n}\n\"\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497040875360_49251859",
+      "id": "20170505-015311_2021186754",
+      "dateCreated": "Jun 9, 2017 8:41:15 PM",
+      "dateStarted": "Jun 12, 2017 2:28:20 PM",
+      "dateFinished": "Jun 12, 2017 2:28:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// Define our encounter query:\n//\n// Find the minimum admit date (in the last 6 years) for a given client (DEMO)\n\n// generate the elasticsearch request string\n\nval endPoint \u003d \"/\"+ esIndexName + \"/encounter/_search\"\nval request_url \u003d \"http://\" + host + \":\" + port + endPoint\n\n// build the apache HTTP post request\nval post \u003d new HttpPost(request_url)\n// set header for json request string\npost.setHeader(\"Content-type\",\"application/json\")\n// ad the json request string to the http post\npost.setEntity(new StringEntity(encounterMinAdmitSourceQuery))\n// send the request to elasticsearch\nval response \u003d (new DefaultHttpClient).execute(post)\n// get the status -- this code doesn\u0027t check for HTTP/1.1 200 OK response but the final code should!\nval status \u003d response.getStatusLine\n// get the json response body\nval responseBody \u003d (new BasicResponseHandler).handleResponse(response).trim.toString\n\n// use a spark RDD to parse json response body\n// val vals \u003d sc.parallelize(responseBody ::  Nil)\n// query RDD to extract relevant json key (aggregations.min_admit.value)\nval df \u003d sqlContext.read.json(sc.parallelize(responseBody::Nil)).select($\"aggregations.min_admit.value\")\n// convert unix epoch time to java date\n//val min_admit \u003d new Date(Math.round(df.first().getDouble(0)))\n// truncate that date to the first of the month\nval min_admit_month \u003d DateUtils.truncate(new Date(Math.round(df.first().getDouble(0))), Calendar.MONTH)\n// generate the max admit as the first day of the current month (minus one second - for elasticsearch bounds checking convenience)\nval max_admit_month \u003d DateUtils.addSeconds(DateUtils.addMonths(DateUtils.truncate(new Date(), Calendar.MONTH),1),-1)\n\nval min_admit_month_string \u003d (new SimpleDateFormat(\"yyyy-MM-dd\")).format(min_admit_month)\nval max_admit_month_string \u003d (new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss\")).format(max_admit_month)\n\nval min_admit_month_epoch \u003d min_admit_month.getTime()\nval max_admit_month_epoch \u003d max_admit_month.getTime()\n\nval current_state_high_level \u003d \"Prospect\"\nval current_state_specific \u003d \"Prospect\"\n\nval previous_state_high_level \u003d \"Prospect\"\nval previous_state_specific \u003d \"Prospect\"\n\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 2:28:20 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nendPoint: String \u003d /exp_rjj_1_2/encounter/_search\n\nrequest_url: String \u003d http://elasticsearch.exp-dev.io:9200/exp_rjj_1_2/encounter/_search\n\npost: org.apache.http.client.methods.HttpPost \u003d POST http://elasticsearch.exp-dev.io:9200/exp_rjj_1_2/encounter/_search HTTP/1.1\n\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\nresponse: org.apache.http.client.methods.CloseableHttpResponse \u003d HTTP/1.1 200 OK [content-type: application/json; charset\u003dUTF-8, content-length: 225] org.apache.http.conn.BasicManagedEntity@2ee62b7e\n\nstatus: org.apache.http.StatusLine \u003d HTTP/1.1 200 OK\n\nresponseBody: String \u003d {\"took\":99,\"timed_out\":false,\"_shards\":{\"total\":5,\"successful\":5,\"failed\":0},\"hits\":{\"total\":1016869,\"max_score\":0.0,\"hits\":[]},\"aggregations\":{\"min_admit\":{\"value\":1.3079232E12,\"value_as_string\":\"2011-06-13T00:00:00.000Z\"}}}\n\ndf: org.apache.spark.sql.DataFrame \u003d [value: double]\n\nmin_admit_month: java.util.Date \u003d Wed Jun 01 00:00:00 UTC 2011\n\nmax_admit_month: java.util.Date \u003d Fri Jun 30 23:59:59 UTC 2017\n\nmin_admit_month_string: String \u003d 2011-06-01\n\nmax_admit_month_string: String \u003d 2017-06-30 23:59:59\n\nmin_admit_month_epoch: Long \u003d 1306886400000\n\nmax_admit_month_epoch: Long \u003d 1498867199000\n\ncurrent_state_high_level: String \u003d Prospect\n\ncurrent_state_specific: String \u003d Prospect\n\nprevious_state_high_level: String \u003d Prospect\n\nprevious_state_specific: String \u003d Prospect\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497040875360_49251859",
+      "id": "20170504-221722_1073724624",
+      "dateCreated": "Jun 9, 2017 8:41:15 PM",
+      "dateStarted": "Jun 12, 2017 2:28:23 PM",
+      "dateFinished": "Jun 12, 2017 2:28:27 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// get list of prospect persons\nval prospectPersonsQuery \u003d \"\"\"\n{\"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"bool\": {\n          \"must\": [\n            {\"term\":{\"client_code\" : \"DEMO\" }}\n          ],\n          \"must_not\": [\n            {\n              \"has_child\": {\n                \"child_type\": \"encounter\",\n                \"query\": {\n                  \"bool\": {\n                    \"must\": [\n                      { \"term\": {\"client_code\": \"DEMO\" }}\n                    ]\n                  }\n                }\n              } \n            },\n            {\n              \"nested\": {\n                \"path\": \"patient_lifecycle_history\",\n                \"query\": {\n                  \"term\": { \"patient_lifecycle_history.current_state.high_level\" : \"Prospect\" }\n                }\n              }\n            }\n          ]\n        }\n      }\n    }\n  }\n}\n\"\"\"\n// limit the fields that are included\nval prospectPersonsQueryOptions \u003d Map(\n  \"es.read.field.include\" -\u003e \"_recordId\"\n)\n// run our query\nval prospectsES \u003d sqlContext.esDF(s\"${esIndexName}/person\", prospectPersonsQuery, prospectPersonsQueryOptions)\n\n// preview our dataframe\n//encounters.show()\n\n// output to a temp sql table\nprospectsES.createOrReplaceTempView(\"prospectsES\")",
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 2:28:20 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nprospectPersonsQuery: String \u003d\n\"\n{\"query\": {\n    \"constant_score\": {\n      \"filter\": {\n        \"bool\": {\n          \"must\": [\n            {\"term\":{\"client_code\" : \"DEMO\" }}\n          ],\n          \"must_not\": [\n            {\n              \"has_child\": {\n                \"child_type\": \"encounter\",\n                \"query\": {\n                  \"bool\": {\n                    \"must\": [\n                      { \"term\": {\"client_code\": \"DEMO\" }}\n                    ]\n                  }\n                }\n              }\n            },\n            {\n              \"nested\": {\n                \"path\": \"patient_lifecycle_history\",\n                \"query\": {\n                  \"term\": { \"patient_lifecycle_history.current_state.high_level\" : \"Prospect\" }\n                }\n              }\n            }\n    ...\nprospectPersonsQueryOptions: scala.collection.immutable.Map[String,String] \u003d Map(es.read.field.include -\u003e _recordId)\n\nprospectsES: org.apache.spark.sql.DataFrame \u003d [_recordId: string]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497040875361_48867110",
+      "id": "20170608-142909_539497739",
+      "dateCreated": "Jun 9, 2017 8:41:15 PM",
+      "dateStarted": "Jun 12, 2017 2:28:23 PM",
+      "dateFinished": "Jun 12, 2017 2:28:28 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// create a data frame to join into our existing rdd to include the dates \ncase class clsDateRanges (\n    previous_state_high_level: String,\n    previous_state_specific: String,\n    current_state_high_level: String,\n    current_state_specific: String,\n    min_admit_month_epoch: Long,\n    max_admit_month_epoch: Long,\n    min_admit_month_string: String,\n    max_admit_month_string: String\n    )\nval objDateRanges \u003dnew clsDateRanges(\n    previous_state_high_level,\n    previous_state_specific,\n    current_state_high_level,\n    current_state_specific,\n    min_admit_month_epoch,\n    max_admit_month_epoch,\n    min_admit_month_string,\n    max_admit_month_string)\nval seqDateRanges \u003d Seq(objDateRanges)\nval dateRanges \u003d seqDateRanges.toDF()\ndateRanges.createOrReplaceTempView(\"dateRanges\")\nval prospects \u003d spark.sql(\"\"\"\n  SELECT \n  _recordId as personId,\n  previous_state_high_level,\n  previous_state_specific,\n  current_state_high_level,\n  current_state_specific,\n  min_admit_month_epoch,\n  max_admit_month_epoch,\n  min_admit_month_string,\n  max_admit_month_string\n  from prospectsES cross join dateRanges\n\"\"\")\n//prospects.createOrReplaceTempView(\"prospects\")\n//prospects.cache()\n//prospects.count\n//prospects.show()\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 2:28:20 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ndefined class clsDateRanges\n\nobjDateRanges: clsDateRanges \u003d clsDateRanges(Prospect,Prospect,Prospect,Prospect,1306886400000,1498867199000,2011-06-01,2017-06-30 23:59:59)\n\nseqDateRanges: Seq[clsDateRanges] \u003d List(clsDateRanges(Prospect,Prospect,Prospect,Prospect,1306886400000,1498867199000,2011-06-01,2017-06-30 23:59:59))\n\ndateRanges: org.apache.spark.sql.DataFrame \u003d [previous_state_high_level: string, previous_state_specific: string ... 6 more fields]\n\nprospects: org.apache.spark.sql.DataFrame \u003d [personId: string, previous_state_high_level: string ... 7 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497275554632_-1697966792",
+      "id": "20170612-135234_1845965310",
+      "dateCreated": "Jun 12, 2017 1:52:34 PM",
+      "dateStarted": "Jun 12, 2017 2:28:27 PM",
+      "dateFinished": "Jun 12, 2017 2:28:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// create the map to apply the patient lifecycle values back to the ES documents\ncase class date_range (\n    gte: Long,\n    lte: Long\n    )\ncase class date_range_alt (\n    gte: String,\n    lte: String\n    )\ncase class previous_state (\n    high_level: String,\n    specific: String\n    )\ncase class current_state (\n    high_level: String,\n    specific: String\n    )\ncase class patient_lifecycle_history (\n    previous_state: previous_state,\n    current_state: current_state,\n    date_range: date_range,\n    date_range_alt: date_range_alt\n    )\n\nval updates \u003d prospects\n  .rdd\n  .map(e \u003d\u003e (\n      Map(\n          ID -\u003e e.getAs[String](\"personId\")\n      ),\n      Map(patient_lifecycle_history -\u003e Array(patient_lifecycle_history(\n        previous_state(e.getAs[String](\"previous_state_high_level\"), e.getAs[String](\"previous_state_specific\")),\n        current_state(e.getAs[String](\"current_state_high_level\"), e.getAs[String](\"current_state_specific\")),\n        date_range(e.getAs[Long](\"min_admit_month_epoch\"), e.getAs[Long](\"max_admit_month_epoch\")),\n        date_range_alt(e.getAs[String](\"min_admit_month_string\"), e.getAs[String](\"max_admit_month_string\"))\n      ))\n      )\n    )\n  )\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 2:28:20 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 488.0,
+              "optionOpen": false
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ndefined class date_range\n\ndefined class date_range_alt\n\ndefined class previous_state\n\ndefined class current_state\n\ndefined class patient_lifecycle_history\n\nupdates: org.apache.spark.rdd.RDD[(scala.collection.immutable.Map[org.elasticsearch.spark.rdd.Metadata,String], scala.collection.immutable.Map[patient_lifecycle_history.type,Array[patient_lifecycle_history]])] \u003d MapPartitionsRDD[183] at map at \u003cconsole\u003e:120\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497040875361_48867110",
+      "id": "20170608-200003_90685421",
+      "dateCreated": "Jun 9, 2017 8:41:15 PM",
+      "dateStarted": "Jun 12, 2017 2:28:29 PM",
+      "dateFinished": "Jun 12, 2017 2:28:31 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "updates.saveToEsWithMeta(s\"${esIndexName}/person\", Map(\"es.batch.size.bytes\" -\u003e \"20mb\"))",
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 2:28:20 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      },
+      "apps": [],
+      "jobName": "paragraph_1497040875362_50021357",
+      "id": "20170609-125421_1542387716",
+      "dateCreated": "Jun 9, 2017 8:41:15 PM",
+      "dateStarted": "Jun 12, 2017 2:28:30 PM",
+      "dateFinished": "Jun 12, 2017 2:28:34 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "user": "anonymous",
+      "dateUpdated": "Jun 12, 2017 2:28:20 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1497040875362_50021357",
+      "id": "20170609-134859_1144877786",
+      "dateCreated": "Jun 9, 2017 8:41:15 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "/patient_lifecycle/FINAL/0.1 - Patient-Side Patient Lifecycle Processing - Prospects with No Encounters",
+  "id": "2CHMB3V2K",
+  "angularObjects": {
+    "2CK39QPEV:shared_process": [],
+    "2CHGDFEAS:shared_process": [],
+    "2CJPWUK64:shared_process": [],
+    "2CJPRUUCQ:shared_process": [],
+    "2CMA6NN69:shared_process": [],
+    "2CJM2HZ3E:shared_process": [],
+    "2CHUKUNGV:shared_process": [],
+    "2CMSNT58Q:shared_process": [],
+    "2CMY621JM:shared_process": []
+  },
+  "config": {
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {}
+}

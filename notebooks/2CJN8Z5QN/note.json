@@ -1,0 +1,552 @@
+{
+  "paragraphs": [
+    {
+      "text": "// dependencies required for elasticsearch direct access via REST client interface\nimport org.apache.http.client.methods.HttpPost\nimport org.apache.http.entity.StringEntity\nimport org.apache.http.impl.client.DefaultHttpClient\nimport org.apache.http.impl.client.BasicResponseHandler\nimport java.util.Date\nimport java.util.Calendar\nimport org.apache.commons.lang3.time.DateUtils\nimport java.text.SimpleDateFormat\n\n// Import our dependencies\nimport org.apache.spark.sql.SQLContext    \nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\nimport org.elasticsearch.spark._\nimport org.elasticsearch.spark.rdd.Metadata._ \n\n// parquet file writing imports\nimport spark.implicits._\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.http.client.methods.HttpPost\n\nimport org.apache.http.entity.StringEntity\n\nimport org.apache.http.impl.client.DefaultHttpClient\n\nimport org.apache.http.impl.client.BasicResponseHandler\n\nimport java.util.Date\n\nimport java.util.Calendar\n\nimport org.apache.commons.lang3.time.DateUtils\n\nimport java.text.SimpleDateFormat\n\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd.Metadata._\n\nimport spark.implicits._\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104480_693538267",
+      "id": "20170505-005539_540198305",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:15 PM",
+      "dateFinished": "Jun 19, 2017 6:35:25 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val clientCode \u003d \"DEMO\"\nval esIndexName \u003d \"exp_rjj_1_3\"\nval port \u003d 9200\nval host \u003d \"elasticsearch.exp-dev.io\"\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nclientCode: String \u003d DEMO\n\nesIndexName: String \u003d exp_rjj_1_3\n\nport: Int \u003d 9200\n\nhost: String \u003d elasticsearch.exp-dev.io\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104481_693153518",
+      "id": "20170505-015311_2021186754",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:15 PM",
+      "dateFinished": "Jun 19, 2017 6:35:28 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "case class clsDateRanges (\n    previous_state_high_level: String,\n    previous_state_specific: String,\n    current_state_high_level: String,\n    current_state_specific: String,\n    min_admit_month: java.sql.Date,\n    max_admit_month: java.sql.Timestamp,\n    max_admit_month_next: java.sql.Date,\n    min_admit_month_epoch: Long,\n    max_admit_month_epoch: Long,\n    min_admit_month_string: String,\n    max_admit_month_string: String\n    )\n\ndef getEncounterDateRanges(clientCode:String,esIndexName:String,esHost:String,esPort:Int) :org.apache.spark.sql.DataFrame \u003d {\n    val encounterMinAdmitSourceQuery \u003d s\"\"\"\n    {  \n      \"size\": 0,\n      \"stored_fields\": [\"admit_date\"],\n      \"query\": {\n        \"constant_score\": {\n          \"filter\": {\n            \"bool\": {\n              \"must\": [\n                {\"term\":{\"client_code\" : \"$clientCode\" }},\n                { \"range\": {\"admit_date\": {\"gte\": \"now-100y\", \"lte\": \"now\"}}}\n              ]\n            }\n          }\n        }\n      },\n      \"aggs\": {\n            \"min_admit\" : { \"min\": {\"field\" : \"admit_date\"}}\n      }\n    }\n    \"\"\"\n    // Find the minimum admit date (in the last 6 years) for a given client (DEMO)\n    \n    // generate the elasticsearch request string\n    \n    val endPoint \u003d \"/\"+ esIndexName + \"/encounter/_search\"\n    val request_url \u003d \"http://\" + esHost + \":\" + esPort + endPoint\n    \n    // build the apache HTTP post request\n    val post \u003d new HttpPost(request_url)\n    // set header for json request string\n    val setHeaderReturn \u003d post.setHeader(\"Content-type\",\"application/json\")\n    // ad the json request string to the http post\n    val setEntityReturn \u003d post.setEntity(new StringEntity(encounterMinAdmitSourceQuery))\n    // send the request to elasticsearch\n    val response \u003d (new DefaultHttpClient).execute(post)\n    // get the status -- this code doesn\u0027t check for HTTP/1.1 200 OK response but the final code should!\n    val status \u003d response.getStatusLine\n    // get the json response body\n    val responseBody \u003d (new BasicResponseHandler).handleResponse(response).trim.toString\n    \n    // use a spark RDD to parse json response body\n    // val vals \u003d sc.parallelize(responseBody ::  Nil)\n    // query RDD to extract relevant json key (aggregations.min_admit.value)\n    val df \u003d sqlContext.read.json(sc.parallelize(responseBody::Nil)).select($\"aggregations.min_admit.value\")\n    // convert unix epoch time to java date\n    //val min_admit \u003d new Date(Math.round(df.first().getDouble(0)))\n    // truncate that date to the first of the month\n    val min_admit_month \u003d DateUtils.truncate(new Date(Math.round(df.first().getDouble(0))), Calendar.MONTH)\n    // generate the max admit as the first day of the current month (minus one second - for elasticsearch bounds checking convenience)\n    val max_admit_month \u003d DateUtils.addSeconds(DateUtils.addMonths(DateUtils.truncate(new Date(), Calendar.MONTH),1),-1)\n    // maximum admit month plus one month - for specific use cases related to nasty date math below\n    val max_admit_month_next \u003d DateUtils.addMonths(DateUtils.truncate(new Date(), Calendar.MONTH),1)\n    \n    \n    val min_admit_month_string \u003d (new SimpleDateFormat(\"yyyy-MM-dd\")).format(min_admit_month)\n    val max_admit_month_string \u003d (new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss\")).format(max_admit_month)\n    val max_admit_month_next_string \u003d (new SimpleDateFormat(\"yyyy-MM-dd\")).format(max_admit_month_next)\n    \n    val min_admit_month_epoch \u003d min_admit_month.getTime()\n    val max_admit_month_epoch \u003d max_admit_month.getTime()\n    \n    val current_state_high_level \u003d \"Prospect\"\n    val current_state_specific \u003d \"Prospect\"\n    \n    val previous_state_high_level \u003d \"Prospect\"\n    val previous_state_specific \u003d \"Prospect\"\n\n\n\n    val objDateRanges \u003dnew clsDateRanges(\n        previous_state_high_level,\n        previous_state_specific,\n        current_state_high_level,\n        current_state_specific,\n        java.sql.Date.valueOf(min_admit_month_string),\n        java.sql.Timestamp.valueOf(max_admit_month_string),\n        java.sql.Date.valueOf(max_admit_month_next_string),\n        min_admit_month_epoch,\n        max_admit_month_epoch,\n        min_admit_month_string,\n        max_admit_month_string)\n\n    val seqDateRanges \u003d Seq(objDateRanges)\n    val dateRanges \u003d seqDateRanges.toDF()\n    return dateRanges\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ndefined class clsDateRanges\n\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\ngetEncounterDateRanges: (clientCode: String, esIndexName: String, esHost: String, esPort: Int)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104482_694307765",
+      "id": "20170616-143225_14677029",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:26 PM",
+      "dateFinished": "Jun 19, 2017 6:35:29 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def getEncounterSourceData(clientCode:String,esIndexName:String) :org.apache.spark.sql.DataFrame \u003d {\n\n    val encounterSourceQuery_SubSet \u003d s\"\"\"\n    {  \n      \"query\": {\n        \"constant_score\": {\n          \"filter\": {\n            \"bool\": {\n              \"must\": [\n                {\"term\":{\"client_code\" : \"${clientCode}\" }},\n                {\"has_parent\" : {\n                    \"parent_type\": \"person\",\n                    \"query\": {\n                      \"bool\": {\n                        \"must\": [\n                          { \"range\": {\"last_name\": {\"gte\":\"A\",\"lte\":\"C\"}}}\n                        ]\n                      }\n                    }\n                  }\n                }\n              ]\n            }\n          }\n        }\n      }\n    }\n    \"\"\"\n    // this returns everyone who does not have patient lifecyle\n    val encounterSourceQuery_All \u003d s\"\"\"\n    {  \n      \"query\": {\n        \"constant_score\": {\n          \"filter\": {\n            \"bool\": {\n              \"must\": [\n                {\"term\":{\"client_code\" : \"${clientCode}\" }},\n                {\"has_parent\" : {\n                    \"parent_type\": \"person\",\n                    \"query\": {\n                      \"bool\": {\n                        \"must_not\": [\n                          {\n                            \"nested\": {\n                              \"path\": \"patient_lifecycle_history\",\n                              \"query\": {\n                                \"exists\": { \"field\": \"patient_lifecycle_history.current_state.high_level\"}\n                              }\n                            }\n                          }\n                        ]\n                      }\n                    }\n                  }\n                }\n              ]\n            }\n          }\n        }\n      }\n    }\n    \"\"\"\n    \n    // limit the fields that are included\n    val encounterSourceQueryOptions \u003d Map(\n    //  \"es.read.field.include\" -\u003e \"recordId,parent,admit_date,service_category,facility.code,patient_lifecycle.*\"\n      \"es.read.field.exclude\" -\u003e \"person_key,encounter_key,admit_age,admit_source,admit_type,client_code,client_name,discharge_date,encounter_type,financial_class,msdrg,service_sub_category,diagnosis,cpt,procedure,campaigns,total_charges,total_amount_received,expected_reimbursement,direct_costs,actual_contribution_margin,expected_contribution_margin,recency_frequency\"\n      )\n    \n    val encountersES \u003d sqlContext.esDF(s\"${esIndexName}/encounter\", encounterSourceQuery_SubSet, encounterSourceQueryOptions)\n    encountersES.createOrReplaceTempView(\"encountersES\")\n    return encountersES\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ngetEncounterSourceData: (clientCode: String, esIndexName: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104482_694307765",
+      "id": "20170616-153925_1005578000",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:30 PM",
+      "dateFinished": "Jun 19, 2017 6:35:31 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def buildEncounterBaseFromSource(encounterSourceView:String, encounterBaseView:String) :org.apache.spark.sql.DataFrame \u003d {\n\n    val encounterSelect \u003d spark.sql(s\"\"\"\n    select encounterId,\n    personId,\n    admit_date,\n    service_category,\n    facility_code,\n    facility_name,\n    current_state_high_level,\n    current_state_specific,\n    current_state_specific_facility,\n    current_state_specific_service,\n    cast(row_number() over (partition by personId order by admit_date asc, encounterId asc) as Double) as enc_seq,\n    datediff(trunc(admit_date,\u0027MM\u0027),(lag(admit_date,1,cast(\u00271900-01-01\u0027 as date)) over (partition by personId order by admit_date, encounterId)))/365.25 as yearsbetween\n    from (\n        select \n        recordId as encounterId,\n        parent as personId,\n        admit_date,\n        service_category,\n        facility.code as facility_code,\n        facility.name as facility_name,\n        patient_lifecycle.current_state.high_level as current_state_high_level,\n        patient_lifecycle.current_state.specific as current_state_specific,\n        patient_lifecycle.current_state_facility_specific.specific as current_state_specific_facility,\n        patient_lifecycle.current_state_service_specific.specific as current_state_specific_service,\n        row_number() over (partition by parent, trunc(admit_date, \u0027MM\u0027) order by admit_date desc, recordId asc) as month_rank\n        from ${encounterSourceView}\n    ) where month_rank \u003d 1 \n    \"\"\")\n\n    encounterSelect.cache\n    encounterSelect.createOrReplaceTempView(encounterBaseView)\n\n    return encounterSelect\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterBaseFromSource: (encounterSourceView: String, encounterBaseView: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104483_693923016",
+      "id": "20170616-164612_241573485",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:30 PM",
+      "dateFinished": "Jun 19, 2017 6:35:32 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def buildEncounterYearsBetweenFromBase(encounterBaseView:String, encounterYearsBetweenView:String) :org.apache.spark.sql.DataFrame \u003d {\n\n    // ADD THE PROSPECT RECORDS AT THE BEGINNING OF THE LIFECYCLE CHAIN FOR STANDARD TYPE\n    // add the stub records at the end of the lifecycle chain to track end-dates\n    val encounterYearsBetween \u003d spark.sql(s\"\"\"\n    select encounterId,\n    personId,\n    admit_date,\n    service_category,\n    facility_code,\n    facility_name,\n    current_state_high_level,\n    current_state_specific,\n    current_state_specific_facility,\n    current_state_specific_service,\n    enc_seq,\n    case when enc_seq \u003d 0.0 then 0 else datediff(admit_date,(lag(admit_date,1,cast(\u00271900-01-01\u0027 as date)) over (partition by personId order by admit_date, encounterId)))/365.25 end as yearsbetween\n    from (\n    select encounterId,\n    personId,\n    admit_date,\n    service_category,\n    facility_code,\n    facility_name,\n    current_state_high_level,\n    current_state_specific,\n    current_state_specific_facility,\n    current_state_specific_service,\n    enc_seq,\n    yearsbetween\n    from ${encounterBaseView}\n    union\n    select \n    \u0027firstAdmit\u0027 as encounterId,\n    personId,\n    cast(min_admit_month_string as Date) as admit_date,\n    \u0027\u0027 as service_category,\n    \u0027\u0027 as facility_code,\n    \u0027\u0027 as facility_name,\n    \u0027Prospect\u0027 as current_state_high_level,\n    \u0027Prospect\u0027 as current_state_specific,\n    \u0027Prospect\u0027 as current_state_specific_facility,\n    \u0027Prospect\u0027 as current_state_specific_service,\n    cast(0 as Double) as enc_seq,\n    0 as yearsbetween\n    from ${encounterBaseView} e cross join dateRanges d\n    group by e.personId,cast(min_admit_month_string as Date)\n    UNION\n    -- stub records for most recent date - for setting current status\n    select \n    \u0027lastAdmit\u0027 as encounterId,\n    personId,\n    --cast(max_admit_month_string as Date) as admit_date,\n    max_admit_month_next as admit_date,\n    \u0027\u0027 as service_category,\n    \u0027\u0027 as facility_code,\n    \u0027\u0027 as facility_name,\n    \u0027UNKNOWN\u0027 as current_state_high_level,\n    \u0027UNKNOWN\u0027 as current_state_specific,\n    \u0027UNKNOWN\u0027 as current_state_specific_facility,\n    \u0027UNKNOWN\u0027 as current_state_specific_service,\n    cast(max(enc_seq) + 1 as Double) as enc_seq,\n    datediff(max_admit_month_next,max(admit_date))/365.25 as yearsbetween\n    from ${encounterBaseView} e cross join dateRanges d\n    group by e.personId,max_admit_month_next\n    )\n    \"\"\")\n    encounterYearsBetween.cache\n    encounterYearsBetween.createOrReplaceTempView(encounterYearsBetweenView)\n    // encounterYearsBetween.show()\n\n    return encounterYearsBetween\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterYearsBetweenFromBase: (encounterBaseView: String, encounterYearsBetweenView: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104483_693923016",
+      "id": "20170616-170956_1205223932",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:32 PM",
+      "dateFinished": "Jun 19, 2017 6:35:32 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def buildEncounterFullLifecycleFromYearsBetween(encounterYearsBetweenView:String, encounterFullLifecycleView:String,current_state_specific_field:String) :org.apache.spark.sql.DataFrame \u003d {\n\n    \n    // add existing, prospect and lapsed statuses\n    // EXISTING for all dates more than 3 months after previous encounter\n    // LAPSED for all dates more than 1 year after previous encounter\n    // PROSPECT for all dates more than 3 years after previous encounter\n    val encounterFullLifecycle \u003d spark.sql(s\"\"\"\n    -- EXISTING for all dates more than 3 months after previous encounter\n    select \n    concat(\u0027Existing_\u0027 , cast(admit_date as varchar(20)),\u0027_\u0027,cast(previous_admit_date as varchar(20))) as encounterId,\n    personId,\n    case\n        -- when the estimated admit date of the \"non-encounter\" lifecycle event is past the threshold cutoff assign it the standard value\n        when (datediff(trunc(date_add(previous_admit_date,0.25 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003e\u003d 0.25 then\n            date_add(previous_admit_date,(0.25 * 365.25))\n        -- when the estimated admit date of the \"non-encounter\" lifecycle event is NOT past the threshold cutoff \n        -- then bump it up to the next month, but only if that next month is not past the admit date\n        when (datediff(trunc(date_add(previous_admit_date,0.25 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003c 0.25 \n    --    and date_add(previous_admit_date,((0.25 * 365.25) + (0.083 * 365.25))) \u003e admit_date then\n         and datediff(date_add(previous_admit_date,((0.25 * 365.25) + (0.083 * 365.25))),admit_date) \u003c 0  then\n            date_add(previous_admit_date,((0.25 * 365.25) + (0.083 * 365.25)))\n        else \n            date_add(previous_admit_date,(0.25 * 365.25))\n    end as admit_date,\n    \u0027\u0027 as service_category,\n    \u0027\u0027 as facility_code,\n    \u0027\u0027 as facility_name,\n    \u0027Patient\u0027 as current_state_high_level,\n    \u0027Existing Patient\u0027 as current_state_specific,\n    enc_seq - 0.75 as enc_seq,\n    case \n        when (datediff(trunc(date_add(previous_admit_date,0.25 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003e\u003d 0.25\n            then datediff(trunc(date_add(previous_admit_date,0.25 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25\n        when (datediff(trunc(date_add(previous_admit_date,0.25 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003c 0.25 \n    --    and date_add(previous_admit_date,((0.25 * 365.25) + (0.083 * 365.25))) \u003e admit_date then\n         and datediff(date_add(previous_admit_date,((0.25 * 365.25) + (0.083 * 365.25))),admit_date) \u003c 0  then\n            datediff(trunc(date_add(previous_admit_date,0.25 * 365.25 + (0.083 * 365.25)),\u0027MM\u0027),previous_admit_date)/365.25 \n        else \n            datediff(trunc(date_add(previous_admit_date,0.25 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25\n    end as yearsbetween\n    from (\n        select encounterId,personId,admit_date,enc_seq,yearsbetween,\n        lag(admit_date,1,null) over (partition by personId order by admit_date, enc_seq) as previous_admit_date,\n        lag(e.${current_state_specific_field},1,\u0027UNKNOWN\u0027) over (partition by personId order by admit_date, enc_seq) as previous_state_specific,max_admit_month\n        from ${encounterYearsBetweenView} e cross join dateRanges\n    ) where yearsbetween \u003e 0.25 and enc_seq \u003e 1 and  previous_state_specific \u003c\u003e \u0027Existing Patient\u0027\n    and date_add(previous_admit_date,0.25 * 365.25) \u003c\u003d max_admit_month\n    UNION\n    -- LAPSED for all dates more than 1 year\n    select \n    concat(\u0027Lapsed_\u0027 , cast(admit_date as varchar(20))) as encounterId,\n    personId,\n    case\n        -- when the estimated admit date of the \"non-encounter\" lifecycle event is past the threshold cutoff assign it the standard value\n        when (datediff(trunc(date_add(previous_admit_date,1 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003e\u003d 1 then\n            date_add(previous_admit_date,1 * 365.25)\n        -- when the estimated admit date of the \"non-encounter\" lifecycle event is NOT past the threshold cutoff \n        -- then bump it up to the next month, but only if that next month is not past the admit date\n        when (datediff(trunc(date_add(previous_admit_date,1 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003c 1 \n    --    and date_add(previous_admit_date,((1 * 365.25) + (365.25/12))) \u003e admit_date then\n         and datediff(date_add(previous_admit_date,((1 * 365.25) + (365.25/12))),admit_date) \u003c 0  then\n            date_add(previous_admit_date,((1 * 365.25) + (365.25/12))) \n        else \n            date_add(previous_admit_date,1 * 365.25)\n    end as admit_date,\n    \u0027\u0027 as service_category,\n    \u0027\u0027 as facility_code,\n    \u0027\u0027 as facility_name,\n    \u0027Patient\u0027 as current_state_high_level,\n    \u0027Lapsed Patient\u0027 as current_state_specific,\n    enc_seq - 0.5 as enc_seq,\n    case \n        when (datediff(trunc(date_add(previous_admit_date,1 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003e\u003d 1\n            then datediff(trunc(date_add(previous_admit_date,1 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25\n        when (datediff(trunc(date_add(previous_admit_date,1 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003c 1 \n    --    and date_add(previous_admit_date,((1 * 365.25) + (365.25/12))) \u003e admit_date then\n         and datediff(date_add(previous_admit_date,((1 * 365.25) + (365.25/12))),admit_date) \u003c 0  then\n            datediff(trunc(date_add(previous_admit_date,1 * 365.25 + (365.25/12)),\u0027MM\u0027),previous_admit_date)/365.25 \n        else \n            datediff(trunc(date_add(previous_admit_date,1 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25\n    end as yearsbetween\n    from (\n    select encounterId,personId,admit_date,enc_seq,yearsbetween,\n    lag(admit_date,1,null) over (partition by personId order by admit_date, enc_seq) previous_admit_date,max_admit_month\n    from ${encounterYearsBetweenView} cross join dateRanges\n    ) where yearsbetween \u003e 1 and enc_seq \u003e 1\n    and date_add(previous_admit_date,1 * 365.25) \u003c\u003d max_admit_month\n    UNION\n    -- PROSPECT for all dates more than 3 years after previous encounter\n    select \n    concat(\u0027Prospect_\u0027 , cast(admit_date as varchar(20))) as encounterId,\n    personId,\n    case\n        -- when the estimated admit date of the \"non-encounter\" lifecycle event is past the threshold cutoff assign it the standard value\n        when (datediff(trunc(date_add(previous_admit_date,3 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003e\u003d 3 then\n            date_add(previous_admit_date,3 * 365.25)\n        -- when the estimated admit date of the \"non-encounter\" lifecycle event is NOT past the threshold cutoff \n        -- then bump it up to the next month, but only if that next month is not past the admit date\n        when (datediff(trunc(date_add(previous_admit_date,3 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003c 3 \n    --    and date_add(previous_admit_date,((3 * 365.25) + (365.25/12))) \u003e admit_date then\n         and datediff(date_add(previous_admit_date,((3 * 365.25) + (365.25/12))),admit_date) \u003c 0  then\n            date_add(previous_admit_date,((3 * 365.25) + (365.25/12))) \n        else \n            date_add(previous_admit_date,3 * 365.25)\n    end as admit_date,\n    \u0027\u0027 as service_category,\n    \u0027\u0027 as facility_code,\n    \u0027\u0027 as facility_name,\n    \u0027Prospect\u0027 as current_state_high_level,\n    \u0027Prospect\u0027 as current_state_specific,\n    enc_seq - 0.25 as enc_seq,\n    case \n        when (datediff(trunc(date_add(previous_admit_date,3 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003e\u003d 3\n            then datediff(trunc(date_add(previous_admit_date,3 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25\n        when (datediff(trunc(date_add(previous_admit_date,3 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25) \u003c 3 \n    --    and date_add(previous_admit_date,((3 * 365.25) + (365.25/12))) \u003e admit_date then\n         and datediff(date_add(previous_admit_date,((3 * 365.25) + (365.25/12))),admit_date) \u003c 0  then\n            datediff(trunc(date_add(previous_admit_date,3 * 365.25 + (365.25/12)),\u0027MM\u0027),previous_admit_date)/365.25 \n        else \n            datediff(trunc(date_add(previous_admit_date,3 * 365.25),\u0027MM\u0027),previous_admit_date)/365.25\n    end as yearsbetween\n    from (\n    select encounterId,personId,admit_date,enc_seq,yearsbetween,\n    lag(admit_date,1,null) over (partition by personId order by admit_date, enc_seq) previous_admit_date,max_admit_month\n    from ${encounterYearsBetweenView} e cross join dateRanges\n    ) where yearsbetween \u003e 3 and enc_seq \u003e 1\n    and date_add(previous_admit_date,3 * 365.25) \u003c\u003d max_admit_month\n    UNION\n    select \n    encounterId,\n    personId,\n    admit_date,\n    service_category,\n    facility_code,\n    facility_name,\n    current_state_high_level,\n    ${current_state_specific_field} as current_state_specific,\n    enc_seq,\n    yearsbetween\n    from ${encounterYearsBetweenView}\n    \"\"\")\n    encounterFullLifecycle.cache\n    encounterFullLifecycle.createOrReplaceTempView(encounterFullLifecycleView)\n\n    return encounterFullLifecycle\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterFullLifecycleFromYearsBetween: (encounterYearsBetweenView: String, encounterFullLifecycleView: String, current_state_specific_field: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104483_693923016",
+      "id": "20170616-171931_534906703",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:32 PM",
+      "dateFinished": "Jun 19, 2017 6:35:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "def buildEncounterSequencedLifecycleFromFullLifecyle(encounterFullLifecycleView:String, encounterSequencedLifecycleView:String) :org.apache.spark.sql.DataFrame \u003d {\n\n    val encounterSequencedLifecycle \u003d spark.sql(s\"\"\"\n    select\n    encounterId,\n    personId,\n    enc_seq,\n    yearsbetween,\n    admit_date,\n    date_format(start_date,\u0027yyyy-MM-dd\u0027) as start_date,\n    date_format(end_date,\u0027yyyy-MM-dd HH:mm:ss\u0027) as end_date,\n    start_date_epoch,\n    end_date_epoch,\n    current_state_high_level,\n    current_state_specific,\n    previous_state_high_level,\n    previous_state_specific,\n    service_category,\n    facility_code,\n    facility_name,\n    same_state,\n    row_number() over (partition by personId order by enc_seq) as enc_seq_int\n    from (\n    select\n    encounterId,\n    personId,\n    admit_date,\n    trunc(admit_date,\u0027MM\u0027) as start_date,\n    from_unixtime(unix_timestamp(trunc(lead(admit_date,1,cast(\u00271900-01-01\u0027 as date)) over (partition by personId order by enc_seq, encounterId),\u0027MM\u0027)) - 1) as end_date,\n    unix_timestamp(trunc(admit_date,\u0027MM\u0027)) * 1000 as start_date_epoch,\n    (unix_timestamp(trunc(lead(admit_date,1,cast(\u00271900-01-01\u0027 as date)) over (partition by personId order by enc_seq, encounterId),\u0027MM\u0027)) - 1) * 1000 as end_date_epoch,\n    current_state_high_level,\n    current_state_specific,\n    lag(current_state_high_level,1,\u0027Prospect\u0027) over (partition by personId order by enc_seq, encounterId) as previous_state_high_level,\n    lag(current_state_specific,1,\u0027Prospect\u0027) over (partition by personId order by enc_seq, encounterId) as previous_state_specific,\n    case when lag(current_state_specific,1,\u0027Prospect\u0027) over (partition by personId order by enc_seq, encounterId) \u003d current_state_specific \n    and enc_seq \u003c\u003e 0.0 and current_state_specific not in (\u0027Service Cross-Sell\u0027,\u0027Facility Cross-Sell\u0027)\n    then 1 else 0 end as same_state,\n    enc_seq,\n    yearsbetween,\n    case when current_state_specific \u003d \u0027Service Cross-Sell\u0027 then service_category else \u0027\u0027 end service_category,\n    case when current_state_specific \u003d \u0027Facility Cross-Sell\u0027 then facility_code else \u0027\u0027 end as facility_code,\n    case when current_state_specific \u003d \u0027Facility Cross-Sell\u0027 then facility_name else \u0027\u0027 end facility_name\n    from ${encounterFullLifecycleView}\n    ) where encounterId \u003c\u003e \u0027lastAdmit\u0027\n    -- there are still a few extraneous records in there that are not valid.  we will eliminate them for now\n    and start_date_epoch \u003c end_date_epoch\n    \"\"\")\n    encounterSequencedLifecycle.cache\n    encounterSequencedLifecycle.createOrReplaceTempView(encounterSequencedLifecycleView)\n\n    return encounterSequencedLifecycle\n}",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterSequencedLifecycleFromFullLifecyle: (encounterFullLifecycleView: String, encounterSequencedLifecycleView: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104484_691999271",
+      "id": "20170619-133023_1217746993",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:33 PM",
+      "dateFinished": "Jun 19, 2017 6:35:34 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\ndef buildEncounterCollapsedLifecycleFromSequencedLifecycle(encounterSequencedLifecycleView:String, encounterCollapsedLifecycleView:String):org.apache.spark.sql.DataFrame \u003d {\n\n    val encounterCollapsedLifecycle \u003d spark.sql(s\"\"\"\n    select\n    same_state,\n    encounterId,\n    e.personId,\n    e.enc_seq,\n    e.enc_seq_int,\n    yearsbetween,\n    admit_date,\n    date_format(start_date,\u0027yyyy-MM-dd\u0027) as start_date,\n    date_format(coalesce(r.range_end_date,end_date),\u0027yyyy-MM-dd HH:mm:ss\u0027) as end_date,\n    start_date_epoch,\n    coalesce(r.range_end_date_epoch,end_date_epoch) as end_date_epoch,\n    current_state_high_level,\n    current_state_specific,\n    previous_state_high_level,\n    previous_state_specific,\n    service_category,\n    facility_code,\n    facility_name\n    from ${encounterSequencedLifecycleView} e\n    left join (\n        -- for all not-same_state rows get the minimum non-same-state row number greater than the current row number\n        select c.personid,c.enc_seq_int, min(n.enc_seq_int) as next_seq_int, min(previous_end_date) as range_end_date,min(previous_end_date_epoch) as range_end_date_epoch\n        from \n        -- all rows at beginning of chain \n        (select personId, enc_seq_int from (select personid,enc_seq_int,same_state, lead(same_state) over (partition by personid order by enc_seq_int) as next_state from ${encounterSequencedLifecycleView}) where same_state \u003d 0 and next_state \u003d 1) c\n        -- all rows now in same_state\n        join\n        (select personId, same_state, enc_seq_int, \n        lag(end_date) over (partition by personid order by enc_seq_int) as previous_end_date,\n        lag(end_date_epoch) over (partition by personid order by enc_seq_int) as previous_end_date_epoch\n        from ${encounterSequencedLifecycleView}) n on n.personId \u003d c.personId and c.enc_seq_int \u003c n.enc_seq_int and n.same_state \u003d 0\n        group by c.personid,c.enc_seq_int\n    ) r on r.personid \u003d e.personid and r.enc_seq_int \u003d e.enc_seq_int\n    where same_state \u003d 0\n    \"\"\")\n    encounterCollapsedLifecycle.cache\n    encounterCollapsedLifecycle.createOrReplaceTempView(encounterCollapsedLifecycleView)\n    \n    return encounterCollapsedLifecycle\n}\n\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterCollapsedLifecycleFromSequencedLifecycle: (encounterSequencedLifecycleView: String, encounterCollapsedLifecycleView: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104484_691999271",
+      "id": "20170619-133930_1537604623",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:34 PM",
+      "dateFinished": "Jun 19, 2017 6:35:34 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// outer wrapper function that calls all steps required to build a specific type of person patient lifecycle table\n\ndef buildPatientLifecycleByType(lifecycleType:String):org.apache.spark.sql.DataFrame \u003d {\n    \n    var viewNameSuffix \u003d \"\"\n    \n    if ( lifecycleType.toUpperCase() \u003d\u003d \"SERVICE\" ) {\n        viewNameSuffix \u003d \"_Service\"\n    } else if ( lifecycleType.toUpperCase() \u003d\u003d \"FACILITY\" ) {\n        viewNameSuffix \u003d \"_Facility\"\n    }\n    \n    var encountersESView \u003d \"encountersES\"\n    var encounterView \u003d \"encounter\" + viewNameSuffix\n    var encounterYearsBetweenView \u003d \"encounterYearsBetween\" + viewNameSuffix\n    var encounterFullLifecycleView \u003d \"encounterFullLifecycle\" + viewNameSuffix\n    var encounterSequencedLifecycleView \u003d \"encounterSequencedLifecycle\" + viewNameSuffix\n    var encounterCollapsedLifecycleView \u003d \"encounterCollapsedLifecycle\" + viewNameSuffix\n\n    var current_state_specific_field \u003d \"current_state_specific\" + viewNameSuffix.toLowerCase()\n\n    // create encounter from encounterES\n    buildEncounterBaseFromSource(encountersESView, encounterView)\n    \n    // ADD THE PROSPECT RECORDS AT THE BEGINNING OF THE LIFECYCLE CHAIN\n    // add the stub records at the end of the lifecycle chain to track end-dates\n    buildEncounterYearsBetweenFromBase(encounterView, encounterYearsBetweenView)\n    \n    // FULL LIFECYCLE\n    buildEncounterFullLifecycleFromYearsBetween(encounterYearsBetweenView, encounterFullLifecycleView , current_state_specific_field)\n    \n    // final sequenced and formatted full lifecycle\n    buildEncounterSequencedLifecycleFromFullLifecyle(encounterFullLifecycleView, encounterSequencedLifecycleView)\n    \n    // collapsed lifecycle data with all intermediary \"existing patient\" states collapsed down\n    val finalCollapsedViewFrame \u003d buildEncounterCollapsedLifecycleFromSequencedLifecycle(encounterSequencedLifecycleView, encounterCollapsedLifecycleView)\n    return finalCollapsedViewFrame\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildPatientLifecycleByType: (lifecycleType: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104485_691614523",
+      "id": "20170619-151711_1205759520",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:34 PM",
+      "dateFinished": "Jun 19, 2017 6:35:35 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// build combined patient lifecycle data set\ndef buildCombinedPatientLifecycle(viewStandard:String, viewFacility:String, viewService:String ):org.apache.spark.sql.DataFrame \u003d {\n        \n    // combine all lifecycle states from standard, service-specific and facility-specific variants into one combined data set using a union\n    val encounterCombinedLifecycle \u003d spark.sql(s\"\"\"\n    select\n    personId,\n    start_date,\n    end_date,\n    start_date_epoch,\n    end_date_epoch,\n    current_state_high_level,\n    current_state_specific,\n    previous_state_high_level,\n    previous_state_specific,\n    service_category,\n    facility_code,\n    facility_name\n    from ${viewStandard}\n    \n    UNION\n    \n    select\n    personId,\n    start_date,\n    end_date,\n    start_date_epoch,\n    end_date_epoch,\n    current_state_high_level,\n    current_state_specific,\n    previous_state_high_level,\n    previous_state_specific,\n    service_category,\n    facility_code,\n    facility_name\n    from ${viewFacility}\n    \n    UNION\n    \n    select\n    personId,\n    start_date,\n    end_date,\n    start_date_epoch,\n    end_date_epoch,\n    current_state_high_level,\n    current_state_specific,\n    previous_state_high_level,\n    previous_state_specific,\n    service_category,\n    facility_code,\n    facility_name\n    from ${viewService}\n    \n    \"\"\")\n    encounterCombinedLifecycle.cache\n    encounterCombinedLifecycle.createOrReplaceTempView(\"encounterCombinedLifecycle\")\n    return encounterCombinedLifecycle\n}\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildCombinedPatientLifecycle: (viewStandard: String, viewFacility: String, viewService: String)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104485_691614523",
+      "id": "20170619-153858_807939128",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:36 PM",
+      "dateFinished": "Jun 19, 2017 6:35:37 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// build combined patient lifecycle data set\ndef writePatientLifecycleDataToPerson(combinedLifecycleFrame:org.apache.spark.sql.DataFrame,elasticSearchIndexName:String) \u003d {\n        \n    \n    case class date_range (\n        gte: Long,\n        lte: Long\n        )\n    case class date_range_alt (\n        gte: String,\n        lte: String\n        )\n    case class previous_state (\n        high_level: String,\n        specific: String\n        )\n    case class current_state (\n        high_level: String,\n        specific: String\n        )\n    case class facility (\n        high_level: String,\n        specific: String\n        )\n    case class service_category (\n        high_level: String,\n        specific: String\n        )\n    case class patient_lifecycle_history (\n        current_state: current_state,\n        previous_state: previous_state,\n        date_range: date_range,\n        date_range_alt: date_range_alt\n        )\n    \n    val updates \u003d combinedLifecycleFrame\n      .rdd\n      .groupBy( z \u003d\u003e z.getAs[String](\"personId\"))\n      .map(e \u003d\u003e (\n            Map(ID -\u003e e._1),\n            Map(patient_lifecycle_history -\u003e e._2.map(a \u003d\u003e patient_lifecycle_history(\n            current_state(a.getAs[String](\"current_state_high_level\"), a.getAs[String](\"current_state_specific\")),\n            previous_state(a.getAs[String](\"previous_state_high_level\"), a.getAs[String](\"previous_state_specific\")),\n            date_range(a.getAs[Long](\"start_date_epoch\"), a.getAs[Long](\"end_date_epoch\")),\n            date_range_alt(a.getAs[String](\"start_date\"), a.getAs[String](\"end_date\"))\n          )\n          ).toArray)\n        ))\n \n    // write elasticsearch data back to the index\n    updates.saveToEsWithMeta(s\"${elasticSearchIndexName}/person\", Map(\"es.batch.size.bytes\" -\u003e \"20mb\"))\n\n}\n\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nwritePatientLifecycleDataToPerson: (combinedLifecycleFrame: org.apache.spark.sql.DataFrame, elasticSearchIndexName: String)Unit\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104486_692768769",
+      "id": "20170619-154107_1742232953",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:36 PM",
+      "dateFinished": "Jun 19, 2017 6:35:37 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// clientCode:String,esIndexName:String,esHost:String,esPort:Int\nval dateRanges \u003d getEncounterDateRanges(clientCode,esIndexName,host,port)\ndateRanges.createOrReplaceTempView(\"dateRanges\")\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ndateRanges: org.apache.spark.sql.DataFrame \u003d [previous_state_high_level: string, previous_state_specific: string ... 9 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104486_692768769",
+      "id": "20170616-145716_1683091778",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:37 PM",
+      "dateFinished": "Jun 19, 2017 6:35:40 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// ENABLED\ngetEncounterSourceData(clientCode,esIndexName)\nbuildPatientLifecycleByType(\"STANDARD\")\nbuildPatientLifecycleByType(\"SERVICE\")\nbuildPatientLifecycleByType(\"FACILITY\")\nval combinedLifecycleFrame \u003d buildCombinedPatientLifecycle(\"encounterCollapsedLifecycle\",\"encounterCollapsedLifecycle_Facility\",\"encounterCollapsedLifecycle_Service\")\nwritePatientLifecycleDataToPerson(combinedLifecycleFrame,esIndexName)\n\n",
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:16 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nres54: org.apache.spark.sql.DataFrame \u003d [admit_date: timestamp, facility: struct\u003ccode: string, name: string\u003e ... 5 more fields]\n\nres55: org.apache.spark.sql.DataFrame \u003d [same_state: int, encounterId: string ... 16 more fields]\n\nres56: org.apache.spark.sql.DataFrame \u003d [same_state: int, encounterId: string ... 16 more fields]\n\nres57: org.apache.spark.sql.DataFrame \u003d [same_state: int, encounterId: string ... 16 more fields]\n\ncombinedLifecycleFrame: org.apache.spark.sql.DataFrame \u003d [personId: string, start_date: string ... 10 more fields]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job 19 cancelled part of cancelled job group zeppelin-20170619-153432_1180311715\n  at org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1435)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobCancellation(DAGScheduler.scala:1375)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply$mcVI$sp(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleJobGroupCancelled$1.apply(DAGScheduler.scala:788)\n  at scala.collection.mutable.HashSet.foreach(HashSet.scala:78)\n  at org.apache.spark.scheduler.DAGScheduler.handleJobGroupCancelled(DAGScheduler.scala:788)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1625)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1605)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1594)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:628)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1918)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1931)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1951)\n  at org.elasticsearch.spark.rdd.EsSpark$.doSaveToEs(EsSpark.scala:102)\n  at org.elasticsearch.spark.rdd.EsSpark$.saveToEsWithMeta(EsSpark.scala:85)\n  at org.elasticsearch.spark.rdd.EsSpark$.saveToEsWithMeta(EsSpark.scala:82)\n  at org.elasticsearch.spark.package$SparkPairRDDFunctions.saveToEsWithMeta(package.scala:73)\n  at $$$$cf65cf31507bf9d7ba4b6427326f93f7$$$writePatientLifecycleDataToPerson(\u003cconsole\u003e:225)\n  ... 106 elided\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104488_690460276",
+      "id": "20170619-153432_1180311715",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "dateStarted": "Jun 19, 2017 6:35:38 PM",
+      "dateFinished": "Jun 19, 2017 6:49:45 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "user": "anonymous",
+      "dateUpdated": "Jun 19, 2017 6:35:16 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1497887104498_700463747",
+      "id": "20170609-134859_1144877786",
+      "dateCreated": "Jun 19, 2017 3:45:04 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "/patient_lifecycle/DRAFT/1.8 - Patient-Side Patient Lifecycle Processing - Non-Prospect",
+  "id": "2CJN8Z5QN",
+  "angularObjects": {
+    "2CK39QPEV:shared_process": [],
+    "2CHGDFEAS:shared_process": [],
+    "2CJPWUK64:shared_process": [],
+    "2CJPRUUCQ:shared_process": [],
+    "2CMA6NN69:shared_process": [],
+    "2CJM2HZ3E:shared_process": [],
+    "2CHUKUNGV:shared_process": [],
+    "2CMSNT58Q:shared_process": [],
+    "2CMY621JM:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}
