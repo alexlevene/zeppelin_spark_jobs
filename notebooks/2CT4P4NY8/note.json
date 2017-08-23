@@ -1,0 +1,360 @@
+{
+  "paragraphs": [
+    {
+      "title": "Add ES Spark dependency",
+      "text": "%spark.dep\n// Load our Elasticsearch spark dependencies from Maven\nz.reset()\n//z.load(\"org.elasticsearch:elasticsearch-spark-20_2.11:5.3.2\")\nz.load(\"org.elasticsearch.spark.sql\")\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 14, 2017 6:17:10 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Must be used before SparkInterpreter (%spark) initialized\nHint: put this paragraph before any Spark code and restart Zeppelin/Interpreter"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622915_841909784",
+      "id": "20170811-190646_251057904",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "dateStarted": "Aug 14, 2017 6:17:10 PM",
+      "dateFinished": "Aug 14, 2017 6:17:10 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Import dependencies",
+      "text": "// Import our dependencies\nimport org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.DataFrame\nimport org.apache.spark.sql.SQLContext    \nimport org.apache.spark.sql.SQLContext._\nimport org.elasticsearch.spark.sql._\nimport org.elasticsearch.spark._\nimport org.elasticsearch.spark.rdd.Metadata._\nimport org.apache.spark.SparkContext\nimport org.apache.spark.SparkContext._\nimport org.apache.spark.SparkConf\nimport org.apache.spark.sql\nimport org.apache.spark.sql.types._\nimport org.apache.http.client.methods.HttpPost\nimport org.apache.http.entity.StringEntity\nimport org.apache.http.impl.client.DefaultHttpClient\nimport org.apache.http.impl.client.BasicResponseHandler\nimport java.util.Date\nimport java.util.Calendar\nimport org.apache.commons.lang3.time.DateUtils\nimport java.text.SimpleDateFormat\nimport scala.collection.mutable.WrappedArray\n",
+      "dateUpdated": "Aug 14, 2017 6:17:02 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.sql.SparkSession\n\nimport org.apache.spark.sql.DataFrame\n\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd.Metadata._\n\nimport org.apache.spark.SparkContext\n\nimport org.apache.spark.SparkContext._\n\nimport org.apache.spark.SparkConf\n\nimport org.apache.spark.sql\n\nimport org.apache.spark.sql.types._\n\nimport org.apache.http.client.methods.HttpPost\n\nimport org.apache.http.entity.StringEntity\n\nimport org.apache.http.impl.client.DefaultHttpClient\n\nimport org.apache.http.impl.client.BasicResponseHandler\n\nimport java.util.Date\n\nimport java.util.Calendar\n\nimport org.apache.commons.lang3.time.DateUtils\n\nimport java.text.SimpleDateFormat\n\nimport scala.collection.mutable.WrappedArray\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622937_844218277",
+      "id": "20170811-190656_554437167",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Set vars",
+      "text": "val esServer \u003d \"exp-elasticsearch.default.svc.cluster.local\"\nval esPort \u003d 9200\nval clientCode \u003d \"DEMO\"\nval esSourceIndexName \u003d \"exp_v1_0_1\"\nval esTargetIndexName \u003d \"exp_v1_0_1_patlc_alex\"\nval resultLimit \u003d 1000\n\nval personSubsetQueryString \u003d \"\"\"\n\"range\": {\n    \"last_name\": \n    {\n      \"gte\": \"A\",\n      \"lte\": \"AB\"\n    }\n}\n\"\"\"",
+      "dateUpdated": "Aug 14, 2017 6:17:02 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nesServer: String \u003d exp-elasticsearch.default.svc.cluster.local\n\nesPort: Int \u003d 9200\n\nclientCode: String \u003d DEMO\n\nesSourceIndexName: String \u003d exp_v1_0_1\n\nesTargetIndexName: String \u003d exp_v1_0_1_patlc_alex\n\nresultLimit: Int \u003d 1000\n\n\n\n\n\n\n\n\n\n\npersonSubsetQueryString: String \u003d\n\"\n\"range\": {\n    \"last_name\":\n    {\n      \"gte\": \"A\",\n      \"lte\": \"AB\"\n    }\n}\n\"\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622942_843833528",
+      "id": "20170811-191652_1223362553",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "getEncounterSourceData - All encounters for basis for all subsequent queries",
+      "text": "val sc \u003d spark.sparkContext\r\nval sqlContext \u003d spark.sqlContext\r\nimport sqlContext.implicits._\r\n\r\ncase class personListNotFoundException(private val message: String \u003d \"\", private val cause: Throwable \u003d None.orNull) extends Exception(message, cause) \r\n\r\n// GET THE PERSON LIST WE ARE CURRENTLY PROCESSING\r\n// THIS USED TO BE A SEPARATE STEP BUT ITS ROLLED IN HERE BECAUSE IT WAS CAUSING A SPARK PERFORMANCE ISSUE\r\nval encounterSourceQuery \u003d s\"\"\"\r\n{\r\n          \"query\": {\r\n            \"constant_score\": {\r\n              \"filter\": {\r\n                \"bool\": {\r\n                  \"must\": [\r\n                    {\"term\":{\"client_code\" : \"${clientCode}\" }},\r\n                    {\r\n                      \"has_parent\": {\r\n                        \"parent_type\": \"person\",\r\n                        \"query\": {\r\n                          \"bool\": {\r\n                            \"must\": [\r\n                              { \"term\": {\"client_code\": \"${clientCode}\" }},\r\n                              {${personSubsetQueryString}}\r\n                            ]\r\n                          }\r\n                        }\r\n                      } \r\n                    }\r\n                  ]\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n\"\"\"\r\n\r\n// limit the fields that are included\r\nval encounterSourceQueryOptions \u003d Map(\r\n    \"es.read.field.include\" -\u003e \"service_category.code\",\r\n    \"es.resource\" -\u003e \"exp_v1_0_1/encounter\",\r\n    \"es.read.metadata\" -\u003e \"false\",\r\n    \"es.nodes\" -\u003e esServer,\r\n    \"es.nodes.wan.only\" -\u003e \"true\",\r\n    \"es.query\" -\u003e encounterSourceQuery\r\n)\r\n\r\nvar encountersES \u003d spark.read.format(\"org.elasticsearch.spark.sql\").options(encounterSourceQueryOptions).load\r\n//encountersES.cache\r\nencountersES.createOrReplaceTempView(\"encountersES\")\r\nprintln(encountersES.schema.treeString)\r\n",
+      "dateUpdated": "Aug 14, 2017 6:17:02 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nsc: org.apache.spark.SparkContext \u003d org.apache.spark.SparkContext@39769f35\n\nsqlContext: org.apache.spark.sql.SQLContext \u003d org.apache.spark.sql.SQLContext@7a0e9525\n\nimport sqlContext.implicits._\n\ndefined class personListNotFoundException\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nencounterSourceQuery: String \u003d\n\"\n{\n          \"query\": {\n            \"constant_score\": {\n              \"filter\": {\n                \"bool\": {\n                  \"must\": [\n                    {\"term\":{\"client_code\" : \"DEMO\" }},\n                    {\n                      \"has_parent\": {\n                        \"parent_type\": \"person\",\n                        \"query\": {\n                          \"bool\": {\n                            \"must\": [\n                              { \"term\": {\"client_code\": \"DEMO\" }},\n                              {\n\"range\": {\n    \"last_name\":\n    {\n      \"gte\": \"A\",\n      \"lte\": \"AB\"\n    }\n}\n}\n                            ]\n                          }\n                        }\n                      }\n                    }\n                  ]\n                }\n        ...\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nencounterSourceQueryOptions: scala.collection.immutable.Map[String,String] \u003d\nMap(es.nodes.wan.only -\u003e true, es.query -\u003e \"\n{\n          \"query\": {\n            \"constant_score\": {\n              \"filter\": {\n                \"bool\": {\n                  \"must\": [\n                    {\"term\":{\"client_code\" : \"DEMO\" }},\n                    {\n                      \"has_parent\": {\n                        \"parent_type\": \"person\",\n                        \"query\": {\n                          \"bool\": {\n                            \"must\": [\n                              { \"term\": {\"client_code\": \"DEMO\" }},\n                              {\n\"range\": {\n    \"last_name\":\n    {\n      \"gte\": \"A\",\n      \"lte\": \"AB\"\n    }\n}\n}\n                            ]\n                          }\n                        }\n   ...\nencountersES: org.apache.spark.sql.DataFrame \u003d [service_category: array\u003cstruct\u003ccode:string\u003e\u003e]\nroot\n |-- service_category: array (nullable \u003d true)\n |    |-- element: struct (containsNull \u003d true)\n |    |    |-- code: string (nullable \u003d true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622947_829597819",
+      "id": "20170811-190929_919657173",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "encountersES.show\r\n",
+      "dateUpdated": "Aug 14, 2017 6:17:03 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 25.0 failed 1 times, most recent failure: Lost task 0.0 in stage 25.0 (TID 25, localhost, executor driver): scala.MatchError: [06] (of class org.elasticsearch.spark.sql.ScalaEsRow)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:160)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:154)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$CatalystTypeConverter.toCatalyst(CatalystTypeConverters.scala:103)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$$anonfun$createToCatalystConverter$2.apply(CatalystTypeConverters.scala:383)\n\tat org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:60)\n\tat org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:57)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:409)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(Unknown Source)\n\tat org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n\tat org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:377)\n\tat org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:231)\n\tat org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:225)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:87)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:99)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:282)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n  at org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1435)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1423)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1422)\n  at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n  at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1422)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:802)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:802)\n  at scala.Option.foreach(Option.scala:257)\n  at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:802)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1650)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1605)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1594)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:628)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1918)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1931)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1944)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:333)\n  at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:38)\n  at org.apache.spark.sql.Dataset$$anonfun$org$apache$spark$sql$Dataset$$execute$1$1.apply(Dataset.scala:2371)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:57)\n  at org.apache.spark.sql.Dataset.withNewExecutionId(Dataset.scala:2765)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$execute$1(Dataset.scala:2370)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$collect(Dataset.scala:2377)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2113)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2112)\n  at org.apache.spark.sql.Dataset.withTypedCallback(Dataset.scala:2795)\n  at org.apache.spark.sql.Dataset.head(Dataset.scala:2112)\n  at org.apache.spark.sql.Dataset.take(Dataset.scala:2327)\n  at org.apache.spark.sql.Dataset.showString(Dataset.scala:248)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:636)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:595)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:604)\n  ... 92 elided\nCaused by: scala.MatchError: [06] (of class org.elasticsearch.spark.sql.ScalaEsRow)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:160)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:154)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$CatalystTypeConverter.toCatalyst(CatalystTypeConverters.scala:103)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$$anonfun$createToCatalystConverter$2.apply(CatalystTypeConverters.scala:383)\n  at org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:60)\n  at org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:57)\n  at scala.collection.Iterator$$anon$11.next(Iterator.scala:409)\n  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(Unknown Source)\n  at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:377)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:231)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:225)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n  at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n  at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n  at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:87)\n  at org.apache.spark.scheduler.Task.run(Task.scala:99)\n  at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:282)\n  ... 3 more\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622959_824980832",
+      "id": "20170811-193653_2002151447",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val sCatSchema \u003d StructType(\n                Array(\n                    StructField(\"code\",StringType,true)\n                )\n            )\n\n val schema \u003d StructType(Array(\n    StructField(\"service_category\",\n        ArrayType(sCatSchema,true),\n                true)\n    )\n)\nvar df \u003d sqlContext.read.schema(schema).format(\"org.elasticsearch.spark.sql\").options(encounterSourceQueryOptions).load\ndf.printSchema\ndf.show",
+      "dateUpdated": "Aug 14, 2017 6:17:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nsCatSchema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(code,StringType,true))\n\nschema: org.apache.spark.sql.types.StructType \u003d StructType(StructField(service_category,ArrayType(StructType(StructField(code,StringType,true)),true),true))\n\ndf: org.apache.spark.sql.DataFrame \u003d [service_category: array\u003cstruct\u003ccode:string\u003e\u003e]\nroot\n |-- service_category: array (nullable \u003d true)\n |    |-- element: struct (containsNull \u003d true)\n |    |    |-- code: string (nullable \u003d true)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 29.0 failed 1 times, most recent failure: Lost task 0.0 in stage 29.0 (TID 29, localhost, executor driver): scala.MatchError: [04] (of class org.elasticsearch.spark.sql.ScalaEsRow)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:160)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:154)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$CatalystTypeConverter.toCatalyst(CatalystTypeConverters.scala:103)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$$anonfun$createToCatalystConverter$2.apply(CatalystTypeConverters.scala:383)\n\tat org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:60)\n\tat org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:57)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:409)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(Unknown Source)\n\tat org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n\tat org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:377)\n\tat org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:231)\n\tat org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:225)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:87)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:99)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:282)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n  at org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1435)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1423)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1422)\n  at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n  at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1422)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:802)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:802)\n  at scala.Option.foreach(Option.scala:257)\n  at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:802)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1650)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1605)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1594)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:628)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1918)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1931)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1944)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:333)\n  at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:38)\n  at org.apache.spark.sql.Dataset$$anonfun$org$apache$spark$sql$Dataset$$execute$1$1.apply(Dataset.scala:2371)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:57)\n  at org.apache.spark.sql.Dataset.withNewExecutionId(Dataset.scala:2765)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$execute$1(Dataset.scala:2370)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$collect(Dataset.scala:2377)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2113)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2112)\n  at org.apache.spark.sql.Dataset.withTypedCallback(Dataset.scala:2795)\n  at org.apache.spark.sql.Dataset.head(Dataset.scala:2112)\n  at org.apache.spark.sql.Dataset.take(Dataset.scala:2327)\n  at org.apache.spark.sql.Dataset.showString(Dataset.scala:248)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:636)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:595)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:604)\n  ... 94 elided\nCaused by: scala.MatchError: [04] (of class org.elasticsearch.spark.sql.ScalaEsRow)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:160)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:154)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$CatalystTypeConverter.toCatalyst(CatalystTypeConverters.scala:103)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$$anonfun$createToCatalystConverter$2.apply(CatalystTypeConverters.scala:383)\n  at org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:60)\n  at org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:57)\n  at scala.collection.Iterator$$anon$11.next(Iterator.scala:409)\n  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(Unknown Source)\n  at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:377)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:231)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:225)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n  at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n  at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n  at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:87)\n  at org.apache.spark.scheduler.Task.run(Task.scala:99)\n  at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:282)\n  ... 3 more\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622963_835753802",
+      "id": "20170814-175731_424854938",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.sql.Row\n//val flatten1 \u003d encountersES.select($\"admit_date\",$\"service_category\".getField(\"code\"))\n//val flatLocalRdd \u003d flatten1.rdd.take(10)\nval flatten \u003d encountersES.select($\"admit_date\", $\"_metadata._id\", col(\"service_category.code\").getItem(0))\n//val flatten \u003d encountersES.select($\"admit_date\", $\"_metadata._id\",$\"service_category\".getItem(0).getField(\"code\").alias(\"service_category_code\"))\nflatten.printSchema\nflatten.show",
+      "dateUpdated": "Aug 14, 2017 6:17:02 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.sql.Row\n\nflatten: org.apache.spark.sql.DataFrame \u003d [admit_date: timestamp, _id: string ... 1 more field]\nroot\n |-- admit_date: timestamp (nullable \u003d true)\n |-- _id: string (nullable \u003d true)\n |-- service_category.code AS `code`[0]: string (nullable \u003d true)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 24.0 failed 1 times, most recent failure: Lost task 0.0 in stage 24.0 (TID 24, localhost, executor driver): scala.MatchError: [12] (of class org.elasticsearch.spark.sql.ScalaEsRow)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$MapConverter.toCatalystImpl(CatalystTypeConverters.scala:206)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$MapConverter.toCatalystImpl(CatalystTypeConverters.scala:194)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$CatalystTypeConverter.toCatalyst(CatalystTypeConverters.scala:103)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$$anonfun$createToCatalystConverter$2.apply(CatalystTypeConverters.scala:383)\n\tat org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:60)\n\tat org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:57)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:409)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(Unknown Source)\n\tat org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n\tat org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:377)\n\tat org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:231)\n\tat org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:225)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n\tat org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:87)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:99)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:282)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n  at org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1435)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1423)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1422)\n  at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n  at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1422)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:802)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:802)\n  at scala.Option.foreach(Option.scala:257)\n  at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:802)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1650)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1605)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1594)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:628)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1918)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1931)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1944)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:333)\n  at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:38)\n  at org.apache.spark.sql.Dataset$$anonfun$org$apache$spark$sql$Dataset$$execute$1$1.apply(Dataset.scala:2371)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:57)\n  at org.apache.spark.sql.Dataset.withNewExecutionId(Dataset.scala:2765)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$execute$1(Dataset.scala:2370)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$collect(Dataset.scala:2377)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2113)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2112)\n  at org.apache.spark.sql.Dataset.withTypedCallback(Dataset.scala:2795)\n  at org.apache.spark.sql.Dataset.head(Dataset.scala:2112)\n  at org.apache.spark.sql.Dataset.take(Dataset.scala:2327)\n  at org.apache.spark.sql.Dataset.showString(Dataset.scala:248)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:636)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:595)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:604)\n  ... 72 elided\nCaused by: scala.MatchError: [12] (of class org.elasticsearch.spark.sql.ScalaEsRow)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$MapConverter.toCatalystImpl(CatalystTypeConverters.scala:206)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$MapConverter.toCatalystImpl(CatalystTypeConverters.scala:194)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$CatalystTypeConverter.toCatalyst(CatalystTypeConverters.scala:103)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$$anonfun$createToCatalystConverter$2.apply(CatalystTypeConverters.scala:383)\n  at org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:60)\n  at org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:57)\n  at scala.collection.Iterator$$anon$11.next(Iterator.scala:409)\n  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(Unknown Source)\n  at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:377)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:231)\n  at org.apache.spark.sql.execution.SparkPlan$$anonfun$2.apply(SparkPlan.scala:225)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n  at org.apache.spark.rdd.RDD$$anonfun$mapPartitionsInternal$1$$anonfun$apply$25.apply(RDD.scala:826)\n  at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n  at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n  at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:87)\n  at org.apache.spark.scheduler.Task.run(Task.scala:99)\n  at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:282)\n  ... 3 more\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622970_833060559",
+      "id": "20170811-194350_134486572",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val exploded \u003d encountersES.withColumn(\"service_category\", explode($\"service_category\"))\nexploded.printSchema()\n\nval fin \u003d exploded.select($\"admit_date\", $\"_metadata._id\",$\"service_category.code\".alias(\"service_category_code\"))\nfin.printSchema()",
+      "dateUpdated": "Aug 14, 2017 6:17:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nexploded: org.apache.spark.sql.DataFrame \u003d [admit_date: timestamp, facility_code: string ... 2 more fields]\nroot\n |-- admit_date: timestamp (nullable \u003d true)\n |-- facility_code: string (nullable \u003d true)\n |-- service_category: struct (nullable \u003d true)\n |    |-- code: string (nullable \u003d true)\n |    |-- desc: string (nullable \u003d true)\n |-- _metadata: map (nullable \u003d true)\n |    |-- key: string\n |    |-- value: string (valueContainsNull \u003d true)\n\n\nfin: org.apache.spark.sql.DataFrame \u003d [admit_date: timestamp, _id: string ... 1 more field]\nroot\n |-- admit_date: timestamp (nullable \u003d true)\n |-- _id: string (nullable \u003d true)\n |-- service_category_code: string (nullable \u003d true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622982_914627326",
+      "id": "20170811-212528_336483962",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "sqlContext.sql(\"SELECT service_category[0].code FROM encountersES\").show\r\n",
+      "dateUpdated": "Aug 14, 2017 6:17:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\norg.apache.spark.SparkException: Job aborted due to stage failure: Task 0 in stage 20.0 failed 1 times, most recent failure: Lost task 0.0 in stage 20.0 (TID 26, localhost, executor driver): scala.MatchError: [23,Trauma] (of class org.elasticsearch.spark.sql.ScalaEsRow)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:160)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:154)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$CatalystTypeConverter.toCatalyst(CatalystTypeConverters.scala:103)\n\tat org.apache.spark.sql.catalyst.CatalystTypeConverters$$anonfun$createToCatalystConverter$2.apply(CatalystTypeConverters.scala:383)\n\tat org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:60)\n\tat org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:57)\n\tat scala.collection.Iterator$$anon$11.next(Iterator.scala:409)\n\tat org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(Unknown Source)\n\tat org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n\tat org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:377)\n\tat org.apache.spark.sql.execution.columnar.InMemoryRelation$$anonfun$1$$anon$1.hasNext(InMemoryRelation.scala:138)\n\tat org.apache.spark.storage.memory.MemoryStore.putIteratorAsValues(MemoryStore.scala:215)\n\tat org.apache.spark.storage.BlockManager$$anonfun$doPutIterator$1.apply(BlockManager.scala:957)\n\tat org.apache.spark.storage.BlockManager$$anonfun$doPutIterator$1.apply(BlockManager.scala:948)\n\tat org.apache.spark.storage.BlockManager.doPut(BlockManager.scala:888)\n\tat org.apache.spark.storage.BlockManager.doPutIterator(BlockManager.scala:948)\n\tat org.apache.spark.storage.BlockManager.getOrElseUpdate(BlockManager.scala:694)\n\tat org.apache.spark.rdd.RDD.getOrCompute(RDD.scala:334)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:285)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n\tat org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n\tat org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n\tat org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n\tat org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:87)\n\tat org.apache.spark.scheduler.Task.run(Task.scala:99)\n\tat org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:282)\n\tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\n\tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\n\tat java.lang.Thread.run(Thread.java:745)\n\nDriver stacktrace:\n  at org.apache.spark.scheduler.DAGScheduler.org$apache$spark$scheduler$DAGScheduler$$failJobAndIndependentStages(DAGScheduler.scala:1435)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1423)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$abortStage$1.apply(DAGScheduler.scala:1422)\n  at scala.collection.mutable.ResizableArray$class.foreach(ResizableArray.scala:59)\n  at scala.collection.mutable.ArrayBuffer.foreach(ArrayBuffer.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.abortStage(DAGScheduler.scala:1422)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:802)\n  at org.apache.spark.scheduler.DAGScheduler$$anonfun$handleTaskSetFailed$1.apply(DAGScheduler.scala:802)\n  at scala.Option.foreach(Option.scala:257)\n  at org.apache.spark.scheduler.DAGScheduler.handleTaskSetFailed(DAGScheduler.scala:802)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.doOnReceive(DAGScheduler.scala:1650)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1605)\n  at org.apache.spark.scheduler.DAGSchedulerEventProcessLoop.onReceive(DAGScheduler.scala:1594)\n  at org.apache.spark.util.EventLoop$$anon$1.run(EventLoop.scala:48)\n  at org.apache.spark.scheduler.DAGScheduler.runJob(DAGScheduler.scala:628)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1918)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1931)\n  at org.apache.spark.SparkContext.runJob(SparkContext.scala:1944)\n  at org.apache.spark.sql.execution.SparkPlan.executeTake(SparkPlan.scala:333)\n  at org.apache.spark.sql.execution.CollectLimitExec.executeCollect(limit.scala:38)\n  at org.apache.spark.sql.Dataset$$anonfun$org$apache$spark$sql$Dataset$$execute$1$1.apply(Dataset.scala:2371)\n  at org.apache.spark.sql.execution.SQLExecution$.withNewExecutionId(SQLExecution.scala:57)\n  at org.apache.spark.sql.Dataset.withNewExecutionId(Dataset.scala:2765)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$execute$1(Dataset.scala:2370)\n  at org.apache.spark.sql.Dataset.org$apache$spark$sql$Dataset$$collect(Dataset.scala:2377)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2113)\n  at org.apache.spark.sql.Dataset$$anonfun$head$1.apply(Dataset.scala:2112)\n  at org.apache.spark.sql.Dataset.withTypedCallback(Dataset.scala:2795)\n  at org.apache.spark.sql.Dataset.head(Dataset.scala:2112)\n  at org.apache.spark.sql.Dataset.take(Dataset.scala:2327)\n  at org.apache.spark.sql.Dataset.showString(Dataset.scala:248)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:636)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:595)\n  at org.apache.spark.sql.Dataset.show(Dataset.scala:604)\n  ... 110 elided\nCaused by: scala.MatchError: [23,Trauma] (of class org.elasticsearch.spark.sql.ScalaEsRow)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:160)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$ArrayConverter.toCatalystImpl(CatalystTypeConverters.scala:154)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$CatalystTypeConverter.toCatalyst(CatalystTypeConverters.scala:103)\n  at org.apache.spark.sql.catalyst.CatalystTypeConverters$$anonfun$createToCatalystConverter$2.apply(CatalystTypeConverters.scala:383)\n  at org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:60)\n  at org.apache.spark.sql.execution.RDDConversions$$anonfun$rowToRowRdd$1$$anonfun$apply$3.apply(ExistingRDD.scala:57)\n  at scala.collection.Iterator$$anon$11.next(Iterator.scala:409)\n  at org.apache.spark.sql.catalyst.expressions.GeneratedClass$GeneratedIterator.processNext(Unknown Source)\n  at org.apache.spark.sql.execution.BufferedRowIterator.hasNext(BufferedRowIterator.java:43)\n  at org.apache.spark.sql.execution.WholeStageCodegenExec$$anonfun$8$$anon$1.hasNext(WholeStageCodegenExec.scala:377)\n  at org.apache.spark.sql.execution.columnar.InMemoryRelation$$anonfun$1$$anon$1.hasNext(InMemoryRelation.scala:138)\n  at org.apache.spark.storage.memory.MemoryStore.putIteratorAsValues(MemoryStore.scala:215)\n  at org.apache.spark.storage.BlockManager$$anonfun$doPutIterator$1.apply(BlockManager.scala:957)\n  at org.apache.spark.storage.BlockManager$$anonfun$doPutIterator$1.apply(BlockManager.scala:948)\n  at org.apache.spark.storage.BlockManager.doPut(BlockManager.scala:888)\n  at org.apache.spark.storage.BlockManager.doPutIterator(BlockManager.scala:948)\n  at org.apache.spark.storage.BlockManager.getOrElseUpdate(BlockManager.scala:694)\n  at org.apache.spark.rdd.RDD.getOrCompute(RDD.scala:334)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:285)\n  at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n  at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n  at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n  at org.ap\n\n\n\n\n\n\n\n\nache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n  at org.apache.spark.rdd.MapPartitionsRDD.compute(MapPartitionsRDD.scala:38)\n  at org.apache.spark.rdd.RDD.computeOrReadCheckpoint(RDD.scala:323)\n  at org.apache.spark.rdd.RDD.iterator(RDD.scala:287)\n  at org.apache.spark.scheduler.ResultTask.runTask(ResultTask.scala:87)\n  at org.apache.spark.scheduler.Task.run(Task.scala:99)\n  at org.apache.spark.executor.Executor$TaskRunner.run(Executor.scala:282)\n  ... 3 more\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622986_913088330",
+      "id": "20170811-214227_973819044",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "dateUpdated": "Aug 14, 2017 6:17:02 PM",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1502734622992_921552806",
+      "id": "20170811-220440_312130954",
+      "dateCreated": "Aug 14, 2017 6:17:02 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "~Trash/patient_lifecycle/v1.0.1/Encounter Patient Lifecycle Processing 2",
+  "id": "2CT4P4NY8",
+  "angularObjects": {
+    "2CPTRRG43:shared_process": [],
+    "2CQN7FP8G:shared_process": [],
+    "2CQ5ZQ7WH:shared_process": [],
+    "2CR5FV37J:shared_process": [],
+    "2CQRKD1HP:shared_process": [],
+    "2CP8XZ8Y2:shared_process": [],
+    "2CRBXZM79:shared_process": [],
+    "2CT5G8NJS:shared_process": [],
+    "2CPYEMTE3:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}

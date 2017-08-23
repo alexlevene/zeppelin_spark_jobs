@@ -1,0 +1,810 @@
+{
+  "paragraphs": [
+    {
+      "title": "Add ES Spark dependency",
+      "text": "%spark.dep\n// Load our Elasticsearch spark dependencies from Maven\nz.reset()\nz.load(\"org.elasticsearch:elasticsearch-spark-20_2.11:5.4.1\")\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:24:42 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "res0: org.apache.zeppelin.dep.Dependency \u003d org.apache.zeppelin.dep.Dependency@695c9d49\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977122_-722101662",
+      "id": "20170811-190646_251057904",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:24:43 PM",
+      "dateFinished": "Aug 21, 2017 9:25:02 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Import dependencies",
+      "text": "// Import our dependencies\nimport org.apache.spark.sql.SparkSession\nimport org.apache.spark.sql.DataFrame\nimport org.apache.spark.sql.SQLContext    \nimport org.apache.spark.sql.SQLContext._\nimport org.elasticsearch.spark.sql._\nimport org.elasticsearch.spark._\nimport org.elasticsearch.spark.rdd.EsSpark\nimport org.elasticsearch.spark.rdd.Metadata._\nimport org.apache.spark.SparkContext\nimport org.apache.spark.SparkContext._\nimport org.apache.spark.SparkConf\nimport org.apache.spark.sql\nimport org.apache.spark.sql.types._\nimport org.apache.http.client.methods.HttpPost\nimport org.apache.http.entity.StringEntity\nimport org.apache.http.impl.client.DefaultHttpClient\nimport org.apache.http.impl.client.BasicResponseHandler\nimport java.util.Date\nimport java.util.Calendar\nimport org.apache.commons.lang3.time.DateUtils\nimport java.text.SimpleDateFormat\nimport scala.collection.mutable.WrappedArray\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:25:14 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.sql.SparkSession\n\nimport org.apache.spark.sql.DataFrame\n\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd.EsSpark\n\nimport org.elasticsearch.spark.rdd.Metadata._\n\nimport org.apache.spark.SparkContext\n\nimport org.apache.spark.SparkContext._\n\nimport org.apache.spark.SparkConf\n\nimport org.apache.spark.sql\n\nimport org.apache.spark.sql.types._\n\nimport org.apache.http.client.methods.HttpPost\n\nimport org.apache.http.entity.StringEntity\n\nimport org.apache.http.impl.client.DefaultHttpClient\n\nimport org.apache.http.impl.client.BasicResponseHandler\n\nimport java.util.Date\n\nimport java.util.Calendar\n\nimport org.apache.commons.lang3.time.DateUtils\n\nimport java.text.SimpleDateFormat\n\nimport scala.collection.mutable.WrappedArray\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977141_-718638922",
+      "id": "20170811-190656_554437167",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:25:15 PM",
+      "dateFinished": "Aug 21, 2017 9:25:41 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Set vars",
+      "text": "val esServer \u003d \"10.47.0.14\"\nval esPort \u003d 9200\nval clientCode \u003d \"DEMO\"\nval esIndexName \u003d \"exp_v1_0_1_patlc_alex\"\nval resultLimit \u003d 100\nval batchSize \u003d resultLimit\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:26:18 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nesServer: String \u003d 10.47.0.14\n\nesPort: Int \u003d 9200\n\nclientCode: String \u003d DEMO\n\nesIndexName: String \u003d exp_v1_0_1_patlc_alex\n\nresultLimit: Int \u003d 100\n\nbatchSize: Int \u003d 100\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977164_-739800112",
+      "id": "20170811-191652_1223362553",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:26:18 PM",
+      "dateFinished": "Aug 21, 2017 9:26:21 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "restCall definition",
+      "text": "  def restCall(endPoint:String, esServer:String, esPort:Int, postBody:String):String \u003d {\r\n    val request_url \u003d \"https://\" + esServer + \":\" + esPort + endPoint\r\n\r\n    // build the apache HTTP post request\r\n    val post \u003d new HttpPost(request_url)\r\n    // set header for json request string\r\n    val setHeaderReturn \u003d post.setHeader(\"Content-type\",\"application/json\")\r\n    // ad the json request string to the http post\r\n    val setEntityReturn \u003d post.setEntity(new StringEntity(postBody))\r\n    // send the request to elasticsearch\r\n    val response \u003d (new DefaultHttpClient).execute(post)\r\n    // get the status -- this code doesn\u0027t check for HTTP/1.1 200 OK response but the final code should!\r\n    val status \u003d response.getStatusLine\r\n    // get the json response body\r\n    val responseBody \u003d (new BasicResponseHandler).handleResponse(response).trim.toString\r\n    \r\n    return responseBody\r\n  }\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:26:36 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\nrestCall: (endPoint: String, esServer: String, esPort: Int, postBody: String)String\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977169_-729411891",
+      "id": "20170816-031239_1155671196",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:26:36 PM",
+      "dateFinished": "Aug 21, 2017 9:26:37 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "def countPersonsWithoutEncounterLifecycle",
+      "text": "    def countPersonsWithoutEncounterLifecycle(spark:SparkSession,clientCode:String,esIndexName:String,esHost:String,esPort:Int):Int \u003d {\r\n        val sc \u003d spark.sparkContext\r\n        val sqlContext \u003d spark.sqlContext\r\n        import sqlContext.implicits._    \r\n        val personsWithoutEncounterLifecycle \u003d s\"\"\"\r\n        {\r\n            \"size\": 0,\r\n            \"query\": {\r\n              \"constant_score\": {\r\n                \"filter\": {\r\n                  \"bool\": {\r\n                    \"must\": [\r\n                      {\"term\":{\"client_code\" : \"${clientCode}\" }},\r\n                      {\r\n                        \"has_child\": {\r\n                          \"type\": \"encounter\",\r\n                          \"query\": {\r\n                            \"bool\": {\r\n                              \"must\": [\r\n                                { \"term\": {\"client_code\": \"${clientCode}\" }}\r\n                              ]\r\n                            }\r\n                          }\r\n                        } \r\n                      }\r\n                    ],\r\n                    \"must_not\": [\r\n                      {\r\n                        \"has_child\": {\r\n                          \"type\": \"encounter\",\r\n                          \"query\": {\r\n                            \"nested\": {\r\n                              \"path\": \"patient_lifecycle\",\r\n                              \"query\": {\r\n                                \"exists\": { \"field\": \"patient_lifecycle.state_flags.re_engaged\"}\r\n                              }\r\n                            }\r\n                          }\r\n                        }\r\n                      }\r\n                    ]\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n        \"\"\"\r\n        // generate the elasticsearch request string\r\n        val endPoint \u003d \"/\"+ esIndexName + \"/person/_search\"\r\n        val responseBody \u003d restCall(endPoint, \"exp-elasticsearch.default.svc.cluster.local\", esPort, personsWithoutEncounterLifecycle)\r\n\r\n        // check the results to ensure there were any households returned\r\n        val dfCount \u003d sqlContext.read.json(sc.parallelize(responseBody::Nil)).select($\"hits.total\")\r\n        return dfCount.first().getLong(0).asInstanceOf[Int]\r\n    }\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:48:54 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ncountPersonsWithoutEncounterLifecycle: (spark: org.apache.spark.sql.SparkSession, clientCode: String, esIndexName: String, esHost: String, esPort: Int)Int\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977177_-732489883",
+      "id": "20170815-214906_139962624",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:48:55 PM",
+      "dateFinished": "Aug 21, 2017 9:48:57 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "\r\n        val sc \u003d spark.sparkContext\r\n        val sqlContext \u003d spark.sqlContext\r\n        import sqlContext.implicits._\r\n\r\n        val allEncountersForPersonsWithoutPatientLifecycleFlags \u003d s\"\"\"\r\n{\r\n  \"query\": {\r\n    \"has_parent\": {\r\n      \"parent_type\": \"person\",\r\n      \"query\": {\r\n        \"bool\": {\r\n          \"must\": [\r\n            {\"term\":{\"client_code\" : \"DEMO\" }},\r\n            {\r\n              \"has_child\": {\r\n                \"type\": \"encounter\",\r\n                \"query\": {\r\n                  \"bool\": {\r\n                    \"must\": [\r\n                      { \"term\": {\"client_code\": \"DEMO\" }}\r\n                    ]\r\n                  }\r\n                }\r\n              } \r\n            }\r\n          ],\r\n          \"must_not\": [\r\n            {\r\n              \"has_child\": {\r\n                \"type\": \"encounter\",\r\n                \"query\": {\r\n                  \"nested\": {\r\n                    \"path\": \"patient_lifecycle\",\r\n                    \"query\": {\r\n                      \"exists\": { \"field\": \"patient_lifecycle.state_flags.re_engaged\"}\r\n                    }\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          ]\r\n        }\r\n      }\r\n    }\r\n  }\r\n}\r\n        \"\"\"\r\n\r\n        val encounterSourceQueryOptions \u003d Map(\r\n          \"es.read.source.filter\" -\u003e\"admit_date,facility_code,service_category\",\r\n          \"es.read.metadata\" -\u003e \"true\",\r\n          \"es.nodes\" -\u003e esServer,\r\n          \"es.nodes.wan.only\" -\u003e \"true\",\r\n          \"es.net.ssl\" -\u003e \"true\",\r\n          \"es.net.ssl.cert.allow.self.signed\" -\u003e \"true\"\r\n        )\r\n        \r\n        val allEncountersMissingFlagsRDD \u003d EsSpark.esJsonRDD(sc, s\"${esIndexName}/encounter\", allEncountersForPersonsWithoutPatientLifecycleFlags, encounterSourceQueryOptions)\r\n        \r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:47:11 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nsc: org.apache.spark.SparkContext \u003d org.apache.spark.SparkContext@5374c6\n\nsqlContext: org.apache.spark.sql.SQLContext \u003d org.apache.spark.sql.SQLContext@2d8a174f\n\nimport sqlContext.implicits._\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nallEncountersForPersonsWithoutPatientLifecycleFlags: String \u003d\n\"\n{\n  \"query\": {\n    \"has_parent\": {\n      \"parent_type\": \"person\",\n      \"query\": {\n        \"bool\": {\n          \"must\": [\n            {\"term\":{\"client_code\" : \"DEMO\" }},\n            {\n              \"has_child\": {\n                \"type\": \"encounter\",\n                \"query\": {\n                  \"bool\": {\n                    \"must\": [\n                      { \"term\": {\"client_code\": \"DEMO\" }}\n                    ]\n                  }\n                }\n              }\n            }\n          ],\n          \"must_not\": [\n            {\n              \"has_child\": {\n                \"type\": \"encounter\",\n                \"query\": {\n                  \"nested\": {\n                    \"path\": \"patient_lifecycle\",\n                    \"query\":...\nencounterSourceQueryOptions: scala.collection.immutable.Map[String,String] \u003d Map(es.nodes.wan.only -\u003e true, es.net.ssl.cert.allow.self.signed -\u003e true, es.read.metadata -\u003e true, es.nodes -\u003e 10.47.0.14, es.read.source.filter -\u003e admit_date,facility_code,service_category, es.net.ssl -\u003e true)\n\nallEncountersMissingFlagsRDD: org.apache.spark.rdd.RDD[(String, String)] \u003d ScalaEsRDD[0] at RDD at AbstractEsRDD.scala:37\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977185_-747879839",
+      "id": "20170821-200443_134486572",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:26:44 PM",
+      "dateFinished": "Aug 21, 2017 9:26:50 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// get jsonString of response as second item of tuple\nval encountersJson \u003d allEncountersMissingFlagsRDD.map[String](d \u003d\u003e d._2)\nencountersJson.cache\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:26:59 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencountersJson: org.apache.spark.rdd.RDD[String] \u003d MapPartitionsRDD[1] at map at \u003cconsole\u003e:77\n\nres3: encountersJson.type \u003d MapPartitionsRDD[1] at map at \u003cconsole\u003e:77\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977197_-752496825",
+      "id": "20170821-201016_947525349",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:26:59 PM",
+      "dateFinished": "Aug 21, 2017 9:27:05 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val allEncountersMissingFlagsDF \u003d sqlContext.read.json(encountersJson)\nallEncountersMissingFlagsDF.cache",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:27:15 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nallEncountersMissingFlagsDF: org.apache.spark.sql.DataFrame \u003d [_metadata: struct\u003c_id: string, _index: string ... 5 more fields\u003e, admit_date: bigint ... 2 more fields]\n\nres4: allEncountersMissingFlagsDF.type \u003d [_metadata: struct\u003c_id: string, _index: string ... 5 more fields\u003e, admit_date: bigint ... 2 more fields]\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977210_-743647601",
+      "id": "20170821-205117_727439604",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:27:15 PM",
+      "dateFinished": "Aug 21, 2017 9:31:28 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "allEncountersMissingFlagsDF.printSchema\nallEncountersMissingFlagsDF.count\nallEncountersMissingFlagsDF.show",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:32:22 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "root\n |-- _metadata: struct (nullable \u003d true)\n |    |-- _id: string (nullable \u003d true)\n |    |-- _index: string (nullable \u003d true)\n |    |-- _parent: string (nullable \u003d true)\n |    |-- _routing: string (nullable \u003d true)\n |    |-- _score: string (nullable \u003d true)\n |    |-- _type: string (nullable \u003d true)\n |    |-- sort: array (nullable \u003d true)\n |    |    |-- element: long (containsNull \u003d true)\n |-- admit_date: long (nullable \u003d true)\n |-- facility_code: string (nullable \u003d true)\n |-- service_category: struct (nullable \u003d true)\n |    |-- code: string (nullable \u003d true)\n |    |-- desc: string (nullable \u003d true)\n |    |-- sub_code: string (nullable \u003d true)\n |    |-- sub_desc: string (nullable \u003d true)\n\n\nres6: Long \u003d 87387\n+--------------------+-------------+-------------+--------------------+\n|           _metadata|   admit_date|facility_code|    service_category|\n+--------------------+-------------+-------------+--------------------+\n|[DEMO-5e6ed2e4-3b...|1407974400000|           05|[06,General Medic...|\n|[DEMO-5ea31cf9-7c...|1408924800000|           05|[13,Orthopedics,1...|\n|[DEMO-fe212034-7f...|1418860800000|           02|[16,Pulmonology,1...|\n|[DEMO-6ffa2097-b6...|1453507200000|           05|[16,Pulmonology,1...|\n|[DEMO-95cc3c5c-2b...|1353456000000|           02|[05,Digestive Hea...|\n|[DEMO-7fea4b94-0e...|1375747200000|           04|[02,Newborn Healt...|\n|[DEMO-0f0b2ed5-e5...|1468886400000|           05|[13,Orthopedics,1...|\n|[DEMO-334e47c7-e1...|1295136000000|           04|[23,Trauma,23-04,...|\n|[DEMO-a304f11c-af...|1367280000000|           04|[06,General Medic...|\n|[DEMO-e8d89ce3-41...|1408752000000|           05|[06,General Medic...|\n|[DEMO-e57f912d-60...|1366502400000|           04|[06,General Medic...|\n|[DEMO-fa4806da-cc...|1381881600000|           04|[13,Orthopedics,1...|\n|[DEMO-dcbfb82d-66...|1323734400000|           02|[05,Digestive Hea...|\n|[DEMO-1d853333-d7...|1292976000000|           02|[06,General Medic...|\n|[DEMO-f77518cb-e7...|1329091200000|           02|[15,Other,15-03,O...|\n|[DEMO-7dda1ba2-e9...|1362355200000|           05|[06,General Medic...|\n|[DEMO-5f6b81b7-04...|1325894400000|           02|[10,Gynecology,10...|\n|[DEMO-316a530d-d8...|1267747200000|           05|[14,Spine,14-03,S...|\n|[DEMO-d1690b58-d7...|1292716800000|           05|[09,Obstetrics,09...|\n|[DEMO-eeb592bd-ba...|1471910400000|           02|[23,Trauma,23-04,...|\n+--------------------+-------------+-------------+--------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977218_-660541838",
+      "id": "20170821-205117_1333318134",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:32:23 PM",
+      "dateFinished": "Aug 21, 2017 9:32:30 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val encounterCount \u003d allEncountersMissingFlagsDF.count\r\nprintln(s\"encounters actual retrieval count: ${encounterCount}\")\r\n\r\nval encountersES \u003d allEncountersMissingFlagsDF.select($\"_metadata._id\".as(\"encounter_id\"), $\"_metadata._parent\".as(\"person_id\"), $\"admit_date\", $\"facility_code\", $\"service_category.code\".as(\"service_category_code\"))\r\nencountersES.cache\r\nencountersES.createOrReplaceTempView(\"encountersES\")\r\nencountersES.show\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:34:08 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nencounterCount: Long \u003d 87387\nencounters actual retrieval count: 87387\n\nencountersES: org.apache.spark.sql.DataFrame \u003d [encounter_id: string, person_id: string ... 3 more fields]\n\nres9: encountersES.type \u003d [encounter_id: string, person_id: string ... 3 more fields]\n+--------------------+--------------------+-------------+-------------+---------------------+\n|        encounter_id|           person_id|   admit_date|facility_code|service_category_code|\n+--------------------+--------------------+-------------+-------------+---------------------+\n|DEMO-5e6ed2e4-3b4...|DEMO-129cd7aa-d10...|1407974400000|           05|                   06|\n|DEMO-5ea31cf9-7c5...|DEMO-129cd7aa-d10...|1408924800000|           05|                   13|\n|DEMO-fe212034-7fc...|DEMO-10f1b32d-666...|1418860800000|           02|                   16|\n|DEMO-6ffa2097-b6a...|DEMO-10f1b32d-666...|1453507200000|           05|                   16|\n|DEMO-95cc3c5c-2bd...|DEMO-10f1b32d-666...|1353456000000|           02|                   05|\n|DEMO-7fea4b94-0e8...|DEMO-d99546d9-9ec...|1375747200000|           04|                   02|\n|DEMO-0f0b2ed5-e54...|DEMO-7d137d3f-202...|1468886400000|           05|                   13|\n|DEMO-334e47c7-e18...|DEMO-aacadf30-b99...|1295136000000|           04|                   23|\n|DEMO-a304f11c-af6...|DEMO-e961e1b7-6c8...|1367280000000|           04|                   06|\n|DEMO-e8d89ce3-413...|DEMO-e961e1b7-6c8...|1408752000000|           05|                   06|\n|DEMO-e57f912d-607...|DEMO-e961e1b7-6c8...|1366502400000|           04|                   06|\n|DEMO-fa4806da-ccd...|DEMO-e961e1b7-6c8...|1381881600000|           04|                   13|\n|DEMO-dcbfb82d-66c...|DEMO-32e2969a-dca...|1323734400000|           02|                   05|\n|DEMO-1d853333-d79...|DEMO-32e2969a-dca...|1292976000000|           02|                   06|\n|DEMO-f77518cb-e7f...|DEMO-32e2969a-dca...|1329091200000|           02|                   15|\n|DEMO-7dda1ba2-e90...|DEMO-933f8e06-205...|1362355200000|           05|                   06|\n|DEMO-5f6b81b7-042...|DEMO-933f8e06-205...|1325894400000|           02|                   10|\n|DEMO-316a530d-d8f...|DEMO-d5b9a030-127...|1267747200000|           05|                   14|\n|DEMO-d1690b58-d77...|DEMO-c5b3334c-b78...|1292716800000|           05|                   09|\n|DEMO-eeb592bd-ba0...|DEMO-fbcbde46-893...|1471910400000|           02|                   23|\n+--------------------+--------------------+-------------+-------------+---------------------+\nonly showing top 20 rows\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977235_-654770605",
+      "id": "20170821-200942_1548606673",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:34:09 PM",
+      "dateFinished": "Aug 21, 2017 9:34:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "def getEncounterSourceData",
+      "text": "    def getEncounterSourceData(spark:SparkSession,clientCode:String,esIndexName:String,esServer:String,esPort:Int,resultLimit:Int):org.apache.spark.sql.DataFrame \u003d {\r\n\r\n        val sc \u003d spark.sparkContext\r\n        val sqlContext \u003d spark.sqlContext\r\n        import sqlContext.implicits._\r\n\r\n\t\tval allEncountersForPersonsWithoutPatientLifecycleFlags \u003d s\"\"\"\r\n\t\t{\r\n\t\t  \"query\": {\r\n\t\t\t\"has_parent\": {\r\n\t\t\t  \"parent_type\": \"person\",\r\n\t\t\t  \"query\": {\r\n\t\t\t\t\"bool\": {\r\n\t\t\t\t  \"must\": [\r\n\t\t\t\t\t{\"term\":{\"client_code\" : \"DEMO\" }},\r\n\t\t\t\t\t{\r\n\t\t\t\t\t  \"has_child\": {\r\n\t\t\t\t\t\t\"type\": \"encounter\",\r\n\t\t\t\t\t\t\"query\": {\r\n\t\t\t\t\t\t  \"bool\": {\r\n\t\t\t\t\t\t\t\"must\": [\r\n\t\t\t\t\t\t\t  { \"term\": {\"client_code\": \"DEMO\" }}\r\n\t\t\t\t\t\t\t]\r\n\t\t\t\t\t\t  }\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t  } \r\n\t\t\t\t\t}\r\n\t\t\t\t  ],\r\n\t\t\t\t  \"must_not\": [\r\n\t\t\t\t\t{\r\n\t\t\t\t\t  \"has_child\": {\r\n\t\t\t\t\t\t\"type\": \"encounter\",\r\n\t\t\t\t\t\t\"query\": {\r\n\t\t\t\t\t\t  \"nested\": {\r\n\t\t\t\t\t\t\t\"path\": \"patient_lifecycle\",\r\n\t\t\t\t\t\t\t\"query\": {\r\n\t\t\t\t\t\t\t  \"exists\": { \"field\": \"patient_lifecycle.state_flags.re_engaged\"}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t  }\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t  }\r\n\t\t\t\t\t}\r\n\t\t\t\t  ]\r\n\t\t\t\t}\r\n\t\t\t  }\r\n\t\t\t}\r\n\t\t  }\r\n\t\t}\r\n\t\t\"\"\"\r\n\r\n        val encounterSourceQueryOptions \u003d Map(\r\n          \"es.read.source.filter\" -\u003e \"admit_date,facility_code,service_category\",\r\n          \"es.read.metadata\" -\u003e \"true\"\r\n        )\r\n        \r\n        val allEncountersMissingFlagsRDD \u003d EsSpark.esJsonRDD(sc, s\"${esIndexName}/encounter\", allEncountersForPersonsWithoutPatientLifecycleFlags, encounterSourceQueryOptions)\r\n\t\t\r\n\t\t// get jsonMap of response as second item of tuple\r\n\t\tval encountersJson \u003d allEncountersMissingFlagsRDD.map[String](d \u003d\u003e d._2)\r\n\t\tencountersJson.cache\r\n\t\t\r\n\t\t// read json docs into dataframe\r\n\t\tval allEncountersMissingFlagsDF \u003d sqlContext.read.json(encountersJson)\r\n\t\tallEncountersMissingFlagsDF.cache\r\n\t\tval encounterCount \u003d allEncountersMissingFlagsDF.count\r\n\t\tprintln(s\"total encounter count for persons with patient lifecycle not present: ${encounterCount}\")\r\n\r\n\t\t// select and rename fields\r\n\t\tval encountersES \u003d allEncountersMissingFlagsDF.select($\"_metadata._id\".as(\"encounter_id\"), $\"_metadata._parent\".as(\"person_id\"), $\"admit_date\", $\"facility_code\", $\"service_category.code\".as(\"service_category_code\"))\r\n\t\tencountersES.cache\r\n\t\tencountersES.createOrReplaceTempView(\"encountersES\")\r\n        return encountersES\r\n    }\r\n\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:46:44 PM",
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ngetEncounterSourceData: (spark: org.apache.spark.sql.SparkSession, clientCode: String, esIndexName: String, esServer: String, esPort: Int, resultLimit: Int)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977249_-674008050",
+      "id": "20170811-190929_919657173",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:46:44 PM",
+      "dateFinished": "Aug 21, 2017 9:46:48 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "def buildEncounterBaseFromSource - establish sequences across encounters (overall, service_category, facility)",
+      "text": "    def buildEncounterBaseFromSource(spark:SparkSession) :org.apache.spark.sql.DataFrame \u003d {\r\n\r\n        val sc \u003d spark.sparkContext\r\n        val sqlContext \u003d spark.sqlContext\r\n        import sqlContext.implicits._    \r\n\r\n        val encounterSelect \u003d spark.sql(\"\"\"\r\n            SELECT\r\n              _id as encounter_id,\r\n              _parent as person_id,\r\n              cast(admit_date as timestamp) as admit_date,\r\n              facility_code as facility_code,\r\n              service_category_code as service_category_code,\r\n              row_number() over (partition by _parent order by admit_date asc, _id asc) as enc_seq ,\r\n              row_number() over (partition by _parent order by admit_date asc, _id asc) -1 as enc_prev,\r\n              row_number() over (partition by _parent,service_category_code order by admit_date asc, _id asc) as enc_seq_sc,\r\n              row_number() over (partition by _parent,service_category_code order by admit_date asc, _id asc) -1 as enc_prev_sc,\r\n              row_number() over (partition by _parent,facility_code order by admit_date asc, _id asc) as enc_seq_f,\r\n              row_number() over (partition by _parent,facility_code order by admit_date asc, _id asc) -1 as enc_prev_f\r\n            FROM encountersES\r\n        \"\"\")\r\n        encounterSelect.createOrReplaceTempView(\"encounter\")\r\n        encounterSelect.cache()\r\n\r\n        return encounterSelect\r\n    }\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:45:06 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterBaseFromSource: (spark: org.apache.spark.sql.SparkSession)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977254_-674392799",
+      "id": "20170811-220440_312130954",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:45:06 PM",
+      "dateFinished": "Aug 21, 2017 9:45:07 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "def buildEncounterYearsBetweenFromBase - use sequenced data to determine # years between encounters. for service category and facility, determine previous encounters from differing values",
+      "text": "    def buildEncounterYearsBetweenFromBase(spark:SparkSession) :org.apache.spark.sql.DataFrame \u003d {\r\n\r\n        val sc \u003d spark.sparkContext\r\n        val sqlContext \u003d spark.sqlContext\r\n        import sqlContext.implicits._\r\n\r\n        val encounterYearsBetween \u003d spark.sql(\"\"\"\r\n          select cur.encounter_id,\r\n          cur.person_id,\r\n          cur.enc_seq,\r\n          cur.enc_prev,\r\n          case when prv.person_id is null then 99 else datediff(cur.admit_date,prv.admit_date)/365.25 end as yearsBetween,\r\n          case when prv_f.person_id is null then 99 else datediff(cur.admit_date,prv_f.admit_date)/365.25 end as yearsBetween_f,\r\n          case when prv_sc.person_id is null then 99 else datediff(cur.admit_date,prv_sc.admit_date)/365.25 end as yearsBetween_sc,\r\n          prv_not_sc.yearsbetween as yearsBetween_not_sc,\r\n          prv_not_f.yearsbetween as yearsBetween_not_f,\r\n          (case when\r\n              (case when prv_sc.person_id is null then 98 else datediff(cur.admit_date,prv_sc.admit_date)/365.25 end) -- yearsBetween_sc\r\n                  \u003c\r\n              (case when prv_f.person_id is null then 99 else datediff(cur.admit_date,prv_f.admit_date)/365.25 end) -- yearsBetween_f\r\n              then\r\n                  (case when prv_sc.person_id is null then 99 else datediff(cur.admit_date,prv_sc.admit_date)/365.25 end) -- yearsBetween_sc\r\n              else\r\n                  (case when prv_f.person_id is null then 99 else datediff(cur.admit_date,prv_f.admit_date)/365.25 end) -- yearsBetween_f\r\n              end) as yearsBetween_f_or_sc\r\n          from encounter cur\r\n          left join encounter prv on cur.person_id \u003d prv.person_id and cur.enc_prev \u003d prv.enc_seq\r\n          left join encounter prv_f on cur.person_id \u003d prv_f.person_id and cur.enc_prev_f \u003d prv_f.enc_seq_f and cur.facility_code \u003d prv_f.facility_code\r\n          left join encounter prv_sc on cur.person_id \u003d prv_sc.person_id and cur.enc_prev_sc \u003d prv_sc.enc_seq_sc and cur.service_category_code \u003d prv_sc.service_category_code\r\n          left join (\r\n              select encounter_id,\r\n              case when person_id is null then 98 else yearsbetween end as yearsbetween\r\n              from (\r\n                  select cur.encounter_id,\r\n                  prv.person_id,\r\n                  datediff(cur.admit_date,prv.admit_date)/365.25 as yearsbetween,\r\n                  row_number() over (partition by cur.person_id,cur.service_category_code,cur.enc_seq order by prv.enc_seq desc) as not_sc_seq\r\n                  from encounter cur left join encounter prv\r\n                  on prv.person_id \u003d cur.person_id\r\n                      and cur.service_category_code \u003c\u003e prv.service_category_code\r\n                      and cur.enc_seq \u003e prv.enc_seq\r\n              ) where not_sc_seq \u003d 1\r\n          ) prv_not_sc on cur.encounter_id \u003d prv_not_sc.encounter_id\r\n          left join (\r\n              select encounter_id,\r\n              case when person_id is null then 99 else yearsbetween end as yearsbetween\r\n              from (\r\n                  select cur.encounter_id,prv.person_id,\r\n                  datediff(cur.admit_date,prv.admit_date)/365.25 as yearsbetween,\r\n                  row_number() over (partition by cur.person_id,cur.facility_code,cur.enc_seq order by prv.enc_seq desc) as not_f_seq\r\n                  from encounter cur left join encounter prv\r\n                  on prv.person_id \u003d cur.person_id\r\n                      and cur.facility_code \u003c\u003e prv.facility_code\r\n                      and cur.enc_seq \u003e prv.enc_seq\r\n              ) where not_f_seq \u003d 1\r\n          ) prv_not_f on cur.encounter_id \u003d prv_not_f.encounter_id\r\n        \"\"\")\r\n        \r\n        encounterYearsBetween.cache\r\n        encounterYearsBetween.createOrReplaceTempView(\"encounterYearsBetween\")\r\n\r\n        return encounterYearsBetween\r\n    }\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:45:09 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterYearsBetweenFromBase: (spark: org.apache.spark.sql.SparkSession)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977258_-675931794",
+      "id": "20170814-203204_1134603726",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:45:09 PM",
+      "dateFinished": "Aug 21, 2017 9:45:11 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "def buildEncounterLifecycleFlagsFromYearsBetween - determine indicators at each encounter row based on encounter time diff values",
+      "text": "    def buildEncounterLifecycleFlagsFromYearsBetween(spark:SparkSession) :org.apache.spark.sql.DataFrame \u003d {\r\n\r\n        val sc \u003d spark.sparkContext\r\n        val sqlContext \u003d spark.sqlContext\r\n        import sqlContext.implicits._\r\n\r\n\r\n        val encounterLifecycleFlags \u003d spark.sql(\"\"\"\r\n          select encounter_id,\r\n          person_id,\r\n          enc_seq,\r\n          enc_prev,\r\n          yearsBetween,\r\n          yearsBetween_f,\r\n          yearsBetween_sc,\r\n          yearsBetween_not_sc,\r\n          yearsBetween_not_f,\r\n          yearsBetween_f_or_sc,\r\n          -- new patient if they did not have any medical encounter in the previous 3 years\r\n          case when yearsbetween \u003e 3 then 1 else 0 end as new,\r\n          -- re-engaged patient if they did have an encounter in the previous 3 years and did not have an encounter in the last year\r\n          case when yearsbetween \u003e 1 and yearsbetween \u003c\u003d 3 then 1 else 0 end as re_engaged,\r\n          -- service cross-sell if they did NOT have an encounter in that service category in the past 3 years and DID have an encounter in a DIFFERENT service category in the past 3 years\r\n          case when\r\n              -- did NOT have an encounter in that service category in the past 3 years\r\n              yearsbetween_sc \u003e 3\r\n              -- DID have an encounter in a DIFFERENT service category in the past 3 years\r\n              and yearsbetween_not_sc \u003c\u003d 3\r\n              then 1 else 0 end as xs_sc,\r\n          -- facility_code cross-sell if they did NOT have an encounter at that facility_code in the past 3 years and DID have an encounter in a DIFFERENT facility_code in the past 3 years\r\n          case when\r\n              -- did NOT have an encounter at that facility_code in the past 3 years\r\n              yearsbetween_f \u003e 3\r\n              -- DID have an encounter at a DIFFERENT facility_code in the past 3 years\r\n              and yearsbetween_not_f \u003c\u003d 3\r\n              then 1 else 0 end as xs_f,\r\n          case when\r\n              -- service cross-sell\r\n              (yearsbetween_sc \u003e 3 and yearsbetween_not_sc \u003c\u003d 3)\r\n              or\r\n              -- facility_code cross-sell\r\n              (yearsbetween_f \u003e 3 and yearsbetween_not_f \u003c\u003d 3)\r\n              then 1 else 0 end as xs,\r\n          -- existing patient if they did have an encounter in the previous 3 years within the same facility_code or service category\r\n          case when yearsbetween_f_or_sc \u003c\u003d 3 then 1 else 0 end as existing\r\n          from encounterYearsBetween\r\n        \"\"\")\r\n\r\n        encounterLifecycleFlags.cache\r\n        encounterLifecycleFlags.createOrReplaceTempView(\"encounterLifecycleFlags\")\r\n\r\n        return encounterLifecycleFlags\r\n    }\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:45:12 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterLifecycleFlagsFromYearsBetween: (spark: org.apache.spark.sql.SparkSession)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977260_-678240288",
+      "id": "20170814-211850_1818582324",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:45:12 PM",
+      "dateFinished": "Aug 21, 2017 9:45:15 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "def buildEncounterLifecycleStateFromFlags - apply hierarchical logic from flags to determine overall lifecycle values",
+      "text": "    def buildEncounterLifecycleStateFromFlags(spark:SparkSession) :org.apache.spark.sql.DataFrame \u003d {\r\n\r\n        val sc \u003d spark.sparkContext\r\n        val sqlContext \u003d spark.sqlContext\r\n        import sqlContext.implicits._\r\n\r\n        val encounterLifecycleState \u003d spark.sql(\"\"\"\r\n          select\r\n          encounter_id,\r\n          cur.person_id,\r\n          cur.enc_seq,\r\n          enc_prev,\r\n          yearsBetween,\r\n          yearsBetween_f,\r\n          yearsBetween_sc,\r\n          yearsBetween_not_sc,\r\n          yearsBetween_not_f,\r\n          yearsBetween_f_or_sc,\r\n          cast(new as Boolean) as new,\r\n          cast(re_engaged as Boolean) as re_engaged,\r\n          cast(xs_sc as Boolean) as cross_sell_service_category,\r\n          cast(xs_f as Boolean) as cross_sell_facility,\r\n          cast(xs as Boolean) as cross_sell,\r\n          cast(existing as Boolean) as existing,\r\n          \u0027Patient\u0027 as lifecycleTypeHighLevel,\r\n          -- standard hierarchy: new - cross-service - cross-facility - re-engaged - existing\r\n          case\r\n              when new \u003d 1 then \u0027New Patient\u0027\r\n              when xs_sc \u003d 1 then \u0027Service Cross-Sell\u0027\r\n              when xs_f \u003d 1 then \u0027Facility Cross-Sell\u0027\r\n              when re_engaged \u003d 1 then \u0027Re-Engaged Patient\u0027\r\n              when existing \u003d 1 then \u0027Existing Patient\u0027\r\n              else \u0027ZZUNKNOWN\u0027\r\n          end as lifecycleType,\r\n          -- service-specific hierarchy: new - cross-service - cross - re-engaged - existing\r\n          case\r\n              when new \u003d 1 then \u0027New Patient\u0027\r\n              when xs_sc \u003d 1 then \u0027Service Cross-Sell\u0027\r\n              when xs \u003d 1 then \u0027Cross-Sell\u0027\r\n              when re_engaged \u003d 1 then \u0027Re-Engaged Patient\u0027\r\n              when existing \u003d 1 then \u0027Existing Patient\u0027\r\n              else \u0027ZZUNKNOWN\u0027\r\n          end as lifecycleType_Service,\r\n          -- facility-specific hierarchy: new - cross-facility - cross - re-engaged - existing\r\n          case\r\n              when new \u003d 1 then \u0027New Patient\u0027\r\n              when xs_f \u003d 1 then \u0027Facility Cross-Sell\u0027\r\n              when xs \u003d 1 then \u0027Cross-Sell\u0027\r\n              when re_engaged \u003d 1 then \u0027Re-Engaged Patient\u0027\r\n              when existing \u003d 1 then \u0027Existing Patient\u0027\r\n              else \u0027ZZUNKNOWN\u0027\r\n          end as lifecycleType_Facility,\r\n          case when prv.previousLifecycleType is not null then \u0027Patient\u0027 else \u0027Prospect\u0027 end as previousLifecycleTypeHighLevel,\r\n          coalesce(prv.previousLifecycleType,\u0027Prospect\u0027) as previousLifecycleType,\r\n          coalesce(prv.previousLifecycleType_Service,\u0027Prospect\u0027) as previousLifecycleType_Service,\r\n          coalesce(prv.previousLifecycleType_Facility,\u0027Prospect\u0027) as previousLifecycleType_Facility\r\n          from encounterLifecycleFlags cur\r\n          left join (\r\n              select person_id,enc_seq as prv_enc_seq,\r\n              -- standard hierarchy: new - cross-service - cross-facility - re-engaged - existing\r\n              case\r\n                  when new \u003d 1 then \u0027New Patient\u0027\r\n                  when xs_sc \u003d 1 then \u0027Service Cross-Sell\u0027\r\n                  when xs_f \u003d 1 then \u0027Facility Cross-Sell\u0027\r\n                  when re_engaged \u003d 1 then \u0027Re-Engaged Patient\u0027\r\n                  when existing \u003d 1 then \u0027Existing Patient\u0027\r\n                  else \u0027ZZUNKNOWN\u0027\r\n              end as previousLifecycleType,\r\n              -- service-specific hierarchy: new - cross-service - cross - re-engaged - existing\r\n              case\r\n                  when new \u003d 1 then \u0027New Patient\u0027\r\n                  when xs_sc \u003d 1 then \u0027Service Cross-Sell\u0027\r\n                  when xs \u003d 1 then \u0027Cross-Sell\u0027\r\n                  when re_engaged \u003d 1 then \u0027Re-Engaged Patient\u0027\r\n                  when existing \u003d 1 then \u0027Existing Patient\u0027\r\n                  else \u0027ZZUNKNOWN\u0027\r\n              end as previousLifecycleType_Service,\r\n              -- facility-specific hierarchy: new - cross-facility - cross - re-engaged - existing\r\n              case\r\n                  when new \u003d 1 then \u0027New Patient\u0027\r\n                  when xs_f \u003d 1 then \u0027Facility Cross-Sell\u0027\r\n                  when xs \u003d 1 then \u0027Cross-Sell\u0027\r\n                  when re_engaged \u003d 1 then \u0027Re-Engaged Patient\u0027\r\n                  when existing \u003d 1 then \u0027Existing Patient\u0027\r\n                  else \u0027ZZUNKNOWN\u0027\r\n              end as previousLifecycleType_Facility\r\n              from encounterLifecycleFlags\r\n          ) prv on prv.person_id \u003d cur.person_id and prv.prv_enc_seq \u003d cur.enc_prev\r\n        \"\"\")\r\n\r\n        encounterLifecycleState.cache\r\n      encounterLifecycleState.createOrReplaceTempView(\"encounterLifecycleState\")\r\n\r\n        return encounterLifecycleState\r\n    }\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:45:16 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nbuildEncounterLifecycleStateFromFlags: (spark: org.apache.spark.sql.SparkSession)org.apache.spark.sql.DataFrame\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977261_-678625037",
+      "id": "20170814-213500_111844456",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:45:16 PM",
+      "dateFinished": "Aug 21, 2017 9:45:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "Parquet",
+      "text": "\tdef produceParquetFilesAndReadIntoDF(inDataFrame:org.apache.spark.sql.DataFrame):org.apache.spark.sql.DataFrame \u003d {\r\n\t\tval format \u003d new java.text.SimpleDateFormat(\"yyyyMMddHHmmss\")\r\n\t\tval ts \u003d format.format(new java.util.Date())\r\n\t\tval parquetFolder \u003d \"encounter-patient-lifecycle.parquet.\".concat(ts)\r\n\t\t\r\n\t\tinDataFrame.write.parquet(parquetFolder)\r\n\t\treturn sqlContext.read.parquet(parquetFolder)\r\n\t}",
+      "dateUpdated": "Aug 21, 2017 9:44:49 PM",
+      "config": {
+        "tableHide": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977266_-666697821",
+      "id": "20170815-170737_1075382773",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "class definitions",
+      "text": "    case class state_flags (\r\n        cross_sell_service_category: Boolean,\r\n        `new`: Boolean,\r\n        re_engaged: Boolean\r\n        )\r\n    case class patient_lifecycle (\r\n        state_flags: state_flags\r\n        )\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:44:52 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\ndefined class state_flags\n\ndefined class patient_lifecycle\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977275_-670160561",
+      "id": "20170816-033845_637584227",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:44:52 PM",
+      "dateFinished": "Aug 21, 2017 9:44:55 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "title": "def writePatientLifecycleDataToEncounter",
+      "text": "    def writePatientLifecycleDataToEncounter(spark:SparkSession,encounterLifecycleFrame:org.apache.spark.sql.DataFrame,esIndexName:String,esServer:String) \u003d {\r\n      val sc \u003d spark.sparkContext\r\n      val sqlContext \u003d spark.sqlContext\r\n      import sqlContext.implicits._\r\n\r\n      val updates \u003d encounterLifecycleFrame\r\n        .rdd\r\n        .map(e \u003d\u003e (\r\n          Map(\r\n            ID -\u003e e.getAs[String](\"encounter_id\"),\r\n            PARENT -\u003e e.getAs[String](\"person_id\"),\r\n            ROUTING -\u003e e.getAs[String](\"person_id\")\r\n          ),\r\n          Map(\"patient_lifecycle\" -\u003e\r\n            patient_lifecycle(\r\n              state_flags(\r\n                e.getAs[Boolean](\"cross_sell_service_category\"),\r\n                e.getAs[Boolean](\"new\"),\r\n                e.getAs[Boolean](\"re_engaged\"))\r\n            )\r\n          )\r\n        )\r\n      )\r\n\r\n      var esconf \u003d Map(\r\n        \"es.nodes\" -\u003e esServer,\r\n        \"es.write.operation\" -\u003e \"upsert\",\r\n        \"es.nodes.wan.only\" -\u003e \"true\",\r\n        \"es.index.auto.create\" -\u003e \"false\",\r\n        \"es.batch.size.bytes\" -\u003e \"20mb\")\r\n\r\n      // write elasticsearch data back to the index\r\n      updates.saveToEsWithMeta(s\"${esIndexName}/encounter\", esconf)\r\n    }\r\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:45:20 PM",
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "editorHide": true,
+        "title": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nwritePatientLifecycleDataToEncounter: (spark: org.apache.spark.sql.SparkSession, encounterLifecycleFrame: org.apache.spark.sql.DataFrame, esIndexName: String, esServer: String)Unit\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977276_-672084305",
+      "id": "20170814-214122_623175280",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:45:20 PM",
+      "dateFinished": "Aug 21, 2017 9:45:23 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val personCount \u003d countPersonsWithoutEncounterLifecycle(spark,clientCode,esIndexName,esServer,esPort)\r\n\r\n\tprintln(\"pre-processing: persons remaining to process: \" + personCount.toString);\r\n\tval encounterSourceFrame \u003d getEncounterSourceData(spark,clientCode,esIndexName,esServer,esPort,batchSize)\r\n\tval encounterBaseFrame \u003d buildEncounterBaseFromSource(spark)\r\n\tval encounterYearsBetweenFrame \u003d buildEncounterYearsBetweenFromBase(spark)\r\n\tval encounterLifecycleFlagsFrame \u003d buildEncounterLifecycleFlagsFromYearsBetween(spark)\r\n\tval encounterLifecycleStateFrame \u003d buildEncounterLifecycleStateFromFlags(spark)\r\n\twritePatientLifecycleDataToEncounter(spark,encounterLifecycleStateFrame,esIndexName,esServer)\r\n\r\n\tpersonCount \u003d countPersonsWithoutEncounterLifecycle(spark,clientCode,esIndexName,esServer,esPort)\r\n\t\r\n\tprintln(\"post-processing: persons with patient lifecycle not present: \" + personCount.toString);",
+      "user": "anonymous",
+      "dateUpdated": "Aug 21, 2017 9:49:02 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\njava.net.UnknownHostException: exp-elasticsearch.default.svc.cluster.local: Name or service not known\n  at java.net.Inet6AddressImpl.lookupAllHostAddr(Native Method)\n  at java.net.InetAddress$2.lookupAllHostAddr(InetAddress.java:928)\n  at java.net.InetAddress.getAddressesFromNameService(InetAddress.java:1323)\n  at java.net.InetAddress.getAllByName0(InetAddress.java:1276)\n  at java.net.InetAddress.getAllByName(InetAddress.java:1192)\n  at java.net.InetAddress.getAllByName(InetAddress.java:1126)\n  at org.apache.http.impl.conn.SystemDefaultDnsResolver.resolve(SystemDefaultDnsResolver.java:44)\n  at org.apache.http.impl.conn.DefaultClientConnectionOperator.resolveHostname(DefaultClientConnectionOperator.java:259)\n  at org.apache.http.impl.conn.DefaultClientConnectionOperator.openConnection(DefaultClientConnectionOperator.java:159)\n  at org.apache.http.impl.conn.ManagedClientConnectionImpl.open(ManagedClientConnectionImpl.java:304)\n  at org.apache.http.impl.client.DefaultRequestDirector.tryConnect(DefaultRequestDirector.java:611)\n  at org.apache.http.impl.client.DefaultRequestDirector.execute(DefaultRequestDirector.java:446)\n  at org.apache.http.impl.client.AbstractHttpClient.doExecute(AbstractHttpClient.java:863)\n  at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)\n  at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:106)\n  at restCall(\u003cconsole\u003e:73)\n  at countPersonsWithoutEncounterLifecycle(\u003cconsole\u003e:125)\n  ... 60 elided\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977293_-690937001",
+      "id": "20170816-034015_1264407346",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "dateStarted": "Aug 21, 2017 9:49:03 PM",
+      "dateFinished": "Aug 21, 2017 9:49:06 PM",
+      "status": "ERROR",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "        val parquetBackedDataFrame \u003d produceParquetFilesAndReadIntoDF(encounterLifecycleStateFrame)\r\n        writePatientLifecycleDataToEncounter(spark,parquetBackedDataFrame,esIndexName,esServer)\r\n\r\nval z \u003d countPersonsWithoutEncounterLifecycle(spark,clientCode,esIndexName,esServer,esPort)",
+      "dateUpdated": "Aug 21, 2017 9:12:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977302_-680548781",
+      "id": "20170816-193330_956068622",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "encounterSourceFrame.count",
+      "dateUpdated": "Aug 21, 2017 9:12:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/scala",
+        "results": {},
+        "enabled": false,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nres17: Long \u003d 386\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977304_-682857274",
+      "id": "20170814-202939_284316740",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql\n",
+      "dateUpdated": "Aug 21, 2017 9:12:57 PM",
+      "config": {
+        "colWidth": 12.0,
+        "editorMode": "ace/mode/sql",
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1503349977312_-698247230",
+      "id": "20170816-185421_831015135",
+      "dateCreated": "Aug 21, 2017 9:12:57 PM",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "~Trash/patient_lifecycle/v1.0.1/Encounter Patient Lifecycle Processing - All at once",
+  "id": "2CRZ5HMZ7",
+  "angularObjects": {},
+  "config": {},
+  "info": {}
+}
