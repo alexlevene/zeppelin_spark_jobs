@@ -1,0 +1,370 @@
+{
+  "paragraphs": [
+    {
+      "text": "%md\n# Must run this dependency load FIRST THING\n",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 7:06:25 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": false,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eMust run this dependency load FIRST THING\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502469540909_1100809960",
+      "id": "20170811-163900_316724646",
+      "dateCreated": "Aug 11, 2017 4:39:00 PM",
+      "dateStarted": "Aug 11, 2017 4:42:20 PM",
+      "dateFinished": "Aug 11, 2017 4:42:24 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%spark.dep\n// Load our Elasticsearch spark dependencies from Maven\nz.reset()\nz.load(\"org.elasticsearch:elasticsearch-spark-20_2.11:5.3.2\")",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 5:49:13 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "res0: org.apache.zeppelin.dep.Dependency \u003d org.apache.zeppelin.dep.Dependency@297db761\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502466949726_-1048673755",
+      "id": "20170811-155549_1843696913",
+      "dateCreated": "Aug 11, 2017 3:55:49 PM",
+      "dateStarted": "Aug 11, 2017 5:49:13 PM",
+      "dateFinished": "Aug 11, 2017 5:49:33 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "import org.apache.spark.sql.SparkSession\r\nimport org.apache.spark.sql.DataFrame\r\n// Import our dependencies\r\nimport org.apache.spark.sql.SQLContext    \r\nimport org.apache.spark.sql.SQLContext._\r\nimport org.elasticsearch.spark.sql._\r\nimport org.elasticsearch.spark._\r\nimport org.elasticsearch.spark.rdd.Metadata._\r\nimport org.apache.spark.SparkContext\r\nimport org.apache.spark.SparkContext._\r\nimport org.apache.spark.SparkConf\r\nimport org.apache.spark.sql\r\nimport org.apache.spark.sql.types._\r\nimport org.apache.http.client.methods.HttpPost\r\nimport org.apache.http.entity.StringEntity\r\nimport org.apache.http.impl.client.DefaultHttpClient\r\nimport org.apache.http.impl.client.BasicResponseHandler\r\nimport java.util.Date\r\nimport java.util.Calendar\r\nimport org.apache.commons.lang3.time.DateUtils\r\nimport java.text.SimpleDateFormat\r\nimport scala.collection.mutable.WrappedArray",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 5:49:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "tableHide": false,
+        "lineNumbers": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nimport org.apache.spark.sql.SparkSession\n\nimport org.apache.spark.sql.DataFrame\n\nimport org.apache.spark.sql.SQLContext\n\nimport org.apache.spark.sql.SQLContext._\n\nimport org.elasticsearch.spark.sql._\n\nimport org.elasticsearch.spark._\n\nimport org.elasticsearch.spark.rdd.Metadata._\n\nimport org.apache.spark.SparkContext\n\nimport org.apache.spark.SparkContext._\n\nimport org.apache.spark.SparkConf\n\nimport org.apache.spark.sql\n\nimport org.apache.spark.sql.types._\n\nimport org.apache.http.client.methods.HttpPost\n\nimport org.apache.http.entity.StringEntity\n\nimport org.apache.http.impl.client.DefaultHttpClient\n\nimport org.apache.http.impl.client.BasicResponseHandler\n\nimport java.util.Date\n\nimport java.util.Calendar\n\nimport org.apache.commons.lang3.time.DateUtils\n\nimport java.text.SimpleDateFormat\n\nimport scala.collection.mutable.WrappedArray\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502390301307_-40540829",
+      "id": "20170810-183821_1936831840",
+      "dateCreated": "Aug 10, 2017 6:38:21 PM",
+      "dateStarted": "Aug 11, 2017 5:49:37 PM",
+      "dateFinished": "Aug 11, 2017 5:50:03 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# ES REST API call\n\nTests a connection to elasticsearch and returns a count of documents",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 5:50:07 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eES REST API call\u003c/h1\u003e\n\u003cp\u003eTests a connection to elasticsearch and returns a count of documents\u003c/p\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502473595048_-1772686415",
+      "id": "20170811-174635_847363480",
+      "dateCreated": "Aug 11, 2017 5:46:35 PM",
+      "dateStarted": "Aug 11, 2017 5:50:08 PM",
+      "dateFinished": "Aug 11, 2017 5:50:10 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "// countPersonsWithoutEncounterLifecycle\r\nval spark \u003d SparkSession\r\n     .builder()\r\n     .appName(\"PatientLifecycleProcessing\")\r\n     .getOrCreate()\r\n     \r\nval sc \u003d spark.sparkContext\r\nval sqlContext \u003d spark.sqlContext\r\nimport sqlContext.implicits._    \r\nval personsWithoutEncounterLifecycle \u003d s\"\"\"\r\n  {\r\n    \"size\": 0,\r\n    \"query\": {\r\n      \"constant_score\": {\r\n        \"filter\": {\r\n          \"bool\": {\r\n            \"must\": [\r\n              {\"term\":{\"client_code\" : \"DEMO\" }},\r\n              {\r\n                \"has_child\": {\r\n                  \"type\": \"encounter\",\r\n                  \"query\": {\r\n                    \"bool\": {\r\n                      \"must\": [\r\n                        { \"term\": {\"client_code\": \"DEMO\" }}\r\n                      ],\r\n                      \"must_not\":[\r\n                        { \"exists\": { \"field\": \"patient_lifecycle.state_flags.re_engaged\"} }\r\n                      ]\r\n                    }\r\n                  }\r\n                } \r\n              }\r\n            ]\r\n          }\r\n        }\r\n      }\r\n    }\r\n  }\r\n\"\"\"\r\n// generate the elasticsearch request string\r\nval endPoint \u003d \"exp_v1_0_1/person/_search\"\r\nval request_url \u003d \"https://exp-elasticsearch.default.svc.cluster.local:9200/\" + endPoint\r\n// build the apache HTTP post request\r\nval post \u003d new HttpPost(request_url)\r\n// set header for json request string\r\nval setHeaderReturn \u003d post.setHeader(\"Content-type\",\"application/json\")\r\n// ad the json request string to the http post\r\nval setEntityReturn \u003d post.setEntity(new StringEntity(personsWithoutEncounterLifecycle))\r\n// send the request to elasticsearch\r\nval response \u003d (new DefaultHttpClient).execute(post)\r\n// get the status -- this code doesn\u0027t check for HTTP/1.1 200 OK response but the final code should!\r\nval status \u003d response.getStatusLine\r\n// get the json response body\r\nval responseBody \u003d (new BasicResponseHandler).handleResponse(response).trim.toString\r\n\r\n// check the results to ensure there were any households returned\r\nval dfCount \u003d sqlContext.read.json(sc.parallelize(responseBody::Nil)).select($\"hits.total\")\r\nprintln(dfCount.first().getLong(0).asInstanceOf[Int])",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 5:51:08 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala",
+        "editorHide": false,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nspark: org.apache.spark.sql.SparkSession \u003d org.apache.spark.sql.SparkSession@6b821808\n\nsc: org.apache.spark.SparkContext \u003d org.apache.spark.SparkContext@4380f3f7\n\nsqlContext: org.apache.spark.sql.SQLContext \u003d org.apache.spark.sql.SQLContext@6b95b50f\n\nimport sqlContext.implicits._\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\npersonsWithoutEncounterLifecycle: String \u003d\n\"\n  {\n    \"size\": 0,\n    \"query\": {\n      \"constant_score\": {\n        \"filter\": {\n          \"bool\": {\n            \"must\": [\n              {\"term\":{\"client_code\" : \"DEMO\" }},\n              {\n                \"has_child\": {\n                  \"type\": \"encounter\",\n                  \"query\": {\n                    \"bool\": {\n                      \"must\": [\n                        { \"term\": {\"client_code\": \"DEMO\" }}\n                      ],\n                      \"must_not\":[\n                        { \"exists\": { \"field\": \"patient_lifecycle.state_flags.re_engaged\"} }\n                      ]\n                    }\n                  }\n                }\n              }\n            ]\n          }\n        }\n      }\n    }\n  }\n\"\n\nendPoint: String \u003d exp_v1_0_1/person/_search\n\nrequest_url: String \u003d https://exp-elasticsearch.default.svc.cluster.local:9200/exp_v1_0_1/person/_search\n\npost: org.apache.http.client.methods.HttpPost \u003d POST https://exp-elasticsearch.default.svc.cluster.local:9200/exp_v1_0_1/person/_search HTTP/1.1\n\nsetHeaderReturn: Unit \u003d ()\n\nsetEntityReturn: Unit \u003d ()\n\nwarning: there was one deprecation warning; re-run with -deprecation for details\n\nresponse: org.apache.http.client.methods.CloseableHttpResponse \u003d HTTP/1.1 200 OK [content-type: application/json; charset\u003dUTF-8, content-length: 127] org.apache.http.conn.BasicManagedEntity@2d1cd85\n\nstatus: org.apache.http.StatusLine \u003d HTTP/1.1 200 OK\n\nresponseBody: String \u003d {\"took\":56,\"timed_out\":false,\"_shards\":{\"total\":5,\"successful\":5,\"failed\":0},\"hits\":{\"total\":384519,\"max_score\":0.0,\"hits\":[]}}\n\ndfCount: org.apache.spark.sql.DataFrame \u003d [total: bigint]\n384519\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502387507448_-393903952",
+      "id": "20170810-175147_1817675436",
+      "dateCreated": "Aug 10, 2017 5:51:47 PM",
+      "dateStarted": "Aug 11, 2017 5:51:08 PM",
+      "dateFinished": "Aug 11, 2017 5:51:21 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Retrieve encounters in dataframe",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 5:53:20 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eRetrieve encounters in dataframe\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502473974215_-1928790488",
+      "id": "20170811-175254_1951730651",
+      "dateCreated": "Aug 11, 2017 5:52:54 PM",
+      "dateStarted": "Aug 11, 2017 5:53:20 PM",
+      "dateFinished": "Aug 11, 2017 5:53:20 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "val sqlContext \u003d spark.sqlContext\r\nval encounterSourceQuery \u003d s\"\"\"\r\n{\r\n\"query\": {\r\n        \"range\" : {\r\n            \"admit_date\" : {\r\n                \"gte\" : \"12/01/2014\",\r\n                \"lt\" :  \"01/01/2015\",\r\n                \"format\": \"dd/MM/yyyy||yyyy\"\r\n            }\r\n        }\r\n    }\r\n}\r\n\"\"\"\r\nval encounterSourceQueryOptions \u003d Map(\r\n\"es.read.metadata\" -\u003e \"true\",\r\n\"es.nodes\" -\u003e \"exp-elasticsearch.default.svc.cluster.local\",\r\n\"es.write.operation\" -\u003e \"upsert\",\r\n\"es.nodes.wan.only\" -\u003e \"true\",\r\n\"es.index.auto.create\" -\u003e \"false\",\r\n\"es.read.field.include\" -\u003e \"actual_contribution_margin,admit_date,mastered_person_id*\"\r\n\r\n  )\r\n\r\nval encountersES \u003d sqlContext.esDF(\"exp_v1_0_1/encounter\", encounterSourceQuery, encounterSourceQueryOptions)\r\nencountersES.cache\r\nencountersES.createOrReplaceTempView(\"encountersES\")\r\nprintln(encountersES.schema.treeString)",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 5:52:11 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nsqlContext: org.apache.spark.sql.SQLContext \u003d org.apache.spark.sql.SQLContext@6b95b50f\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nencounterSourceQuery: String \u003d\n\"\n{\n\"query\": {\n        \"range\" : {\n            \"admit_date\" : {\n                \"gte\" : \"12/01/2014\",\n                \"lt\" :  \"01/01/2015\",\n                \"format\": \"dd/MM/yyyy||yyyy\"\n            }\n        }\n    }\n}\n\"\n\nencounterSourceQueryOptions: scala.collection.immutable.Map[String,String] \u003d Map(es.nodes.wan.only -\u003e true, es.index.auto.create -\u003e false, es.read.field.include -\u003e actual_contribution_margin,admit_date,mastered_person_id*, es.write.operation -\u003e upsert, es.read.metadata -\u003e true, es.nodes -\u003e exp-elasticsearch.default.svc.cluster.local)\n\nencountersES: org.apache.spark.sql.DataFrame \u003d [actual_contribution_margin: float, admit_date: timestamp ... 2 more fields]\n\nres4: encountersES.type \u003d [actual_contribution_margin: float, admit_date: timestamp ... 2 more fields]\nroot\n |-- actual_contribution_margin: float (nullable \u003d true)\n |-- admit_date: timestamp (nullable \u003d true)\n |-- mastered_person_id: string (nullable \u003d true)\n |-- _metadata: map (nullable \u003d true)\n |    |-- key: string\n |    |-- value: string (valueContainsNull \u003d true)\n\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502402328241_-395621822",
+      "id": "20170810-215848_802406785",
+      "dateCreated": "Aug 10, 2017 9:58:48 PM",
+      "dateStarted": "Aug 11, 2017 5:52:11 PM",
+      "dateFinished": "Aug 11, 2017 5:52:18 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%md\n# Display the results",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 5:53:47 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true
+        },
+        "editorMode": "ace/mode/markdown",
+        "editorHide": true,
+        "tableHide": false
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "\u003cdiv class\u003d\"markdown-body\"\u003e\n\u003ch1\u003eDisplay the results\u003c/h1\u003e\n\u003c/div\u003e"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502474011177_766268288",
+      "id": "20170811-175331_594162265",
+      "dateCreated": "Aug 11, 2017 5:53:31 PM",
+      "dateStarted": "Aug 11, 2017 5:53:47 PM",
+      "dateFinished": "Aug 11, 2017 5:53:47 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "text": "%sql select actual_contribution_margin, admit_date, mastered_person_id from encountersES limit 10",
+      "user": "anonymous",
+      "dateUpdated": "Aug 11, 2017 5:52:37 PM",
+      "config": {
+        "colWidth": 12.0,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "actual_contribution_margin\tadmit_date\tmastered_person_id\n2617.61\t2014-04-12 00:00:00.0\ta6d0e7d8-b208-4a50-ada4-650c0b594a89\n255.87\t2014-06-18 00:00:00.0\ta6d0e7d8-b208-4a50-ada4-650c0b594a89\n0.0\t2014-04-29 00:00:00.0\ta6d0e7d8-b208-4a50-ada4-650c0b594a89\n1430.6\t2014-04-30 00:00:00.0\t8979c626-4552-4fba-b582-65fa76bb2340\n2791.86\t2014-10-24 00:00:00.0\tb970254b-1c55-4eb4-a414-0114af06b41f\n2395.87\t2014-10-08 00:00:00.0\tb970254b-1c55-4eb4-a414-0114af06b41f\n1965.24\t2014-10-25 00:00:00.0\tb970254b-1c55-4eb4-a414-0114af06b41f\n42.0\t2014-02-20 00:00:00.0\t46c82d3e-01a3-4631-a93a-a8366d5399de\n7.19\t2014-07-13 00:00:00.0\t46c82d3e-01a3-4631-a93a-a8366d5399de\n-11.42\t2014-07-07 00:00:00.0\tae41ed4a-bdd3-49c6-a8f6-58e1a08c2764\n"
+          }
+        ]
+      },
+      "apps": [],
+      "jobName": "paragraph_1502470881946_1679031194",
+      "id": "20170811-170121_1188050991",
+      "dateCreated": "Aug 11, 2017 5:01:21 PM",
+      "dateStarted": "Aug 11, 2017 5:52:37 PM",
+      "dateFinished": "Aug 11, 2017 5:54:08 PM",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500
+    },
+    {
+      "user": "anonymous",
+      "config": {},
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "jobName": "paragraph_1502468034456_-492567099",
+      "id": "20170811-161354_1027041240",
+      "dateCreated": "Aug 11, 2017 4:13:54 PM",
+      "status": "READY",
+      "progressUpdateIntervalMs": 500
+    }
+  ],
+  "name": "PatientLifecycle - Alex",
+  "id": "2CSKPTAYD",
+  "angularObjects": {
+    "2CPTRRG43:shared_process": [],
+    "2CQN7FP8G:shared_process": [],
+    "2CQ5ZQ7WH:shared_process": [],
+    "2CR5FV37J:shared_process": [],
+    "2CQRKD1HP:shared_process": [],
+    "2CP8XZ8Y2:shared_process": [],
+    "2CRBXZM79:shared_process": [],
+    "2CT5G8NJS:shared_process": [],
+    "2CPYEMTE3:shared_process": []
+  },
+  "config": {},
+  "info": {}
+}
